@@ -2,9 +2,9 @@ package com.openclassrooms.realestatemanager
 
 import android.content.Context
 import android.net.wifi.WifiManager
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.UiController
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.InstrumentationRegistry
+import androidx.test.espresso.UiController
+import androidx.test.runner.AndroidJUnit4
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,8 +12,8 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 import android.net.wifi.WifiManager.WIFI_STATE_ENABLED
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import com.openclassrooms.realestatemanager.Utils.haveInternetConnection
 import org.junit.Assert.*
 

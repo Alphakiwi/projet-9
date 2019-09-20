@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
+
+
+    <string-array name="choice_money">
+        <item>Euro</item>
+        <item>Dollar</item>
+    </string-array>
+
+    <string-array name="choice_statut">
+        <item>à vendre</item>
+        <item>à louer</item>
+        <item>vendu</item>
+    </string-array>
 </resources>

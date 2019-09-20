@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/mapItem"
+        android:icon="@drawable/ic_map"
+        android:title="Afficher la carte"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/costItem"
+        android:icon="@drawable/ic_dollar"
+        android:title="Convertir"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/modifyItem"
+        android:icon="@drawable/ic_pen"
+        android:title="Modifier"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/addItem"
+        android:icon="@drawable/ic_add"
+        android:title="Ajouter"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/researchItem"
+        android:icon="@drawable/ic_search"
+        android:title="Rechercher"
+        app:showAsAction="ifRoom" />
+
+
+
+
+</menu>
