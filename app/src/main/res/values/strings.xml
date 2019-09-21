@@ -12,4 +12,13 @@
         <item>à louer</item>
         <item>vendu</item>
     </string-array>
+
+    <string-array name="choice_type">
+        <item>Maison</item>
+        <item>Appartement</item>
+        <item>Immeuble</item>
+        <item>Studio</item>
+        <item>Villa</item>
+        <item>Autre</item>
+    </string-array>
 </resources>

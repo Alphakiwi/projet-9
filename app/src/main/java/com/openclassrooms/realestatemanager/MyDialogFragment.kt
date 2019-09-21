@@ -21,6 +21,7 @@ import java.util.*
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.app.DatePickerDialog
 import android.widget.*
+import kotlinx.android.synthetic.main.fragment_sample_dialog.*
 
 
 class MyDialogFragment : DialogFragment() {
@@ -46,7 +47,6 @@ class MyDialogFragment : DialogFragment() {
         val proximity = rootView.findViewById<TextView>(R.id.proximity)
         val youtube = rootView.findViewById<TextView>(R.id.youtube)
         val description = rootView.findViewById<TextView>(R.id.description)
-        val type = rootView.findViewById<TextView>(R.id.type)
         nb_photo = rootView.findViewById<TextView>(R.id.nb_photo)
 
         val date = rootView.findViewById<EditText>(R.id.selling_date);
@@ -77,13 +77,19 @@ class MyDialogFragment : DialogFragment() {
 
             val dialogSpinnerMoney = rootView.findViewById<Spinner>(R.id.spinner_money)
             val dialogSpinnerStatu = rootView.findViewById<Spinner>(R.id.spinner_statut)
+            val dialogSpinnerType = rootView.findViewById<Spinner>(R.id.spinner_type)
+
 
 
             val dollarEuro = dialogSpinnerMoney.getSelectedItem() as String
             val statut = dialogSpinnerStatu.getSelectedItem() as String
+            val type = dialogSpinnerType.getSelectedItem() as String
 
-            if (type.text.toString().trim({ it <= ' ' }).isEmpty()) run { type.setError("Veuillez renseignez correctement tout les champs obligatoire") }
-            else if (prix.text.toString().trim({ it <= ' ' }).isEmpty()) run { prix.setError("Veuillez renseignez correctement tout les champs obligatoire")}
+            val comparison = statut.compareTo("vendu")
+
+
+
+            if (prix.text.toString().trim({ it <= ' ' }).isEmpty()) run { prix.setError("Veuillez renseignez correctement tout les champs obligatoire")}
             else if (nb_bedroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bedroom.setError("Veuillez renseignez correctement tout les champs obligatoire")}
             else if (nb_bathroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bathroom.setError("Veuillez renseignez correctement tout les champs obligatoire")}
             else if (surface.text.toString().trim({ it <= ' ' }).isEmpty()) run { surface.setError("Veuillez renseignez correctement tout les champs obligatoire")}
@@ -93,27 +99,33 @@ class MyDialogFragment : DialogFragment() {
             else if (agent.text.toString().trim({ it <= ' ' }).isEmpty()) run { agent.setError("Veuillez renseignez correctement tout les champs obligatoire")}
             else if (proximity.text.toString().trim({ it <= ' ' }).isEmpty()) run { proximity.setError("Veuillez renseignez correctement tout les champs obligatoire")}
             else if (description.text.toString().trim({ it <= ' ' }).isEmpty()) run {description.setError("Veuillez renseignez correctement tout les champs obligatoire")}
+            else if (comparison == 0 && selling_date.text.toString().trim({ it <= ' ' }).isEmpty()) {
 
-            else{
-
-
-            Toast.makeText(context, "Le bien qui est " + " valant " + prix.text.toString() + " à " + ville.text.toString() + " à bien été ajouté", Toast.LENGTH_SHORT).show()
-            //val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
-
-            val youtubeVideos = Vector<YouTubeVideos>()
-            youtubeVideos.add(YouTubeVideos(youtube.text.toString().toVideoUrl()))
-
-            if (youtube.text.toString().length<2) {
-                val property = Property(1, type.text.toString(), prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(), Arrays.asList<String>(proximity.text.toString(), "métro"), statut, getTodayDate, date.text.toString(), agent.text.toString(),dollarEuro)
-                EventBus.getDefault().post(AddEvent(property))
+                    run { selling_date.setError("Veuillez renseignez la date de vente quand le bien est vendu") }
+            }else if (comparison != 0 && !selling_date.text.toString().trim({ it <= ' ' }).isEmpty()){
+                    run { selling_date.setError("Il y a une date alors le bien n'est pas en vente")}
             }else{
-                val property = Property(1, type.text.toString(), prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(), Arrays.asList<String>(proximity.text.toString(), "métro"), statut, getTodayDate, date.text.toString(), agent.text.toString(),dollarEuro)
-                EventBus.getDefault().post(AddEvent(property))
-
-            }
 
 
-            dismiss()
+
+                    Toast.makeText(context, "Le bien qui est " + " valant " + prix.text.toString() + " à " + ville.text.toString() + " à bien été ajouté", Toast.LENGTH_SHORT).show()
+                    //val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
+
+                    val youtubeVideos = Vector<YouTubeVideos>()
+                    youtubeVideos.add(YouTubeVideos(youtube.text.toString().toVideoUrl()))
+
+                    if (youtube.text.toString().length < 2) {
+                        val property = Property(1, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(), Arrays.asList<String>(proximity.text.toString(), "métro"), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        EventBus.getDefault().post(AddEvent(property))
+                    } else {
+                        val property = Property(1, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(), Arrays.asList<String>(proximity.text.toString(), "métro"), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        EventBus.getDefault().post(AddEvent(property))
+
+                    }
+
+
+                    dismiss()
+
 
             }
         }

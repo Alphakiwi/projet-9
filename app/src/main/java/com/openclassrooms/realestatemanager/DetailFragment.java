@@ -84,7 +84,9 @@ public class DetailFragment extends Fragment {
 
         ImageView sold = myView.findViewById(R.id.sold);
 
-        if (property.getStatus()!="vendu"){
+        int comparison = property.getStatus().compareTo("vendu");
+
+        if (comparison != 0){
             sold.setVisibility(View.GONE);
         }
 

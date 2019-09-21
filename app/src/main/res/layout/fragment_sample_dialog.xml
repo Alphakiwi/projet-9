@@ -25,11 +25,14 @@
                 android:entries="@array/choice_statut"
                 android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/type"
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/spinner_type"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Type"/>
+                android:layout_marginTop="16dp"
+                android:paddingBottom="12dp"
+                android:entries="@array/choice_type"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/price"
