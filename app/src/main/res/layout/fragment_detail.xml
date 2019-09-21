@@ -36,6 +36,16 @@
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp" />
 
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_pen"
+                android:fontFamily="monospace"
+                android:gravity="left"
+                android:text=" Descritption... "
+                android:textSize="20dp" />
+
 
             <TextView
                 android:id="@+id/type"

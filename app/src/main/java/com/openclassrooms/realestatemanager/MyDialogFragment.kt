@@ -112,7 +112,14 @@ class MyDialogFragment : DialogFragment() {
                     //val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
 
                     val youtubeVideos = Vector<YouTubeVideos>()
-                    youtubeVideos.add(YouTubeVideos(youtube.text.toString().toVideoUrl()))
+
+                if (youtube.text.toString().length > 0) {
+                    val strings = youtube.text.toString().split(",")
+                    for (i in strings.indices) {
+                       youtubeVideos.add(YouTubeVideos(strings[i].toVideoUrl()))
+                    }
+
+                }
 
                     if (youtube.text.toString().length < 2) {
                         val property = Property(1, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(), Arrays.asList<String>(proximity.text.toString(), "métro"), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
@@ -125,6 +132,7 @@ class MyDialogFragment : DialogFragment() {
 
 
                     dismiss()
+
 
 
             }

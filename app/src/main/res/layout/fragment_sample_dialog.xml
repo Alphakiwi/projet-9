@@ -113,7 +113,7 @@
                 android:id="@+id/youtube"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Lien video format : https://www.youtube.com/watch?v= (facultatif)"/>
+                android:hint="Lien video format : https://www.youtube.com/watch?v= (facultatif | séparé par ',' si plusieurs)"/>
 
 
 
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:background="#d4d4d4"
-                android:hint="Select selling Date... (facultatif)"
+                android:hint="Select selling Date... (si 'vendu')"
                 android:padding="15dp"
                 android:textColor="#897"
                 android:textColorHint="#090"

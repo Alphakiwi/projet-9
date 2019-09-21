@@ -70,6 +70,7 @@ public class DetailFragment extends Fragment {
             soldate += property.getSelling_date();
         }
 
+        TextView description = myView.findViewById(R.id.description); description.setText( " " + property.getDescription() + "\n");
         TextView type = myView.findViewById(R.id.type); type.setText(type.getText() + property.getType());
         TextView money = myView.findViewById(R.id.money);
         TextView surface = myView.findViewById(R.id.surface); surface.setText(surface.getText() + " " +property.getSurface());
