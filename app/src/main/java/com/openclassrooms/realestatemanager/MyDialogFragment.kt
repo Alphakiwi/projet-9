@@ -143,7 +143,7 @@ class MyDialogFragment : DialogFragment() {
 
 
             val intent = Intent(context, CameraActivity::class.java)
-            intent.putExtra("listPhoto", photoList)
+            intent.putExtra("listPhoto",  ArrayList<Image_property>())
 
             startActivityForResult(intent,0)
 
@@ -164,7 +164,13 @@ class MyDialogFragment : DialogFragment() {
 
         if (resultCode == 1) {
             val s : ArrayList<Image_property>  = data.getParcelableArrayListExtra("listPhoto")
-            nb_photo.text =  nb_photo.text.toString()  + " " + s.size.toString();
+
+
+            for (photo in s){
+                photoList.add(photo)
+            }
+
+            nb_photo.text =  nb_photo.text.toString()  + " " + photoList.size.toString();
         }
 
         super.onActivityResult(requestCode, resultCode, data)

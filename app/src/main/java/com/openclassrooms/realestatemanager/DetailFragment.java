@@ -109,9 +109,8 @@ public class DetailFragment extends Fragment {
         ImageView imageView = (ImageView) myView.findViewById(R.id.imageAvatar);
 
         Glide.with(mContext)
-                //.load(property.getPhoto().get(0).getImage())
-                .load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
-
+                .load(property.getPhoto().get(0).getImage())
+                //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                 .into(imageView);
 
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {

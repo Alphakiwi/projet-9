@@ -67,14 +67,14 @@ data class Property (var id : Int, var type : String, var price : Int, var nb_be
     }
 }
 
-class Image_property (var image : ByteArray, var descript : String) : Parcelable {
+class Image_property (var image : String, var descript : String) : Parcelable {
     constructor(parcel: Parcel) : this(
-            parcel.createByteArray()!!,
+            parcel.readString()!!,
             parcel.readString()!!) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeByteArray(image)
+        parcel.writeString(image)
         parcel.writeString(descript)
     }
 

@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -22,6 +24,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,6 +41,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import static java.util.UUID.*;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -38,8 +51,12 @@ public class CameraActivity extends AppCompatActivity {
     private Button chooseButton;
     private ImageView imageView;
     private Uri file;
-    private Drawable draw ;
+    private Uri uriImageSelected;
+    private Drawable draw;
     ArrayList<Image_property> photoList;
+    //Firebase
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +81,10 @@ public class CameraActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
 
-        Intent i2 = new Intent();
-        i2.putExtra("listPhoto",  photoList);
-        this.setResult(1, i2);
+
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
     }
 
@@ -81,30 +99,45 @@ public class CameraActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-               imageView.setImageURI(file);
+                // imageView.setImageURI(file);
 
-               imageView.setRotation(90);
+                // this.uriImageSelected = data.getData();
+                Glide.with(this) //SHOWING PREVIEW OF IMAGE
+                        .load(this.file)
+                        .into(this.imageView);
 
-               draw = imageView.getDrawable();
+                imageView.setRotation(90);
 
-               Bitmap bitmap = (Bitmap)((BitmapDrawable) draw).getBitmap();
+                // uploadImage();
+                uploadPhotoInFirebase();
+
+
+                // draw = imageView.getDrawable();
+
+               /*Bitmap bitmap = (Bitmap)((BitmapDrawable) draw).getBitmap();
                ByteArrayOutputStream stream = new ByteArrayOutputStream();
                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-               byte[] byteArray = stream.toByteArray();
-               photoList.add(new Image_property(byteArray," test "));            }
+               byte[] byteArray = stream.toByteArray();*/
+                // photoList.add(new Image_property(byteArray," test "));            }
+            }
         }
 
-        if (requestCode == 200) {
+            if (requestCode == 200) {
 
-            if (resultCode == RESULT_OK) {
-                try {
-                    final Uri imageUri = data.getData();
+                if (resultCode == RESULT_OK) {
+
+
+                    this.file = data.getData();
+                    Glide.with(this) //SHOWING PREVIEW OF IMAGE
+                            .load(this.file)
+                            .into(this.imageView);
+                    uploadPhotoInFirebase();
+                    /*
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     imageView.setImageBitmap(selectedImage);
@@ -114,56 +147,113 @@ public class CameraActivity extends AppCompatActivity {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] byteArray = stream.toByteArray();
-                    photoList.add(new Image_property(byteArray," test "));
+                    photoList.add(new Image_property(byteArray," test "));*/
 
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
                 }
-
-            } else {
-                Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
             }
-        }
-    }
 
-
-    public void takePicture(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file = Uri.fromFile(getOutputMediaFile());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-        startActivityForResult(intent, 100);
-    }
-
-    public void choosePicture(View view) {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, 200);
-    }
-
-    public void finishThis(View view) {
-
-
-
-
-        this.finish();
 
     }
 
 
-    private static File getOutputMediaFile(){
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "CameraDemo");
-
-        if (!mediaStorageDir.exists()){
-            if (!mediaStorageDir.mkdirs()){
-                return null;
-            }
+        public void takePicture (View view){
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            file = Uri.fromFile(getOutputMediaFile());
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+            startActivityForResult(intent, 100);
         }
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        return new File(mediaStorageDir.getPath() + File.separator +
-                "IMG_"+ timeStamp + ".jpg");
+        public void choosePicture (View view){
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, 200);
+        }
+
+        public void finishThis (View view){
+
+            Intent i2 = new Intent();
+           // uploadImage();
+            i2.putExtra("listPhoto", photoList);
+            this.setResult(1, i2);
+
+            this.finish();
+
+        }
+
+
+        private static File getOutputMediaFile () {
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "CameraDemo");
+
+            if (!mediaStorageDir.exists()) {
+                if (!mediaStorageDir.mkdirs()) {
+                    return null;
+                }
+            }
+
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            return new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_" + timeStamp + ".jpg");
+        }
+
+     /*   // 1 - Upload a picture in Firebase and send a message
+        private void uploadPhotoInFirebase ( ){
+            String uuid = randomUUID().toString(); // GENERATE UNIQUE STRING
+            // A - UPLOAD TO GCS
+            StorageReference mImageRef = FirebaseStorage.getInstance().getReference(uuid);
+            mImageRef.putFile(this.uriImageSelected)
+                    .addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            String pathImageSavedInFirebase = taskSnapshot.getMetadata().getDownloadUrl().toString();
+
+                            photoList.add(new Image_property(pathImageSavedInFirebase, " test "));
+                        }
+                    });
+        }*/
+
+
+    private void uploadPhotoInFirebase() {
+        String uuid = UUID.randomUUID().toString(); // GENERATE UNIQUE STRING
+        // A - UPLOAD TO GCS
+        StorageReference mImageRef = FirebaseStorage.getInstance().getReference(uuid);
+        mImageRef.putFile(this.file)
+                .addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                final Uri downloadUrl = uri;
+                                photoList.add(new Image_property(downloadUrl.toString(), " test "));
+
+                            }
+                        });
+                    }
+                });
+    }
+
+    private void uploadImage() {
+
+        if(file != null)
+        {
+
+            StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
+            ref.putFile(file)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(CameraActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(CameraActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
 

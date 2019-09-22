@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "2912180684",
+    "firebase_url": "https://openclassroom-final.firebaseio.com",
+    "project_id": "openclassroom-final",
+    "storage_bucket": "openclassroom-final.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2912180684:android:d9c9b1758c4b51ebace569",
+        "android_client_info": {
+          "package_name": "com.openclassrooms.realestatemanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2912180684-9dk9cni4an7f68tdscbbedrhkqdjnl9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrot1vlvicZMjwYtNcCzCOHfir9bZvIVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2912180684-9dk9cni4an7f68tdscbbedrhkqdjnl9t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

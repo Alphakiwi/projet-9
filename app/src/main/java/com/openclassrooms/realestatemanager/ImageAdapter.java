@@ -46,13 +46,13 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView = new ImageView(context);
 
-        /*Glide.with(context)
-                .load(imageIDs.get(position).getImage())
-                .into(imageView);*/
-
         Glide.with(context)
-                .load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
+                .load(imageIDs.get(position).getImage())
                 .into(imageView);
+
+        //Glide.with(context)
+               // .load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
+               // .into(imageView);
 
         //imageView.setImageBitmap( BitmapFactory.decodeByteArray(imageIDs.get(position).getImage(), 0, imageIDs.get(position).getImage().length));
 
