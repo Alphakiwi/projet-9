@@ -170,7 +170,7 @@ class MyDialogFragment : DialogFragment() {
                 photoList.add(photo)
             }
 
-            nb_photo.text =  nb_photo.text.toString()  + " " + photoList.size.toString();
+            nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
         }
 
         super.onActivityResult(requestCode, resultCode, data)

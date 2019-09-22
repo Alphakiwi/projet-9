@@ -133,7 +133,7 @@
                 android:id="@+id/nb_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre de photo ajouté : "/>
+                android:text="Nombre de photo ajouté : 0"/>
 
 
             <EditText

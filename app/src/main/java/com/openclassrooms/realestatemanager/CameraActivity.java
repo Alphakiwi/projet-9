@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -54,7 +55,9 @@ public class CameraActivity extends AppCompatActivity {
     private Uri uriImageSelected;
     private Drawable draw;
     ArrayList<Image_property> photoList;
+    TextView descrPhoto;
     //Firebase
+    Uri downloadUrl;
     FirebaseStorage storage;
     StorageReference storageReference;
 
@@ -72,6 +75,8 @@ public class CameraActivity extends AppCompatActivity {
 
         takePictureButton = (Button) findViewById(R.id.button_image);
         chooseButton = (Button) findViewById(R.id.button_choose);
+        descrPhoto = findViewById(R.id.description_photo);
+
 
         imageView = (ImageView) findViewById(R.id.imageview);
 
@@ -111,7 +116,7 @@ public class CameraActivity extends AppCompatActivity {
                         .load(this.file)
                         .into(this.imageView);
 
-                imageView.setRotation(90);
+               // imageView.setRotation(90);
 
                 // uploadImage();
                 uploadPhotoInFirebase();
@@ -174,13 +179,40 @@ public class CameraActivity extends AppCompatActivity {
         public void finishThis (View view){
 
             Intent i2 = new Intent();
-           // uploadImage();
-            i2.putExtra("listPhoto", photoList);
-            this.setResult(1, i2);
 
-            this.finish();
+           // uploadImage();
+
+            if( downloadUrl!= null) {
+                if (!descrPhoto.getText().toString().trim().isEmpty()) {
+                    photoList.add(new Image_property(downloadUrl.toString(), descrPhoto.getText().toString()));
+                    i2.putExtra("listPhoto", photoList);
+                    this.setResult(1, i2);
+                    this.finish();
+                }else{
+                    descrPhoto.setError("Ajouter une description à la photo !");
+                }
+            }else{
+                descrPhoto.setError("Ajouter une photo !");
+
+            }
+
+
 
         }
+
+    public void cancelThis (View view){
+
+        Intent i2 = new Intent();
+
+
+        i2.putExtra("listPhoto",new ArrayList<Image_property>());
+        this.setResult(1, i2);
+        this.finish();
+    }
+
+
+
+
 
 
         private static File getOutputMediaFile () {
@@ -225,8 +257,7 @@ public class CameraActivity extends AppCompatActivity {
                         mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                final Uri downloadUrl = uri;
-                                photoList.add(new Image_property(downloadUrl.toString(), " test "));
+                                downloadUrl = uri;
 
                             }
                         });
