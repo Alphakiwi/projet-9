@@ -53,7 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.name.setText(properties.get(position).getType());
         holder.descript.setText(properties.get(position).getVille());
 
-        if (properties.get(position).getPriceIsDollar() == "Dollar") {
+        if (properties.get(position).getPriceIsDollar().compareTo("Dollar") == 0) {
             holder.price.setText("$ " + String.valueOf(properties.get(position).getPrice()));
         }else{
             holder.price.setText(String.valueOf(properties.get(position).getPrice()) + " €");

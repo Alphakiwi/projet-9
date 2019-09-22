@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     internal var listFragment = ListFragment()
     val properties = ArrayList<Property>()
+    private lateinit var lastProperty : Property
     val fragmentManager = supportFragmentManager
 
 
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 */
 
 
-        /*val couleurs = Arrays.asList(Image_property("https://www.maisons-ossature-bois-chalets-charpente-favre-felix.com/images/maison-bois/maison-bois-65.jpg",
+        val couleurs = Arrays.asList(Image_property("https://www.maisons-ossature-bois-chalets-charpente-favre-felix.com/images/maison-bois/maison-bois-65.jpg",
                 "Vue extérieur"), Image_property("https://listspirit.com/wp-content/uploads/2017/08/deco-salon-amenagement-interieur-moderne-dune-maison-au-canada.jpg", "Vue intérieur"),
                  Image_property(
                          "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg",
@@ -58,15 +59,17 @@ class MainActivity : AppCompatActivity() {
                 "Salle de bain" ))
         val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
 
-        val property = Property(1, "Maison", 120000, 3, 1, 135, 4, "belle maison", couleurs, null, "Lille", "49 rue de la paix", Arrays.asList("école", "métro"), true,"26/06/1999", null, "Denis")
-        val appart = Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", couleurs2, youtubeVideos, "Villeneuve d'Ascq", "49 rue de la paix", Arrays.asList("école", "métro"), false, "26/06/1999", null, "Denis")
+        val property = Property(1, "Maison", 120000, 3, 1, 135, 4, "belle maison", couleurs, null, "Lille", "49 rue de la paix", "école, métro", "vendu","26/06/1999", null, "Denis","Euro")
+        val appart = Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", couleurs2, youtubeVideos, "Villeneuve d'Ascq", "49 rue de la paix", "école, métro", "à vendre", "26/06/1999", null, "Denis","Euro")
 
         properties.add(property)
         properties.add(appart)
         properties.add(property)
         properties.add(appart)
         properties.add(property)
-        properties.add(appart)*/
+        properties.add(appart)
+
+        lastProperty = properties.get(0);
 
 
         val args = Bundle()
@@ -146,6 +149,16 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.modifyItem -> {
 
+                val fm = getFragmentManager()
+                val dialogFragment = MyDialogFragment()
+                dialogFragment.show(fm, "Sample Fragment")
+
+                val args = Bundle()
+                args.putParcelable("CreateOrModify", lastProperty )
+                dialogFragment.arguments = args
+                return true
+
+
 
                 return true
 
@@ -156,9 +169,6 @@ class MainActivity : AppCompatActivity() {
                 val dialogFragment = MyDialogFragment()
                 dialogFragment.show(fm, "Sample Fragment")
 
-                val args = Bundle()
-                args.putInt("num", 1)
-                dialogFragment.arguments = args
                 return true
 
 
@@ -189,6 +199,8 @@ class MainActivity : AppCompatActivity() {
 
 
         fragmentManager.beginTransaction().replace(R.id.content_frame, detailFragment).commit()
+
+        lastProperty = event.property
 
     }
 

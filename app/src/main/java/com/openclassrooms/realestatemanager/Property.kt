@@ -12,7 +12,7 @@ import java.util.*
 
 data class Property (var id : Int, var type : String, var price : Int, var nb_bedroom : Int, var nb_bathroom : Int,
                      var surface : Int, var nb_piece : Int, var description : String, var photo : List<Image_property>,
-                     var video : Vector<YouTubeVideos>?, var ville : String, var address : String, var proximity : List<String>,
+                     var video : Vector<YouTubeVideos>?, var ville : String, var address : String, var proximity : String,
                      var status : String, var start_date: String, var selling_date : String?, var estate_agent : String, var priceIsDollar : String) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
@@ -27,7 +27,7 @@ data class Property (var id : Int, var type : String, var price : Int, var nb_be
             TODO("video"),
             parcel.readString()!!,
             parcel.readString()!!,
-            parcel.createStringArrayList()!!,
+            parcel.readString()!!,
             parcel.readString()!!,
             TODO("start_date"),
             TODO("selling_date"),
@@ -46,7 +46,7 @@ data class Property (var id : Int, var type : String, var price : Int, var nb_be
         parcel.writeString(description)
         parcel.writeString(ville)
         parcel.writeString(address)
-        parcel.writeStringList(proximity)
+        parcel.writeString(proximity)
         parcel.writeString(status)
         parcel.writeString(estate_agent)
         parcel.writeString(priceIsDollar)

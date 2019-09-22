@@ -78,7 +78,7 @@ public class DetailFragment extends Fragment {
         TextView bed = myView.findViewById(R.id.bed); bed.setText(bed.getText() + " " + property.getNb_bedroom());
         TextView bath = myView.findViewById(R.id.bath); bath.setText(bath.getText() + " " + property.getNb_bathroom());
         TextView location = myView.findViewById(R.id.location); location.setText(location.getText() + property.getAddress());
-        TextView interest = myView.findViewById(R.id.interest); interest.setText(interest.getText() + property.getProximity().get(0));
+        TextView interest = myView.findViewById(R.id.interest); interest.setText(interest.getText() + property.getProximity());
         TextView start_date = myView.findViewById(R.id.start_date); start_date.setText(start_date.getText() + " " + property.getStart_date());
         TextView status = myView.findViewById(R.id.status); status.setText(status.getText() + " " + property.getStatus() + soldate);
         TextView agent = myView.findViewById(R.id.agent); agent.setText(agent.getText() + property.getEstate_agent());

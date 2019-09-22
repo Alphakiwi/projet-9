@@ -28,11 +28,16 @@ class MyDialogFragment : DialogFragment() {
 
     val photoList  = ArrayList<Image_property>()
     lateinit var nb_photo : TextView
+    var modify : Property? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false)
         dialog.setTitle("Ajouter un bien !")
+
+        if (getArguments()!=null) {
+            modify = getArguments().getParcelable<Property>("CreateOrModify");
+        }
 
         val add = rootView.findViewById<Button>(R.id.add)
         val photo = rootView.findViewById<Button>(R.id.photo)
@@ -49,7 +54,57 @@ class MyDialogFragment : DialogFragment() {
         val description = rootView.findViewById<TextView>(R.id.description)
         nb_photo = rootView.findViewById<TextView>(R.id.nb_photo)
 
-        val date = rootView.findViewById<EditText>(R.id.selling_date);
+        val date = rootView.findViewById<TextView>(R.id.selling_date);
+
+
+        val dialogSpinnerMoney = rootView.findViewById<Spinner>(R.id.spinner_money)
+        val dialogSpinnerStatu = rootView.findViewById<Spinner>(R.id.spinner_statut)
+        val dialogSpinnerType = rootView.findViewById<Spinner>(R.id.spinner_type)
+
+
+
+        if(modify!=null){
+            ville.text = modify!!.ville
+            prix.text = modify!!.price.toString()
+            nb_bedroom.text = modify!!.nb_bedroom.toString()
+            nb_bathroom.text = modify!!.nb_bathroom.toString()
+            surface.text = modify!!.surface.toString()
+            nb_piece.text = modify!!.nb_piece.toString()
+            adresse.text = modify!!.address
+            agent.text = modify!!.estate_agent
+            proximity.text = modify!!.proximity
+            description.text = modify!!.description
+            nb_photo.text = modify!!.photo.size.toString()
+            date.text =  modify!!.selling_date
+
+            if(modify!!.priceIsDollar.compareTo("Dollar")==0){
+                dialogSpinnerMoney.setSelection(1)
+            }
+
+            if(modify!!.status.compareTo("à louer")==0){
+                dialogSpinnerStatu.setSelection(1)
+            }else if(modify!!.status.compareTo("vendu")==0){
+                dialogSpinnerStatu.setSelection(2)
+            }
+
+            if(modify!!.type.compareTo("Appartement")==0){
+                dialogSpinnerType.setSelection(1)
+            }else if(modify!!.status.compareTo("Immeuble")==0){
+                dialogSpinnerType.setSelection(2)
+            }else if(modify!!.status.compareTo("Studio")==0){
+                dialogSpinnerType.setSelection(3)
+            }else if(modify!!.status.compareTo("Villa")==0){
+                dialogSpinnerType.setSelection(4)
+            }else if(modify!!.status.compareTo("Autre")==0){
+                dialogSpinnerType.setSelection(5)
+            }
+
+            for (photo in modify!!.photo){ photoList.add(photo) }
+            photo.setText("Supprimer les photos")
+        }
+
+
+
 
         date.setOnClickListener(View.OnClickListener {
             // calender class's instance and get current date , month and year from calender
@@ -74,10 +129,6 @@ class MyDialogFragment : DialogFragment() {
 
 
         add.setOnClickListener {
-
-            val dialogSpinnerMoney = rootView.findViewById<Spinner>(R.id.spinner_money)
-            val dialogSpinnerStatu = rootView.findViewById<Spinner>(R.id.spinner_statut)
-            val dialogSpinnerType = rootView.findViewById<Spinner>(R.id.spinner_type)
 
 
 
@@ -122,10 +173,10 @@ class MyDialogFragment : DialogFragment() {
                 }
 
                     if (youtube.text.toString().length < 2) {
-                        val property = Property(1, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(), Arrays.asList<String>(proximity.text.toString(), "métro"), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        val property = Property(1, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(),proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
                         EventBus.getDefault().post(AddEvent(property))
                     } else {
-                        val property = Property(1, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(), Arrays.asList<String>(proximity.text.toString(), "métro"), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        val property = Property(1, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(),proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
                         EventBus.getDefault().post(AddEvent(property))
 
                     }
