@@ -1,38 +1,104 @@
 package com.openclassrooms.realestatemanager
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.*
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.openclassrooms.realestatemanager.Utils.convertDollarToEuro
 import com.openclassrooms.realestatemanager.Utils.convertEuroToDollar
 import com.openclassrooms.realestatemanager.Utils.getTodayDate
-import extensions.toVideoUrl
 
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.util.*
+import android.os.Parcel
+import android.os.Parcelable
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.snackbar.Snackbar
+import java.io.IOException
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
+    override fun onProviderEnabled(p0: String?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onProviderDisabled(p0: String?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onLocationChanged(p0: Location?) {
+        //remove location callback:
+        locationManager.removeUpdates(this)
+
+        //open the map:
+        latitude = p0!!.getLatitude()
+        longitude = p0!!.getLongitude()
+    }
 
     internal var listFragment = ListFragment()
     val properties = ArrayList<Property>()
     private lateinit var lastProperty : Property
-    val fragmentManager = supportFragmentManager
+    var fragmentManager = supportFragmentManager
+    private val PERMISSION_REQUEST_LOCATION = 0
+    private var mLayout: View? = null
 
+    var latitude = 0.0
+    var longitude = 0.0
+    lateinit var locationManager: LocationManager
+    lateinit var criteria: Criteria
+    lateinit var bestProvider: String
+    private val firstFragment = MapFragment()
+
+
+    constructor(parcel: Parcel) : this() {
+        lastProperty = parcel.readParcelable(Property::class.java.classLoader)!!
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_container)
 
-        getSupportActionBar()?.setTitle(getTodayDate);
+        mLayout = findViewById(R.id.mlayout)
 
+
+        getSupportActionBar()?.setTitle(  getTodayDate);
+
+        possibilityToOpenMap()
+
+        val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat
+                        .checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+
+        val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        if (location != null) {
+            longitude = location!!.getLongitude()
+            latitude = location!!.getLatitude()
+            fragmentManager = supportFragmentManager
+        } else {
+            locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            criteria = Criteria()
+            bestProvider = locationManager.getBestProvider(criteria, true).toString()
+            Toast.makeText(this, "Le chargement de la localisation peut prendre plus ou moins de temps en fonction de votre connexion internet.", Toast.LENGTH_SHORT).show()
+            locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
+        }
+
+        Toast.makeText(this, longitude.toString() + latitude.toString(),Toast.LENGTH_LONG).show()
 
 
         val youtubeVideos = Vector<YouTubeVideos>()
@@ -59,8 +125,8 @@ class MainActivity : AppCompatActivity() {
                 "Salle de bain" ))
         val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
 
-        val property = Property(1, "Maison", 120000, 3, 1, 135, 4, "belle maison", couleurs, null, "Lille", "49 rue de la paix", "école, métro", "vendu","26/06/1999", "28/06/1999", "Denis","Euro")
-        val appart = Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", couleurs2, youtubeVideos, "Villeneuve d'Ascq", "49 rue de la paix", "école, métro", "à vendre", "26/06/1999", null, "Denis","Euro")
+        val property = Property(1, "Maison", 120000, 3, 1, 135, 4, "belle maison", couleurs, null, "Lille", "27 Rue Nationale, 59000 Lille", "école, métro", "vendu","26/06/1999", "28/06/1999", "Denis","Euro")
+        val appart = Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", couleurs2, youtubeVideos, "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis","Euro")
 
         properties.add(property)
         properties.add(appart)
@@ -112,6 +178,13 @@ class MainActivity : AppCompatActivity() {
         when (i1) {
             R.id.mapItem -> {
 
+
+                val args = Bundle()
+                args.putDouble("lat", latitude)
+                args.putDouble("long", longitude)
+                args.putSerializable("properties", properties)
+                firstFragment.setArguments(args)
+                fragmentManager.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
 
 
                 return true
@@ -248,6 +321,50 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun possibilityToOpenMap() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // Permission is already available, show restaurants
+            Snackbar.make(mLayout!!,
+                    "Accès à la localisation disponible", Snackbar.LENGTH_SHORT).show()
+        } else {// Permission is missing and must be requested.
+            requestLocationPermission()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (requestCode == PERMISSION_REQUEST_LOCATION) {
+            // Request for location permission.
+            if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission has been granted. Start preview Activity.
+                recreate()
+
+                Snackbar.make(mLayout!!, "localisation autorisé", Snackbar.LENGTH_SHORT).show()
+            } else {
+                // Permission request was denied.
+                Snackbar.make(mLayout!!, "localisation refusé", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun requestLocationPermission() {
+        // Permission has not been granted and must be requested.
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Display a SnackBar with a button to request the missing permission.
+            Snackbar.make(mLayout!!, "la permission pour la localisation est nécessaire pour afficher la carte",
+                    Snackbar.LENGTH_INDEFINITE).setAction("OK") {
+                // Request the permission
+                ActivityCompat.requestPermissions(this,
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION_REQUEST_LOCATION)
+            }.show()
+        } else {
+            Snackbar.make(mLayout!!, "Autorisez vous l'accès à la localisation ?", Snackbar.LENGTH_SHORT).show()
+            // Request the permission. The result will be received in onRequestPermissionResult().
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    PERMISSION_REQUEST_LOCATION)
+        }
+    }
+
     public override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
@@ -256,6 +373,24 @@ class MainActivity : AppCompatActivity() {
     public override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(lastProperty, flags)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<MainActivity> {
+        override fun createFromParcel(parcel: Parcel): MainActivity {
+            return MainActivity(parcel)
+        }
+
+        override fun newArray(size: Int): Array<MainActivity?> {
+            return arrayOfNulls(size)
+        }
     }
 
 
