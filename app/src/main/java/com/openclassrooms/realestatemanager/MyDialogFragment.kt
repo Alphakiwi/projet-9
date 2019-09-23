@@ -61,7 +61,7 @@ class MyDialogFragment : DialogFragment() {
         val dialogSpinnerStatu = rootView.findViewById<Spinner>(R.id.spinner_statut)
         val dialogSpinnerType = rootView.findViewById<Spinner>(R.id.spinner_type)
 
-
+        var nb_alea = (Math.random() * 100000).toInt()
 
         if(modify!=null){
             ville.text = modify!!.ville
@@ -101,6 +101,26 @@ class MyDialogFragment : DialogFragment() {
 
             for (photo in modify!!.photo){ photoList.add(photo) }
             photo.setText("Supprimer les photos")
+
+            if ( modify!!.video != null) {
+
+                var youtubeString = ""
+
+                for (video in modify!!.video!!) {
+                    youtubeString += video.getVideoUrl() + ","
+                }
+
+              //  if(youtubeString.>2) {
+                youtube.text = youtubeString.substring(0, youtubeString.length - 1)
+              //  }
+
+
+            }
+
+            nb_alea = modify!!.id
+
+            add.setText("Modifier le bien")
+
         }
 
 
@@ -141,6 +161,7 @@ class MyDialogFragment : DialogFragment() {
 
 
             if (prix.text.toString().trim({ it <= ' ' }).isEmpty()) run { prix.setError("Veuillez renseignez correctement tout les champs obligatoire")}
+            else if (photoList.size<1) run { photo.setError("Veuillez ajouter au moins une photo")}
             else if (nb_bedroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bedroom.setError("Veuillez renseignez correctement tout les champs obligatoire")}
             else if (nb_bathroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bathroom.setError("Veuillez renseignez correctement tout les champs obligatoire")}
             else if (surface.text.toString().trim({ it <= ' ' }).isEmpty()) run { surface.setError("Veuillez renseignez correctement tout les champs obligatoire")}
@@ -159,26 +180,26 @@ class MyDialogFragment : DialogFragment() {
 
 
 
-                    Toast.makeText(context, "Le bien qui est " + " valant " + prix.text.toString() + " à " + ville.text.toString() + " à bien été ajouté", Toast.LENGTH_SHORT).show()
                     //val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
 
                     val youtubeVideos = Vector<YouTubeVideos>()
 
-                if (youtube.text.toString().length > 0) {
+                if (youtube.text.toString().length > 2) {
                     val strings = youtube.text.toString().split(",")
                     for (i in strings.indices) {
-                       youtubeVideos.add(YouTubeVideos(strings[i].toVideoUrl()))
+                       youtubeVideos.add(YouTubeVideos(strings[i]))
                     }
 
                 }
 
-                    if (youtube.text.toString().length < 2) {
-                        val property = Property(1, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(),proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
-                        EventBus.getDefault().post(AddEvent(property))
-                    } else {
-                        val property = Property(1, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(),proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
-                        EventBus.getDefault().post(AddEvent(property))
 
+
+                    if (youtube.text.toString().length < 2) {
+                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, null, ville.text.toString(), adresse.text.toString(),proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        sendEvent(property)
+                    } else {
+                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(),proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        sendEvent(property)
                     }
 
 
@@ -193,10 +214,19 @@ class MyDialogFragment : DialogFragment() {
         photo.setOnClickListener {
 
 
-            val intent = Intent(context, CameraActivity::class.java)
-            intent.putExtra("listPhoto",  ArrayList<Image_property>())
+            if(photo.text.toString().compareTo("Supprimer les photos")==0){
+                photo.text = "Ajouter une photo"
+                photoList.clear()
+                nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
 
-            startActivityForResult(intent,0)
+            }else {
+
+                val intent = Intent(context, CameraActivity::class.java)
+                intent.putExtra("listPhoto", ArrayList<Image_property>())
+
+                startActivityForResult(intent, 0)
+            }
+
 
 
         }
@@ -226,6 +256,20 @@ class MyDialogFragment : DialogFragment() {
 
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+
+     fun sendEvent ( property : Property) {
+
+         if(modify==null) {
+             Toast.makeText(context, "Le bien à bien été ajouté", Toast.LENGTH_SHORT).show()
+             EventBus.getDefault().post(AddEvent(property))
+         }else{
+             Toast.makeText(context, "Le bien à bien été modifié", Toast.LENGTH_SHORT).show()
+             EventBus.getDefault().post(ModifyEvent(property))
+         }
+
+
+     }
 
 
 }

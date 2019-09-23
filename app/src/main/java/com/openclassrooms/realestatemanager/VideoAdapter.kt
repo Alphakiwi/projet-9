@@ -7,6 +7,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 
 import androidx.recyclerview.widget.RecyclerView
+import extensions.toVideoUrl
 
 class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
@@ -28,7 +29,7 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
 
-        holder.videoWeb.loadData(youtubeVideoList[position].getVideoUrl(), "text/html", "utf-8")
+        holder.videoWeb.loadData(youtubeVideoList[position].getVideoUrl().toVideoUrl(), "text/html", "utf-8")
 
     }
 

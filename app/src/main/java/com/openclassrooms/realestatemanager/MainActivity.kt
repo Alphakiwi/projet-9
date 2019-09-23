@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
 
         val youtubeVideos = Vector<YouTubeVideos>()
 
-        youtubeVideos.add(YouTubeVideos("https://www.youtube.com/watch?v=IdvFBL4Kalo".toVideoUrl()))
-        youtubeVideos.add(YouTubeVideos("https://www.youtube.com/watch?v=Vg729rnWsm0".toVideoUrl()))
+        youtubeVideos.add(YouTubeVideos("https://www.youtube.com/watch?v=IdvFBL4Kalo"))
+        youtubeVideos.add(YouTubeVideos("https://www.youtube.com/watch?v=Vg729rnWsm0"))
 
 
         //youtubeVideos.add( new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/IdvFBL4Kalo\" frameborder=\"0\" allowfullscreen></iframe>") );
@@ -59,15 +59,12 @@ class MainActivity : AppCompatActivity() {
                 "Salle de bain" ))
         val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
 
-        val property = Property(1, "Maison", 120000, 3, 1, 135, 4, "belle maison", couleurs, null, "Lille", "49 rue de la paix", "école, métro", "vendu","26/06/1999", null, "Denis","Euro")
+        val property = Property(1, "Maison", 120000, 3, 1, 135, 4, "belle maison", couleurs, null, "Lille", "49 rue de la paix", "école, métro", "vendu","26/06/1999", "28/06/1999", "Denis","Euro")
         val appart = Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", couleurs2, youtubeVideos, "Villeneuve d'Ascq", "49 rue de la paix", "école, métro", "à vendre", "26/06/1999", null, "Denis","Euro")
 
         properties.add(property)
         properties.add(appart)
-        properties.add(property)
-        properties.add(appart)
-        properties.add(property)
-        properties.add(appart)
+
 
         lastProperty = properties.get(0);
 
@@ -209,6 +206,44 @@ class MainActivity : AppCompatActivity() {
 
         properties.add(event.property)
         listFragment.adapter.notifyDataSetChanged()
+
+
+    }
+
+
+    @Subscribe
+    fun onModify(event: ModifyEvent) {
+
+        for (  property  in properties ){
+            if (property.id == event.property.id){
+
+                property.type = event.property.type
+                property.price = event.property.price
+                property.nb_bedroom = event.property.nb_bedroom
+                property.nb_bathroom = event.property.nb_bathroom
+                property.surface = event.property.surface
+                property.nb_piece = event.property.nb_piece
+                property.description = event.property.description
+                property.photo = event.property.photo
+                property.video = event.property.video
+                property.ville = event.property.ville
+                property.address= event.property.address
+                property.proximity = event.property.proximity
+                property.status = event.property.status
+                property.start_date = event.property.start_date
+                property.selling_date = event.property.selling_date
+                property.estate_agent = event.property.estate_agent
+                property.priceIsDollar = event.property.priceIsDollar
+            }
+        }
+
+        listFragment.adapter.notifyDataSetChanged()
+
+        var listFragment2 = ListFragment()
+        val args = Bundle()
+        args.putSerializable("properties", properties)
+        listFragment2.setArguments(args)
+        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
 
 
     }
