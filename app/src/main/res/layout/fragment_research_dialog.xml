@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:padding="10dp"
     android:orientation="vertical">
 
+
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <Spinner
                 android:id="@+id/spinner_statut"
                 android:layout_width="match_parent"
@@ -24,6 +32,21 @@
                 android:paddingBottom="12dp"
                 android:entries="@array/choice_statut"
                 android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/switch_statu"
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+               />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
 
             <Spinner
                 android:id="@+id/spinner_type"
@@ -34,13 +57,20 @@
                 android:entries="@array/choice_type"
                 android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/price"
-                android:layout_width="wrap_content"
+            <Switch
+                android:id="@+id/switch_type"
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned"
-                android:hint="Prix"/>
+               />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
 
             <Spinner
                 android:id="@+id/spinner_money"
@@ -51,44 +81,175 @@
                 android:entries="@array/choice_money"
                 android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/nb_bedroom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned"
-                android:hint="nb bedroom"/>
+            <Switch
+                android:id="@+id/switch_money"
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/nb_bathroom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned"
-                android:hint="nb bathroom"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
 
             <EditText
-                android:id="@+id/surface"
-                android:layout_width="wrap_content"
+                android:id="@+id/price_min"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="Surface"/>
+                android:hint="Prix Min"/>
+
 
             <EditText
-                android:id="@+id/nb_piece"
-                android:layout_width="wrap_content"
+                android:id="@+id/price_max"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="nb piece"/>
+                android:hint="Prix Max"/>
+
+            <Switch
+                android:id="@+id/switch_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/nb_bedroom_min"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb bedroom min"/>
+
+            <EditText
+                android:id="@+id/nb_bedroom_max"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb bedroom max"/>
+
+            <Switch
+                android:id="@+id/switch_bed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/nb_bathroom_min"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb bathroom min"/>
+
+            <EditText
+                android:id="@+id/nb_bathroom_max"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb bathroom max"/>
+
+            <Switch
+                android:id="@+id/switch_bath"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/surface_min"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="Surface min"/>
+
+
+            <EditText
+                android:id="@+id/surface_max"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="Surface max"/>
+
+            <Switch
+                android:id="@+id/switch_surface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/nb_piece_min"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb piece min"/>
+
+            <EditText
+                android:id="@+id/nb_piece_max"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb piece max"/>
+
+            <Switch
+                android:id="@+id/switch_piece"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/ville"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Ville"/>
+
+            <Switch
+                android:id="@+id/switch_ville"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
 
             <EditText
@@ -97,11 +258,35 @@
                 android:layout_height="wrap_content"
                 android:hint="Adresse"/>
 
+            <Switch
+                android:id="@+id/switch_adresse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/agent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="estate agent"/>
+
+            <Switch
+                android:id="@+id/switch_agent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/proximity"
@@ -109,31 +294,124 @@
                 android:layout_height="wrap_content"
                 android:hint="point of interests"/>
 
-            <EditText
-                android:id="@+id/youtube"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Lien video format : https://www.youtube.com/watch?v= (facultatif | séparé par ',' si plusieurs)"/>
+            <Switch
+                android:id="@+id/switch_proximity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/nb_video_min"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb video min"/>
+
+            <EditText
+                android:id="@+id/nb_video_max"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb video max"/>
+
+
+            <Switch
+                android:id="@+id/switch_youtube"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
 
             <EditText
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Description"/>
+                android:hint="chercher un mot dans la description"/>
 
-            <Button
-                android:id="@+id/photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ajouter une photo"/>
+            <Switch
+                android:id="@+id/switch_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/nb_photo"
-                android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/nb_photo_min"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="Nombre de photo ajouté : 0"/>
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb photo min"/>
+
+            <EditText
+                android:id="@+id/nb_photo_max"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:hint="nb photo max"/>
+
+            <Switch
+                android:id="@+id/switch_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+              />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/start_date"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="#d4d4d4"
+                android:hint="Select starting Date... (de cette date à aujourd'hui)"
+                android:padding="15dp"
+                android:textColor="#897"
+                android:textColorHint="#090"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/switch_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
 
             <EditText
@@ -149,15 +427,23 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <Switch
+                android:id="@+id/switch_selling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+               />
+
+
+        </LinearLayout>
 
             <Button
-                android:id="@+id/add"
+                android:id="@+id/search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ajouter le bien"/>
+                android:text="Chercher les biens correspondants"/>
 
         </LinearLayout>
 
     </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>

@@ -98,7 +98,6 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
             locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
         }
 
-        Toast.makeText(this, longitude.toString() + latitude.toString(),Toast.LENGTH_LONG).show()
 
 
         val youtubeVideos = Vector<YouTubeVideos>()
@@ -148,6 +147,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
             override fun onClick(view: View) {
 
 
+
                 fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
 
 
@@ -178,13 +178,19 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         when (i1) {
             R.id.mapItem -> {
 
+                if (Utils.haveInternetConnection(this)) {
 
-                val args = Bundle()
-                args.putDouble("lat", latitude)
-                args.putDouble("long", longitude)
-                args.putSerializable("properties", properties)
-                firstFragment.setArguments(args)
-                fragmentManager.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
+                    val args = Bundle()
+                    args.putDouble("lat", latitude)
+                    args.putDouble("long", longitude)
+                    args.putSerializable("properties", properties)
+                    firstFragment.setArguments(args)
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
+
+                }else{
+                    Toast.makeText(this, "Besoin d'une connexion internet pour afficher la carte.", Toast.LENGTH_SHORT).show()
+
+                }
 
 
                 return true
@@ -246,6 +252,14 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
             R.id.researchItem -> {
 
+                val fm = getFragmentManager()
+                val researchFragment = MyResearchFragment()
+
+                val args = Bundle()
+                args.putSerializable("properties", ArrayList(properties))
+                researchFragment.arguments = args
+                researchFragment.show(fm, "Sample Fragment")
+
 
 
                 return true
@@ -265,6 +279,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         // Supply index input as an argument.
         val args = Bundle()
         args.putParcelable("property", event.property)
+        args.putSerializable("properties", properties)
         detailFragment.setArguments(args)
 
 
@@ -283,6 +298,19 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
     }
 
+    @Subscribe
+    fun onSearch(event: SearchEvent) {
+
+        var listFragment2 = ListFragment()
+        val args = Bundle()
+        args.putSerializable("properties", event.properties)
+        listFragment2.setArguments(args)
+        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
+
+
+
+
+    }
 
     @Subscribe
     fun onModify(event: ModifyEvent) {

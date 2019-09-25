@@ -29,10 +29,36 @@ class MyResearchFragment : DialogFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_research_dialog, container, false)
         dialog.setTitle("Rechercher des biens !")
 
 
+        val args = arguments
+        val properties = args?.getSerializable("properties") as ArrayList<Property>
+
+        properties.add(properties.get(0))
+
+
+
+        val research = rootView.findViewById<Button>(R.id.search)
+
+        val spinnerStatut = rootView.findViewById<Spinner>(R.id.spinner_statut)
+        val switchStatut = rootView.findViewById<Switch>(R.id.switch_statu)
+
+        val spinnerType = rootView.findViewById<Spinner>(R.id.spinner_type)
+        val switchType = rootView.findViewById<Switch>(R.id.switch_type)
+
+        val spinnerStatut = rootView.findViewById<Spinner>(R.id.spinner_statut)
+        val switchStatut = rootView.findViewById<Switch>(R.id.switch_statu)
+
+
+
+        research.setOnClickListener {
+
+            EventBus.getDefault().post(SearchEvent(properties))
+            dismiss()
+
+        }
 
 
 

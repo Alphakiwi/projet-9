@@ -62,7 +62,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         val args = arguments
         lat = args!!.getDouble("lat")
         lng = args.getDouble("long")
-        properties = args?.getSerializable("properties") as ArrayList<Property>
+        properties = args!!.getSerializable("properties") as ArrayList<Property>
 
 
         val button = mView!!.findViewById<View>(R.id.recentrer) as FloatingActionButton
@@ -112,7 +112,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
 
 
 
-            val comp = name.compareTo("Vous êtes ici")
+            val comp = name.compareTo("Ici")
 
             var propertyThis = properties!![0]
 
@@ -128,6 +128,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
                     }
                 }
                 args.putParcelable("property", propertyThis)
+                args.putSerializable("properties", properties)
                 detailFragment.setArguments(args)
 
 
@@ -158,7 +159,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         val here = LatLng(lat!!, lng!!)
 
 
-        mMap!!.addMarker(MarkerOptions().position(here).title("Vous êtes ici").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+        mMap!!.addMarker(MarkerOptions().position(here).title("Ici").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
 
        for ( property in properties!!) {
 
