@@ -34,10 +34,8 @@ class MyResearchFragment : DialogFragment() {
 
 
         val args = arguments
-        val properties = args?.getSerializable("properties") as ArrayList<Property>
-
-        properties.add(properties.get(0))
-
+        var properties = args?.getSerializable("properties") as ArrayList<Property>
+        var propertiesCopy  = ArrayList<Property>(properties)
 
 
         val research = rootView.findViewById<Button>(R.id.search)
@@ -135,9 +133,103 @@ class MyResearchFragment : DialogFragment() {
 
         research.setOnClickListener {
 
-            EventBus.getDefault().post(SearchEvent(properties))
-            dismiss()
+            for (property in propertiesCopy) {
 
+                if (switchStatut.isChecked()) {
+
+                    if (property.status != spinnerStatut.getSelectedItem() as String){
+                        properties.remove(property)
+                        //Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+
+                if (switchType.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchMoney.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+
+                if (switchPrice.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchBed.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchBath.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchSurface.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchNbPiece.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchVille.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+
+                if (switchAdress.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchAgent.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchProximity.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+
+                if (switchYoutube.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchDescription.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchPhoto.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchStart.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+                if (switchSelling.isChecked()) {
+                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                EventBus.getDefault().post(SearchEvent(properties))
+                dismiss()
+
+            }
         }
 
 
