@@ -20,6 +20,8 @@ import org.greenrobot.eventbus.Subscribe
 import java.util.*
 import android.os.Parcel
 import android.os.Parcelable
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
@@ -61,6 +63,8 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
     lateinit var criteria: Criteria
     lateinit var bestProvider: String
     private val firstFragment = MapFragment()
+
+    lateinit var button :FloatingActionButton
 
 
     constructor(parcel: Parcel) : this() {
@@ -140,8 +144,9 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
         fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
 
-        val button = findViewById(R.id.fab) as FloatingActionButton
+        button = findViewById(R.id.fab) as FloatingActionButton
 
+        button.setVisibility(GONE)
 
         button.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
@@ -149,6 +154,8 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
 
                 fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
+                button.setVisibility(GONE)
+
 
 
             }
@@ -191,6 +198,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
                     Toast.makeText(this, "Besoin d'une connexion internet pour afficher la carte.", Toast.LENGTH_SHORT).show()
 
                 }
+                button.setVisibility(VISIBLE)
 
 
                 return true
@@ -217,7 +225,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
                 Toast.makeText(this, "La monnaie à bien été converti", Toast.LENGTH_SHORT).show()
 
-
+                button.setVisibility(GONE)
 
 
                 return true
@@ -262,6 +270,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
 
 
+
                 return true
 
             }
@@ -287,6 +296,9 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
         lastProperty = event.property
 
+        button.setVisibility(VISIBLE)
+
+
     }
 
     @Subscribe
@@ -308,6 +320,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
 
 
+        button.setVisibility(VISIBLE)
 
 
     }
@@ -346,6 +359,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         listFragment2.setArguments(args)
         fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
 
+        button.setVisibility(GONE)
 
     }
 

@@ -83,13 +83,15 @@ class DetailFragment : Fragment() {
                     }
                 }
 
+                if (ll.size>0) {
 
-                val args2 = Bundle()
-                args2.putDouble("lat", ll.get(0).latitude)
-                args2.putDouble("long",  ll.get(0).longitude)
-                args2.putSerializable("properties", properties)
-                firstFragment.setArguments(args2)
-                fragmentManager!!.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
+                    val args2 = Bundle()
+                    args2.putDouble("lat", ll.get(0).latitude)
+                    args2.putDouble("long", ll.get(0).longitude)
+                    args2.putSerializable("properties", properties)
+                    firstFragment.setArguments(args2)
+                    fragmentManager!!.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
+                }
 
 
 

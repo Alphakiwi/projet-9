@@ -176,10 +176,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
                        }
                    }
 
-                   mMap!!.addMarker(MarkerOptions().position(ll.get(0))
-                           .title(property.type )
-                           .snippet(property.address + "\n :" + property.id)
-                           .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)))
+                   if (ll.size>0) {
+                       mMap!!.addMarker(MarkerOptions().position(ll.get(0))
+                               .title(property.type)
+                               .snippet(property.address + "\n :" + property.id)
+                               .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)))
+                   }
 
 
 
