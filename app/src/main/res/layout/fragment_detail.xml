@@ -43,7 +43,7 @@
                 android:drawableLeft="@drawable/ic_pen"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Descritption... "
+                android:text=" Description... "
                 android:textSize="20dp" />
 
 

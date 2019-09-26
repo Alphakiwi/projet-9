@@ -23,9 +23,10 @@ import android.os.Parcelable
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
-import java.io.IOException
+import com.google.android.gms.common.util.DeviceProperties.isTablet
+
+
 
 
 class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
@@ -62,6 +63,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
     lateinit var locationManager: LocationManager
     lateinit var criteria: Criteria
     lateinit var bestProvider: String
+    var tabletSize = false
     private val firstFragment = MapFragment()
 
     lateinit var button :FloatingActionButton
@@ -77,6 +79,8 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         setContentView(R.layout.fragment_container)
 
         mLayout = findViewById(R.id.mlayout)
+
+        tabletSize = resources.getBoolean(R.bool.isTablet)
 
 
         getSupportActionBar()?.setTitle(  getTodayDate);
@@ -133,7 +137,14 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
         properties.add(property)
         properties.add(appart)
-
+        properties.add(property)
+        properties.add(appart)
+        properties.add(property)
+        properties.add(appart)
+        properties.add(property)
+        properties.add(appart)
+        properties.add(property)
+        properties.add(appart)
 
         lastProperty = properties.get(0);
 
@@ -145,6 +156,8 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
 
         button = findViewById(R.id.fab) as FloatingActionButton
+
+
 
         button.setVisibility(GONE)
 
@@ -192,13 +205,20 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
                     args.putDouble("long", longitude)
                     args.putSerializable("properties", properties)
                     firstFragment.setArguments(args)
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
+
+                    if (tabletSize) {
+                        fragmentManager.beginTransaction().replace(R.id.content_frame2, firstFragment).commit()
+                    } else {
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
+                        button.setVisibility(VISIBLE)
+                    }
 
                 }else{
                     Toast.makeText(this, "Besoin d'une connexion internet pour afficher la carte.", Toast.LENGTH_SHORT).show()
 
                 }
-                button.setVisibility(VISIBLE)
+
+
 
 
                 return true
@@ -228,13 +248,14 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
                 button.setVisibility(GONE)
 
 
+
                 return true
 
             }
             R.id.modifyItem -> {
 
                 val fm = getFragmentManager()
-                val dialogFragment = MyDialogFragment()
+                val dialogFragment = MyAddFragment()
                 dialogFragment.show(fm, "Sample Fragment")
 
                 val args = Bundle()
@@ -250,7 +271,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
             R.id.addItem -> {
 
                 val fm = getFragmentManager()
-                val dialogFragment = MyDialogFragment()
+                val dialogFragment = MyAddFragment()
                 dialogFragment.show(fm, "Sample Fragment")
 
                 return true
@@ -282,7 +303,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
     }
 
     @Subscribe
-    fun onActualise(event: ActualiseEvent) {
+    fun onDetail(event: DetailEvent) {
 
         val detailFragment = DetailFragment()
         // Supply index input as an argument.
@@ -291,12 +312,17 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         args.putSerializable("properties", properties)
         detailFragment.setArguments(args)
 
-
-        fragmentManager.beginTransaction().replace(R.id.content_frame, detailFragment).commit()
-
         lastProperty = event.property
 
-        button.setVisibility(VISIBLE)
+
+
+
+        if (tabletSize) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame2, detailFragment).commit()
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, detailFragment).commit()
+            button.setVisibility(VISIBLE)
+        }
 
 
     }
@@ -306,6 +332,16 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
         properties.add(event.property)
         listFragment.adapter.notifyDataSetChanged()
+
+        var listFragment2 = ListFragment()
+        val args = Bundle()
+        args.putSerializable("properties", properties)
+        listFragment2.setArguments(args)
+        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
+
+        button.setVisibility(GONE)
+
+
 
 
     }
@@ -317,10 +353,11 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         val args = Bundle()
         args.putSerializable("properties", event.properties)
         listFragment2.setArguments(args)
+
+        button.setVisibility(VISIBLE)
         fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
 
 
-        button.setVisibility(VISIBLE)
 
 
     }
@@ -360,6 +397,7 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
 
         button.setVisibility(GONE)
+
 
     }
 

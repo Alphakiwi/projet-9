@@ -96,7 +96,7 @@
 
             <EditText
                 android:id="@+id/price_min"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -105,7 +105,7 @@
 
             <EditText
                 android:id="@+id/price_max"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -124,7 +124,7 @@
 
             <EditText
                 android:id="@+id/nb_bedroom_min"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -132,7 +132,7 @@
 
             <EditText
                 android:id="@+id/nb_bedroom_max"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -151,7 +151,7 @@
 
             <EditText
                 android:id="@+id/nb_bathroom_min"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -159,7 +159,7 @@
 
             <EditText
                 android:id="@+id/nb_bathroom_max"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -179,7 +179,7 @@
 
             <EditText
                 android:id="@+id/surface_min"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -188,7 +188,7 @@
 
             <EditText
                 android:id="@+id/surface_max"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -208,7 +208,7 @@
 
             <EditText
                 android:id="@+id/nb_piece_min"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -216,7 +216,7 @@
 
             <EditText
                 android:id="@+id/nb_piece_max"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -309,7 +309,7 @@
 
             <EditText
                 android:id="@+id/nb_video_min"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -317,7 +317,7 @@
 
             <EditText
                 android:id="@+id/nb_video_max"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -339,7 +339,7 @@
 
             <EditText
                 android:id="@+id/description"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:hint="chercher un mot dans la description"/>
 
@@ -358,7 +358,7 @@
 
             <EditText
                 android:id="@+id/nb_photo_min"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
@@ -366,7 +366,7 @@
 
             <EditText
                 android:id="@+id/nb_photo_max"
-                android:layout_width="120dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"

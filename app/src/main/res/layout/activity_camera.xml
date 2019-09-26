@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:hint="Description de la photo" />
+        android:hint="Description" />
 
     <Button
         android:id="@+id/button_finish"
@@ -47,7 +47,7 @@
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:onClick="finishThis"
-        android:text="Choisir cette photo !" />
+        android:text="Chooose this photo !" />
 
 
     <Button
@@ -56,6 +56,6 @@
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:onClick="cancelThis"
-        android:text="Annuler" />
+        android:text="Cancel" />
 
 </LinearLayout>

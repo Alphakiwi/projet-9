@@ -24,7 +24,7 @@ import android.widget.*
 import kotlinx.android.synthetic.main.fragment_sample_dialog.*
 
 
-class MyDialogFragment : DialogFragment() {
+class MyAddFragment : DialogFragment() {
 
     val photoList  = ArrayList<Image_property>()
     lateinit var nb_photo : TextView

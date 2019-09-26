@@ -1,11 +1,11 @@
 package com.openclassrooms.realestatemanager;
 
-public class ActualiseEvent {
+public class DetailEvent {
 
     public Property property;
 
 
-    public ActualiseEvent(Property property) {
+    public DetailEvent(Property property) {
 
         this.property = property;
 
