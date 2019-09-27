@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.openclassrooms.realestatemanager.event.DetailEvent;
+import com.openclassrooms.realestatemanager.model.Property;
+import com.openclassrooms.realestatemanager.R;
 
 import org.greenrobot.eventbus.EventBus;
 

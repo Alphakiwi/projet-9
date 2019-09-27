@@ -1,9 +1,10 @@
 package com.openclassrooms.realestatemanager
 
-import com.openclassrooms.realestatemanager.Utils.getTodayDate
+import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.getTodayDate
 import org.junit.Test
 
-import com.openclassrooms.realestatemanager.Utils.isInteger
+import com.openclassrooms.realestatemanager.utils.isInteger
 
 import org.junit.Assert.*
 

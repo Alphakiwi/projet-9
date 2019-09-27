@@ -1,41 +1,30 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.fragment
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.location.Criteria
-import android.location.LocationManager
-import android.media.ThumbnailUtils
-import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Gallery
 import android.widget.ImageView
-import android.widget.MediaController
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.VideoView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.content.pm.PackageManager
 import android.location.Geocoder
 
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.adapter.ImageAdapter
+import com.openclassrooms.realestatemanager.adapter.VideoAdapter
+import com.openclassrooms.realestatemanager.model.Property
 import java.io.IOException
 
 import java.util.ArrayList
-import java.util.Arrays
-import java.util.Date
-import java.util.Vector
 
 
 class DetailFragment : Fragment() {

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,15 +7,16 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 
 import androidx.recyclerview.widget.RecyclerView
-import extensions.toVideoUrl
+import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.utils.toVideoUrl
 
 class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
-    internal lateinit var youtubeVideoList: List<YouTubeVideos>
+    internal lateinit var youtubeVideoList: List<String>
 
     constructor() {}
 
-    constructor(youtubeVideoList: List<YouTubeVideos>) {
+    constructor(youtubeVideoList: List<String>) {
         this.youtubeVideoList = youtubeVideoList
     }
 
@@ -29,7 +30,7 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
 
-        holder.videoWeb.loadData(youtubeVideoList[position].getVideoUrl().toVideoUrl(), "text/html", "utf-8")
+        holder.videoWeb.loadData(youtubeVideoList[position].toVideoUrl(), "text/html", "utf-8")
 
     }
 

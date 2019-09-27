@@ -1,12 +1,7 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,8 +9,9 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.openclassrooms.realestatemanager.model.Image_property;
+import com.openclassrooms.realestatemanager.R;
 
-import java.io.File;
 import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {

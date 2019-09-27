@@ -1,18 +1,15 @@
 
 
 
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.model
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
-import java.io.Serializable
 import java.util.*
 
 data class Property (var id : Int, var type : String, var price : Int, var nb_bedroom : Int, var nb_bathroom : Int,
                      var surface : Int, var nb_piece : Int, var description : String, var photo : List<Image_property>,
-                     var video : Vector<YouTubeVideos>?, var ville : String, var address : String, var proximity : String,
+                     var video : Vector<String>?, var ville : String, var address : String, var proximity : String,
                      var status : String, var start_date: String, var selling_date : String?, var estate_agent : String, var priceIsDollar : String) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
@@ -23,14 +20,14 @@ data class Property (var id : Int, var type : String, var price : Int, var nb_be
             parcel.readInt(),
             parcel.readInt(),
             parcel.readString()!!,
-            TODO("photo"),
+            parcel.createTypedArrayList(Image_property)!!,
             TODO("video"),
             parcel.readString()!!,
             parcel.readString()!!,
             parcel.readString()!!,
             parcel.readString()!!,
-            TODO("start_date"),
-            TODO("selling_date"),
+            parcel.readString()!!,
+            parcel.readString()!!,
             parcel.readString()!!,
             parcel.readString()!!) {
     }
@@ -44,10 +41,13 @@ data class Property (var id : Int, var type : String, var price : Int, var nb_be
         parcel.writeInt(surface)
         parcel.writeInt(nb_piece)
         parcel.writeString(description)
+        parcel.writeTypedList(photo)
         parcel.writeString(ville)
         parcel.writeString(address)
         parcel.writeString(proximity)
         parcel.writeString(status)
+        parcel.writeString(start_date)
+        parcel.writeString(selling_date)
         parcel.writeString(estate_agent)
         parcel.writeString(priceIsDollar)
     }
@@ -65,6 +65,7 @@ data class Property (var id : Int, var type : String, var price : Int, var nb_be
             return arrayOfNulls(size)
         }
     }
+
 }
 
 class Image_property (var image : String, var descript : String) : Parcelable {
@@ -91,6 +92,10 @@ class Image_property (var image : String, var descript : String) : Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+
+
+
 
 
 }

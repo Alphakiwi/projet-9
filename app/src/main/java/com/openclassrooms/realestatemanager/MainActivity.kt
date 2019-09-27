@@ -11,9 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.openclassrooms.realestatemanager.Utils.convertDollarToEuro
-import com.openclassrooms.realestatemanager.Utils.convertEuroToDollar
-import com.openclassrooms.realestatemanager.Utils.getTodayDate
+
 
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -24,29 +22,29 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.gms.common.util.DeviceProperties.isTablet
-
-
+import com.openclassrooms.realestatemanager.event.AddEvent
+import com.openclassrooms.realestatemanager.event.DetailEvent
+import com.openclassrooms.realestatemanager.event.ModifyEvent
+import com.openclassrooms.realestatemanager.event.SearchEvent
+import com.openclassrooms.realestatemanager.model.Image_property
+import com.openclassrooms.realestatemanager.model.Property
+import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
+import com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar
+import com.openclassrooms.realestatemanager.utils.Utils.getTodayDate
+import com.openclassrooms.realestatemanager.fragment.*
 
 
 class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
-    override fun onProviderEnabled(p0: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    override fun onProviderDisabled(p0: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun onProviderEnabled(p0: String?) {}
+    override fun onProviderDisabled(p0: String?) {}
+    override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
 
     override fun onLocationChanged(p0: Location?) {
         //remove location callback:
         locationManager.removeUpdates(this)
 
-        //open the map:
         latitude = p0!!.getLatitude()
         longitude = p0!!.getLongitude()
     }
@@ -108,32 +106,25 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
 
 
-        val youtubeVideos = Vector<YouTubeVideos>()
+        val youtubeVideos = Vector<String>()
 
-        youtubeVideos.add(YouTubeVideos("https://www.youtube.com/watch?v=IdvFBL4Kalo"))
-        youtubeVideos.add(YouTubeVideos("https://www.youtube.com/watch?v=Vg729rnWsm0"))
+        youtubeVideos.add("https://www.youtube.com/watch?v=IdvFBL4Kalo")
+        youtubeVideos.add("https://www.youtube.com/watch?v=Vg729rnWsm0")
 
-
-        //youtubeVideos.add( new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/IdvFBL4Kalo\" frameborder=\"0\" allowfullscreen></iframe>") );
-        /* youtubeVideos.add( new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/sdUUx5FdySs\" frameborder=\"0\" allowfullscreen></iframe>") );
-        youtubeVideos.add( new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/91SsmqV47yQ\" frameborder=\"0\" allowfullscreen></iframe>") );
-        youtubeVideos.add( new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/i_Q22nDXfq8\" frameborder=\"0\" allowfullscreen></iframe>") );
-        youtubeVideos.add( new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/mtDokmIKRp4\" frameborder=\"0\" allowfullscreen></iframe>") );
-*/
 
 
         val couleurs = Arrays.asList(Image_property("https://www.maisons-ossature-bois-chalets-charpente-favre-felix.com/images/maison-bois/maison-bois-65.jpg",
                 "Vue extérieur"), Image_property("https://listspirit.com/wp-content/uploads/2017/08/deco-salon-amenagement-interieur-moderne-dune-maison-au-canada.jpg", "Vue intérieur"),
-                 Image_property(
-                         "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg",
-                         "Chambre"
-                 ),Image_property(
+                Image_property(
+                        "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg",
+                        "Chambre"
+                ), Image_property(
                 "http://www.bainsetsolutions.fr/scripts/files/5603e6f7554961.58606024/perspective-3d-1-renovation-salle-de-bain-st-gilles-bainsetsolutions-pace-rennes.jpg",
-                "Salle de bain" ))
+                "Salle de bain"))
         val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
 
-        val property = Property(1, "Maison", 120000, 3, 1, 135, 4, "belle maison", couleurs, null, "Lille", "27 Rue Nationale, 59000 Lille", "école, métro", "vendu","26/06/1999", "28/06/1999", "Denis","Euro")
-        val appart = Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", couleurs2, youtubeVideos, "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis","Euro")
+        val property = Property(1, "Maison", 120000, 3, 1, 135, 4, "belle maison", couleurs, null, "Lille", "27 Rue Nationale, 59000 Lille", "école, métro", "vendu", "26/06/1999", "28/06/1999", "Denis", "Euro")
+        val appart = Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", couleurs2, youtubeVideos, "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro")
 
         properties.add(property)
         properties.add(appart)
@@ -289,9 +280,6 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
                 researchFragment.arguments = args
                 researchFragment.show(fm, "Sample Fragment")
 
-
-
-
                 return true
 
             }
@@ -313,8 +301,6 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         detailFragment.setArguments(args)
 
         lastProperty = event.property
-
-
 
 
         if (tabletSize) {

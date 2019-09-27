@@ -1,26 +1,24 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.fragment
 
-import android.app.AlertDialog
 import android.app.DialogFragment
-import android.app.FragmentManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.openclassrooms.realestatemanager.Utils.getTodayDate
-import extensions.toVideoUrl
+
+import com.openclassrooms.realestatemanager.utils.Utils.getTodayDate
 import org.greenrobot.eventbus.EventBus
 
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
 import java.util.*
-import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.app.DatePickerDialog
 import android.widget.*
+import com.openclassrooms.realestatemanager.CameraActivity
+import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.event.AddEvent
+import com.openclassrooms.realestatemanager.event.ModifyEvent
+import com.openclassrooms.realestatemanager.model.Image_property
+import com.openclassrooms.realestatemanager.model.Property
 import kotlinx.android.synthetic.main.fragment_sample_dialog.*
 
 
@@ -107,7 +105,7 @@ class MyAddFragment : DialogFragment() {
                 var youtubeString = ""
 
                 for (video in modify!!.video!!) {
-                    youtubeString += video.getVideoUrl() + ","
+                    youtubeString += video + ","
                 }
 
               //  if(youtubeString.>2) {
@@ -182,12 +180,12 @@ class MyAddFragment : DialogFragment() {
 
                     //val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
 
-                    val youtubeVideos = Vector<YouTubeVideos>()
+                    val youtubeVideos = Vector<String>()
 
                 if (youtube.text.toString().length > 2) {
                     val strings = youtube.text.toString().split(",")
                     for (i in strings.indices) {
-                       youtubeVideos.add(YouTubeVideos(strings[i]))
+                       youtubeVideos.add((strings[i]))
                     }
 
                 }
@@ -195,10 +193,10 @@ class MyAddFragment : DialogFragment() {
 
 
                     if (youtube.text.toString().length < 2) {
-                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, null, ville.text.toString(), adresse.text.toString(),proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, null, ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
                         sendEvent(property)
                     } else {
-                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(),proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
                         sendEvent(property)
                     }
 
