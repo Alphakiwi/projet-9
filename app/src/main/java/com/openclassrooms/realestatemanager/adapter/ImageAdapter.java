@@ -16,9 +16,10 @@ import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {
     private Context context;
-    private List<Image_property> imageIDs;
+   // private List<Image_property> imageIDs;
+    private List<String> imageIDs;
     private int itemBackground;
-    public ImageAdapter(Context c, List<Image_property> IDs)
+    public ImageAdapter(Context c, List<String> IDs)
     {
         context = c;
         imageIDs = IDs ;
@@ -43,7 +44,7 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView = new ImageView(context);
 
         Glide.with(context)
-                .load(imageIDs.get(position).getImage())
+                .load(imageIDs.get(position)/*.getImage()*/)
                 .into(imageView);
 
         //Glide.with(context)

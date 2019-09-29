@@ -72,7 +72,7 @@ class MyAddFragment : DialogFragment() {
             agent.text = modify!!.estate_agent
             proximity.text = modify!!.proximity
             description.text = modify!!.description
-            nb_photo.text = modify!!.photo.size.toString()
+           // nb_photo.text = modify!!.photo.size.toString()
             date.text =  modify!!.selling_date
 
             if(modify!!.priceIsDollar.compareTo("Dollar")==0){
@@ -97,7 +97,7 @@ class MyAddFragment : DialogFragment() {
                 dialogSpinnerType.setSelection(5)
             }
 
-            for (photo in modify!!.photo){ photoList.add(photo) }
+           // for (photo in modify!!.photo){ photoList.add(photo) }
             photo.setText("Supprimer les photos")
 
             if ( modify!!.video != null) {
@@ -193,10 +193,10 @@ class MyAddFragment : DialogFragment() {
 
 
                     if (youtube.text.toString().length < 2) {
-                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, null, ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList.get(0).image, null, ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
                         sendEvent(property)
                     } else {
-                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList, youtubeVideos, ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(),  photoList.get(0).image , youtubeVideos.get(0), ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
                         sendEvent(property)
                     }
 

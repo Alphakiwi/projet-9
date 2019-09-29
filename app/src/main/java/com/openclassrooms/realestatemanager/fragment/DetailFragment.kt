@@ -143,20 +143,20 @@ class DetailFragment : Fragment() {
 
 
         val gallery = myView.findViewById<View>(R.id.gallery1) as Gallery
-        gallery.adapter = ImageAdapter(mContext!!, property.photo)
+        gallery.adapter = ImageAdapter(mContext!!, listOf(property.photo))
         val imageView = myView.findViewById<View>(R.id.imageAvatar) as ImageView
 
         Glide.with(mContext!!)
-                .load(property.photo[0].image)
+                .load(property.photo/*[0].image*/)
                 //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                 .into(imageView)
 
         gallery.onItemClickListener = AdapterView.OnItemClickListener { parent, v, position, id ->
-            Toast.makeText(mContext, property.photo[position].descript,
-                    Toast.LENGTH_SHORT).show()
+            /*Toast.makeText(mContext, property.photo[position].descript,
+                    Toast.LENGTH_SHORT).show()*/
             // display the images selected
             Glide.with(mContext!!)
-                    .load(property.photo[position].image)
+                    .load(property.photo/*[position].image*/)
                     .into(imageView)
         }
 
@@ -167,7 +167,7 @@ class DetailFragment : Fragment() {
             recyclerView = myView.findViewById<View>(R.id.recyclerView) as RecyclerView
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = LinearLayoutManager(mContext)
-            val videoAdapter = VideoAdapter(property.video!!)
+            val videoAdapter = VideoAdapter(listOf(property.video!!))
             recyclerView.adapter = videoAdapter
         }
 

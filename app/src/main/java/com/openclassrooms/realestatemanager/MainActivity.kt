@@ -15,18 +15,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import java.util.*
 import android.os.Parcel
-import android.os.Parcelable
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.event.AddEvent
 import com.openclassrooms.realestatemanager.event.DetailEvent
 import com.openclassrooms.realestatemanager.event.ModifyEvent
 import com.openclassrooms.realestatemanager.event.SearchEvent
-import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
@@ -34,8 +33,11 @@ import com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar
 import com.openclassrooms.realestatemanager.utils.Utils.getTodayDate
 import com.openclassrooms.realestatemanager.fragment.*
 
+import com.openclassrooms.realestatemanager.database.injections.Injection
+import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel
 
-class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
+
+class MainActivity() : AppCompatActivity(), LocationListener{
 
     override fun onProviderEnabled(p0: String?) {}
     override fun onProviderDisabled(p0: String?) {}
@@ -50,12 +52,10 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
     }
 
     internal var listFragment = ListFragment()
-    val properties = ArrayList<Property>()
     private lateinit var lastProperty : Property
     var fragmentManager = supportFragmentManager
     private val PERMISSION_REQUEST_LOCATION = 0
     private var mLayout: View? = null
-
     var latitude = 0.0
     var longitude = 0.0
     lateinit var locationManager: LocationManager
@@ -63,13 +63,9 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
     lateinit var bestProvider: String
     var tabletSize = false
     private val firstFragment = MapFragment()
-
+    private var propertyViewModel: PropertyViewModel? = null
+    var properties = ArrayList<Property>()
     lateinit var button :FloatingActionButton
-
-
-    constructor(parcel: Parcel) : this() {
-        lastProperty = parcel.readParcelable(Property::class.java.classLoader)!!
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,38 +100,12 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
             locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
         }
 
+        var appart =  Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg", "https://www.youtube.com/watch?v=Vg729rnWsm0", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro");
 
-
-        val youtubeVideos = Vector<String>()
-
-        youtubeVideos.add("https://www.youtube.com/watch?v=IdvFBL4Kalo")
-        youtubeVideos.add("https://www.youtube.com/watch?v=Vg729rnWsm0")
-
-
-
-        val couleurs = Arrays.asList(Image_property("https://www.maisons-ossature-bois-chalets-charpente-favre-felix.com/images/maison-bois/maison-bois-65.jpg",
-                "Vue extérieur"), Image_property("https://listspirit.com/wp-content/uploads/2017/08/deco-salon-amenagement-interieur-moderne-dune-maison-au-canada.jpg", "Vue intérieur"),
-                Image_property(
-                        "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg",
-                        "Chambre"
-                ), Image_property(
-                "http://www.bainsetsolutions.fr/scripts/files/5603e6f7554961.58606024/perspective-3d-1-renovation-salle-de-bain-st-gilles-bainsetsolutions-pace-rennes.jpg",
-                "Salle de bain"))
-        val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
-
-        val property = Property(1, "Maison", 120000, 3, 1, 135, 4, "belle maison", couleurs, null, "Lille", "27 Rue Nationale, 59000 Lille", "école, métro", "vendu", "26/06/1999", "28/06/1999", "Denis", "Euro")
-        val appart = Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", couleurs2, youtubeVideos, "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro")
-
-        properties.add(property)
         properties.add(appart)
-        properties.add(property)
-        properties.add(appart)
-        properties.add(property)
-        properties.add(appart)
-        properties.add(property)
-        properties.add(appart)
-        properties.add(property)
-        properties.add(appart)
+
+        configureViewModel()
+        getProperties()
 
         lastProperty = properties.get(0);
 
@@ -148,18 +118,13 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
         button = findViewById(R.id.fab) as FloatingActionButton
 
-
-
         button.setVisibility(GONE)
 
         button.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
 
-
-
                 fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
                 button.setVisibility(GONE)
-
 
 
             }
@@ -172,13 +137,8 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
         super.onCreateOptionsMenu(menu)
-
         val inflater = menuInflater
-
-        //R.menu.menu est l'id de notre menu
-
         inflater.inflate(R.menu.menu, menu)
-
         return true
 
     }
@@ -210,8 +170,6 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
                 }
 
 
-
-
                 return true
             }
             R.id.costItem-> {
@@ -238,8 +196,6 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
                 button.setVisibility(GONE)
 
-
-
                 return true
 
             }
@@ -252,9 +208,6 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
                 val args = Bundle()
                 args.putParcelable("CreateOrModify", lastProperty )
                 dialogFragment.arguments = args
-                return true
-
-
 
                 return true
 
@@ -266,7 +219,6 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
                 dialogFragment.show(fm, "Sample Fragment")
 
                 return true
-
 
             }
 
@@ -281,12 +233,8 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
                 researchFragment.show(fm, "Sample Fragment")
 
                 return true
-
             }
         }
-
-
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -310,26 +258,13 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
             button.setVisibility(VISIBLE)
         }
 
-
     }
 
     @Subscribe
     fun onAdd(event: AddEvent) {
 
-        properties.add(event.property)
-        listFragment.adapter.notifyDataSetChanged()
-
-        var listFragment2 = ListFragment()
-        val args = Bundle()
-        args.putSerializable("properties", properties)
-        listFragment2.setArguments(args)
-        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
-
-        button.setVisibility(GONE)
-
-
-
-
+        propertyViewModel!!.createProperty(event.property)
+        getProperties()
     }
 
     @Subscribe
@@ -342,10 +277,6 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
 
         button.setVisibility(VISIBLE)
         fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
-
-
-
-
     }
 
     @Subscribe
@@ -354,36 +285,34 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
         for (  property  in properties ){
             if (property.id == event.property.id){
 
-                property.type = event.property.type
-                property.price = event.property.price
-                property.nb_bedroom = event.property.nb_bedroom
-                property.nb_bathroom = event.property.nb_bathroom
-                property.surface = event.property.surface
-                property.nb_piece = event.property.nb_piece
-                property.description = event.property.description
-                property.photo = event.property.photo
-                property.video = event.property.video
-                property.ville = event.property.ville
-                property.address= event.property.address
-                property.proximity = event.property.proximity
-                property.status = event.property.status
-                property.start_date = event.property.start_date
-                property.selling_date = event.property.selling_date
-                property.estate_agent = event.property.estate_agent
-                property.priceIsDollar = event.property.priceIsDollar
+                propertyViewModel!!.createProperty(event.property)
             }
         }
+        getProperties()
+    }
 
-        listFragment.adapter.notifyDataSetChanged()
 
-        var listFragment2 = ListFragment()
-        val args = Bundle()
-        args.putSerializable("properties", properties)
-        listFragment2.setArguments(args)
-        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
+    // 3 - Get all tasks
+    private fun getProperties() {
+        propertyViewModel!!.properties.observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList(listProperty)} )
+    }
 
+
+    private fun updatePropertiesList(listProperty: List<Property>) {
+
+        properties.clear()
+        for (property in listProperty as ArrayList<Property>){
+            properties.add(property)
+        }
+        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment).commit()
+        listFragment.adapter.updateData(properties)
         button.setVisibility(GONE)
+    }
 
+    private fun configureViewModel() {
+        val mViewModelFactory = Injection.provideViewModelFactory(this)
+        this.propertyViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PropertyViewModel::class.java)
+        this.propertyViewModel!!.init()
 
     }
 
@@ -439,24 +368,6 @@ class MainActivity() : AppCompatActivity(), LocationListener, Parcelable {
     public override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeParcelable(lastProperty, flags)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<MainActivity> {
-        override fun createFromParcel(parcel: Parcel): MainActivity {
-            return MainActivity(parcel)
-        }
-
-        override fun newArray(size: Int): Array<MainActivity?> {
-            return arrayOfNulls(size)
-        }
     }
 
 
