@@ -9,14 +9,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 import androidx.room.ColumnInfo
-
-
+import androidx.room.ForeignKey
 
 
 @Entity
 data class Property (@PrimaryKey(autoGenerate = true) var id : Int, var type : String, var price : Int, var nb_bedroom : Int, var nb_bathroom : Int,
-                     var surface : Int, var nb_piece : Int, var description : String, var photo : String,
-                     var video : String?, var ville : String, var address : String, var proximity : String,
+                     var surface : Int, var nb_piece : Int, var description : String, var photo : String, var ville : String, var address : String, var proximity : String,
                      var status : String, var start_date: String, var selling_date : String?, var estate_agent : String, var priceIsDollar : String) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
@@ -26,7 +24,6 @@ data class Property (@PrimaryKey(autoGenerate = true) var id : Int, var type : S
             parcel.readInt(),
             parcel.readInt(),
             parcel.readInt(),
-            parcel.readString()!!,
             parcel.readString()!!,
             parcel.readString()!!,
             parcel.readString()!!,
@@ -102,9 +99,8 @@ class Image_property (var image : String, var descript : String) : Parcelable {
 
 
 
-
-
-
 }
+
+
 
 

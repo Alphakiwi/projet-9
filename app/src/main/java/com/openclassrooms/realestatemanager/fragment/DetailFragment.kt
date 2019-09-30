@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.adapter.ImageAdapter
 import com.openclassrooms.realestatemanager.adapter.VideoAdapter
 import com.openclassrooms.realestatemanager.model.Property
+import com.openclassrooms.realestatemanager.model.Video_property
 import java.io.IOException
 
 import java.util.ArrayList
@@ -58,6 +59,8 @@ class DetailFragment : Fragment() {
         val args: Bundle? = arguments
         val property = args!!.getParcelable<Parcelable>("property") as Property?
         val properties = args.getSerializable("properties") as ArrayList<Property>?
+        val videos = args.getSerializable("Videos") as ArrayList<Video_property>?
+
 
         if (Geocoder.isPresent()) {
             try {
@@ -160,14 +163,27 @@ class DetailFragment : Fragment() {
                     .into(imageView)
         }
 
+        var listVideos = ArrayList<String>()
+
+        if (videos != null) {
+            for (video in videos!!) {
+                if (property.id ==  video.id_property ) {
+                    listVideos.add(video.video)
+                }
+            }
+        }
 
 
 
-        if (property.video != null) {
+
+
+
+        if (listVideos != null) {
             recyclerView = myView.findViewById<View>(R.id.recyclerView) as RecyclerView
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = LinearLayoutManager(mContext)
-            val videoAdapter = VideoAdapter(listOf(property.video!!))
+            val videoAdapter = VideoAdapter(listVideos)
+           // val videoAdapter = VideoAdapter(listOf("https://www.youtube.com/watch?v=Hi7Rx3En7-k","https://www.youtube.com/watch?v=Hi7Rx3En7-k"))
             recyclerView.adapter = videoAdapter
         }
 

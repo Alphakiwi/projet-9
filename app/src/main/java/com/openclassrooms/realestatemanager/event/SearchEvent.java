@@ -31,7 +31,7 @@ public class SearchEvent {
 
     public SearchEvent( String type, String priceMin, String bedMin, String bathMin, String surfaceMin, String pieceMin, String priceMax, String bedMax, String bathMax, String surfaceMax, String pieceMax, String descript, String ville, String address, String proximity, String statu, String startDate, String sellingDate, String agent, String isDollar) {
 
-        this.type        = type           ;
+       /* this.type        = type           ;
         this.priceMin    = priceMin   ;
         this.bedMin      =   bedMin     ;
         this.bathMin     =   bathMin    ;
@@ -50,7 +50,7 @@ public class SearchEvent {
         this.startDate   =   startDate  ;
         this.sellingDate =   sellingDate;
         this.agent       =   agent      ;
-        this.isDollar    =   isDollar   ;
+        this.isDollar    =   isDollar   ;*/
 
 
 

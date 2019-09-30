@@ -234,7 +234,7 @@ class MyResearchFragment : DialogFragment() {
 
 
 
-                EventBus.getDefault().post(SearchEvent(_type,  _priceMin,  _bedMin,  _bathMin,  _surfaceMin,  _pieceMin,  _priceMax ,  _bedMax,  _bathMax,  _surfaceMax,  _pieceMax,  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate,  _sellingDate,  _agent,  _isDollar))
+            //    EventBus.getDefault().post(SearchEvent(_type,  _priceMin,  _bedMin,  _bathMin,  _surfaceMin,  _pieceMin,  _priceMax ,  _bedMax,  _bathMax,  _surfaceMax,  _pieceMax,  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate,  _sellingDate,  _agent,  _isDollar))
                 dismiss()
 
 

@@ -12,13 +12,17 @@ import org.greenrobot.eventbus.EventBus
 
 import java.util.*
 import android.app.DatePickerDialog
+import android.provider.MediaStore
 import android.widget.*
 import com.openclassrooms.realestatemanager.CameraActivity
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.event.AddEvent
+import com.openclassrooms.realestatemanager.event.AddVideoEvent
+import com.openclassrooms.realestatemanager.event.DeleteVideoEvent
 import com.openclassrooms.realestatemanager.event.ModifyEvent
 import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Property
+import com.openclassrooms.realestatemanager.model.Video_property
 import com.openclassrooms.realestatemanager.utils.Utils.getTodayDate2
 import kotlinx.android.synthetic.main.fragment_sample_dialog.*
 
@@ -28,6 +32,8 @@ class MyAddFragment : DialogFragment() {
     val photoList  = ArrayList<Image_property>()
     lateinit var nb_photo : TextView
     var modify : Property? = null
+    var videoList  : ArrayList<Video_property>? = null
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,6 +42,7 @@ class MyAddFragment : DialogFragment() {
 
         if (getArguments()!=null) {
             modify = getArguments().getParcelable<Property>("CreateOrModify");
+            videoList = getArguments().getSerializable("Videos") as ArrayList<Video_property>?
         }
 
         val add = rootView.findViewById<Button>(R.id.add)
@@ -105,17 +112,19 @@ class MyAddFragment : DialogFragment() {
            // for (photo in modify!!.photo){ photoList.add(photo) }
             photo.setText("Supprimer les photos")
 
-            if ( modify!!.video != null) {
+            if ( videoList!! != null) {
 
                 var youtubeString = ""
 
-                for (video in modify!!.video!!) {
-                    youtubeString += video + ","
+                for (video in videoList!!) {
+                    if (modify!!.id == video.id_property) {
+                        youtubeString += video.video + ","
+                    }
                 }
 
-              //  if(youtubeString.>2) {
+                if(youtubeString.length>2) {
                 youtube.text = youtubeString.substring(0, youtubeString.length - 1)
-              //  }
+                }
 
 
             }
@@ -191,7 +200,7 @@ class MyAddFragment : DialogFragment() {
 
                     //val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
 
-                    val youtubeVideos = Vector<String>()
+                val youtubeVideos = Vector<String>()
 
                 if (youtube.text.toString().length > 2) {
                     val strings = youtube.text.toString().split(",")
@@ -203,16 +212,23 @@ class MyAddFragment : DialogFragment() {
 
 
 
-                    if (youtube.text.toString().length < 2) {
-                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList.get(0).image, null, ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2,dateSelling, agent.text.toString(), dollarEuro)
-                        sendEvent(property)
-                    } else {
-                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(),  photoList.get(0).image , youtubeVideos.get(0), ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro)
-                        sendEvent(property)
+
+                val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(),  photoList.get(0).image , ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro)
+                sendEvent(property)
+
+                if (modify != null) {
+                    for (vidDelete in videoList!!) {
+                        if (vidDelete.id_property == modify!!.id) {
+                            EventBus.getDefault().post(DeleteVideoEvent(vidDelete))
+                        }
                     }
+                }
 
+                for (vid in youtubeVideos) {
+                    EventBus.getDefault().post(AddVideoEvent(Video_property(0,nb_alea,vid)))
+                }
 
-                    dismiss()
+                dismiss()
 
 
 
@@ -239,10 +255,6 @@ class MyAddFragment : DialogFragment() {
 
 
         }
-
-
-
-
 
 
 
@@ -274,7 +286,6 @@ class MyAddFragment : DialogFragment() {
              EventBus.getDefault().post(AddEvent(property))
          }else{
              Toast.makeText(context, "Le bien à bien été modifié", Toast.LENGTH_SHORT).show()
-             EventBus.getDefault().post(ModifyEvent(property))
          }
 
 

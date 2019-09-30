@@ -22,10 +22,6 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
-import com.openclassrooms.realestatemanager.event.AddEvent
-import com.openclassrooms.realestatemanager.event.DetailEvent
-import com.openclassrooms.realestatemanager.event.ModifyEvent
-import com.openclassrooms.realestatemanager.event.SearchEvent
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
@@ -35,6 +31,8 @@ import com.openclassrooms.realestatemanager.fragment.*
 
 import com.openclassrooms.realestatemanager.database.injections.Injection
 import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel
+import com.openclassrooms.realestatemanager.event.*
+import com.openclassrooms.realestatemanager.model.Video_property
 
 
 class MainActivity() : AppCompatActivity(), LocationListener{
@@ -65,6 +63,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     private val firstFragment = MapFragment()
     private var propertyViewModel: PropertyViewModel? = null
     var properties = ArrayList<Property>()
+    var videos = ArrayList<Video_property>()
+
     lateinit var button :FloatingActionButton
 
 
@@ -100,14 +100,18 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
         }
 
-        var appart =  Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg", "https://www.youtube.com/watch?v=Vg729rnWsm0", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro");
+        var appart =  Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro");
+        var video = Video_property(1,2,"https://www.youtube.com/watch?v=Vg729rnWsm0")
 
         properties.add(appart)
+        videos.add(video)
 
         configureViewModel()
         getProperties()
+        getVideos()
 
         lastProperty = properties.get(0);
+
 
 
         val args = Bundle()
@@ -203,6 +207,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
                 val args = Bundle()
                 args.putParcelable("CreateOrModify", lastProperty )
+                args.putSerializable("Videos", videos)
                 dialogFragment.arguments = args
 
                 return true
@@ -242,6 +247,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         val args = Bundle()
         args.putParcelable("property", event.property)
         args.putSerializable("properties", properties)
+        args.putSerializable("Videos", videos)
         detailFragment.setArguments(args)
 
         lastProperty = event.property
@@ -263,15 +269,29 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         getProperties()
     }
 
+    @Subscribe
+    fun onAddVideo(event: AddVideoEvent) {
+
+        propertyViewModel!!.createVideo(event.video)
+        getVideos()
+    }
 
     @Subscribe
+    fun onDeleteVideo(event: DeleteVideoEvent) {
+
+        propertyViewModel!!.deleteVideo(event.video.id)
+        getVideos()
+    }
+
+
+ /*   @Subscribe
     fun onSearch(event: SearchEvent) {
         propertyViewModel!!.findCorrectProperties(event.type,event.priceMin, event.bedMin, event.bathMin, event.surfaceMin, event.pieceMin,
                 event.priceMax, event.bedMax,  event.bathMax,  event.surfaceMax,  event.pieceMax, event.descript,  event.ville,
                 event.address,  event.proximity, event.statu,  event.startDate, event.sellingDate, event.agent, event.isDollar)
                 .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList2(listProperty)} )
 
-    }
+    }*/
 
     @Subscribe
     fun onModify(event: ModifyEvent) {
@@ -311,6 +331,18 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment).commit()
         listFragment.adapter.updateData(properties)
         button.setVisibility(GONE)
+    }
+
+    private fun getVideos() {
+        propertyViewModel!!.videos.observe(this, Observer<List<Video_property>> {  listVideo: List<Video_property> -> updateVideosList(listVideo)} )
+    }
+
+    private fun updateVideosList(listVideos: List<Video_property>) {
+
+        videos.clear()
+        for (video in listVideos as ArrayList<Video_property>){
+            videos.add(video)
+        }
     }
 
     private fun configureViewModel() {
