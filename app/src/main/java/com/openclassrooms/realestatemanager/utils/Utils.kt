@@ -25,6 +25,12 @@ object Utils {
             return dateFormat.format(Date())
         }
 
+    val getTodayDate2: String
+        get() {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            return dateFormat.format(Date())
+        }
+
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE

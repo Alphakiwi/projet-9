@@ -13,6 +13,7 @@ import android.widget.*
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.event.SearchEvent
 import com.openclassrooms.realestatemanager.model.Property
+import kotlinx.android.synthetic.main.fragment_research_dialog.*
 
 
 class MyResearchFragment : DialogFragment() {
@@ -22,6 +23,27 @@ class MyResearchFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_research_dialog, container, false)
         dialog.setTitle("Rechercher des biens !")
+
+        var _type ="%%"
+        var _priceMin = "0"
+        var _bedMin = "0"
+        var _bathMin = "0"
+        var _surfaceMin = "0"
+        var _pieceMin = "0"
+        var _priceMax = "999999999"
+        var _bedMax = "999999999"
+        var _bathMax = "999999999"
+        var _surfaceMax = "999999999"
+        var _pieceMax = "999999999"
+        var _descript ="%%"
+        var _ville ="%%"
+        var _address ="%%"
+        var _proximity ="%%"
+        var _statu ="%%"
+        var _startDate ="0000-01-01"
+        var _sellingDate = "0000-01-01"
+        var _agent ="%%"
+        var _isDollar ="%%"
 
 
         val args = arguments
@@ -124,103 +146,98 @@ class MyResearchFragment : DialogFragment() {
 
         research.setOnClickListener {
 
-            for (property in propertiesCopy) {
 
                 if (switchStatut.isChecked()) {
 
-                    if (property.status != spinnerStatut.getSelectedItem() as String){
-                        properties.remove(property)
-                        //Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                    _statu = spinnerStatut.getSelectedItem() as String
 
-                    }
                 }
 
                 if (switchType.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+
+                    _type = spinnerType.getSelectedItem() as String
                 }
 
                 if (switchMoney.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+
+                    _isDollar = spinnerMoney.getSelectedItem() as String
                 }
 
 
                 if (switchPrice.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+
+                    _priceMin = prixMin.text.toString()
+                    _priceMax = prixMax.text.toString()
                 }
 
                 if (switchBed.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                    _bedMin = bedMin.text.toString()
+                    _bedMax = bedMax.text.toString()
                 }
 
                 if (switchBath.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                    _bathMin = bathMin.text.toString()
+                    _bathMax = bathMax.text.toString()
                 }
 
                 if (switchSurface.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                    _surfaceMin = surfaceMin.text.toString()
+                    _surfaceMax = surfaceMax.text.toString()
                 }
 
                 if (switchNbPiece.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                    _pieceMin = nb_piece_min.text.toString()
+                    _pieceMax = nb_piece_max.text.toString()
                 }
 
                 if (switchVille.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                    _ville =  "%" + ville.text.toString() + "%"
                 }
 
-
                 if (switchAdress.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                    _address = "%" + address.text.toString() + "%"
                 }
 
                 if (switchAgent.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                    _agent = "%" + agent.text.toString() + "%"
                 }
 
                 if (switchProximity.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+                    _proximity = "%" + proximity.text.toString() + "%"
                 }
 
 
-                if (switchYoutube.isChecked()) {
+                /*if (switchYoutube.isChecked()) {
                     Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
-                }
+                }*/
 
                 if (switchDescription.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+
+                    _descript = "%" + description.text.toString() +  "%"
                 }
 
-                if (switchPhoto.isChecked()) {
+                /*if (switchPhoto.isChecked()) {
                     Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
-                }
+                }*/
 
                 if (switchStart.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+
+                    _startDate = startDate.text.toString()
                 }
 
                 if (switchSelling.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
+
+                    _sellingDate = sellingDate.text.toString()
                 }
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-                EventBus.getDefault().post(SearchEvent(properties))
+                EventBus.getDefault().post(SearchEvent(_type,  _priceMin,  _bedMin,  _bathMin,  _surfaceMin,  _pieceMin,  _priceMax ,  _bedMax,  _bathMax,  _surfaceMax,  _pieceMax,  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate,  _sellingDate,  _agent,  _isDollar))
                 dismiss()
 
-            }
+
         }
 
 

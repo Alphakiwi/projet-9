@@ -19,6 +19,7 @@ import com.openclassrooms.realestatemanager.event.AddEvent
 import com.openclassrooms.realestatemanager.event.ModifyEvent
 import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Property
+import com.openclassrooms.realestatemanager.utils.Utils.getTodayDate2
 import kotlinx.android.synthetic.main.fragment_sample_dialog.*
 
 
@@ -73,7 +74,11 @@ class MyAddFragment : DialogFragment() {
             proximity.text = modify!!.proximity
             description.text = modify!!.description
            // nb_photo.text = modify!!.photo.size.toString()
-            date.text =  modify!!.selling_date
+
+
+           if  (modify!!.selling_date!!.compareTo("0000-01-02") != 0) {
+               date.text = modify!!.selling_date
+           }
 
             if(modify!!.priceIsDollar.compareTo("Dollar")==0){
                 dialogSpinnerMoney.setSelection(1)
@@ -140,6 +145,12 @@ class MyAddFragment : DialogFragment() {
             datePickerDialog.show()
         })
 
+        var dateSelling =  "0000-01-02"
+
+        if (date.text.toString().length>9){
+            dateSelling = date.text.toString()
+        }
+
 
 
 
@@ -193,10 +204,10 @@ class MyAddFragment : DialogFragment() {
 
 
                     if (youtube.text.toString().length < 2) {
-                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList.get(0).image, null, ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), photoList.get(0).image, null, ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2,dateSelling, agent.text.toString(), dollarEuro)
                         sendEvent(property)
                     } else {
-                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(),  photoList.get(0).image , youtubeVideos.get(0), ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate, date.text.toString(), agent.text.toString(), dollarEuro)
+                        val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(),  photoList.get(0).image , youtubeVideos.get(0), ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro)
                         sendEvent(property)
                     }
 

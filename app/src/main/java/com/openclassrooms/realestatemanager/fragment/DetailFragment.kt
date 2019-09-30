@@ -95,7 +95,7 @@ class DetailFragment : Fragment() {
 
 
         var soldate = " "
-        if (property!!.selling_date != null) {
+        if (property!!.selling_date!!.compareTo("0000-01-02")!= 0) {
             soldate += property.selling_date
         }
 

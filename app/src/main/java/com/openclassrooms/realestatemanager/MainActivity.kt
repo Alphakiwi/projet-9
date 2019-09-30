@@ -122,11 +122,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
         button.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View) {
-
-                fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
-                button.setVisibility(GONE)
-
-
+                getProperties()
             }
         })
 
@@ -267,16 +263,14 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         getProperties()
     }
 
+
     @Subscribe
     fun onSearch(event: SearchEvent) {
+        propertyViewModel!!.findCorrectProperties(event.type,event.priceMin, event.bedMin, event.bathMin, event.surfaceMin, event.pieceMin,
+                event.priceMax, event.bedMax,  event.bathMax,  event.surfaceMax,  event.pieceMax, event.descript,  event.ville,
+                event.address,  event.proximity, event.statu,  event.startDate, event.sellingDate, event.agent, event.isDollar)
+                .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList2(listProperty)} )
 
-        var listFragment2 = ListFragment()
-        val args = Bundle()
-        args.putSerializable("properties", event.properties)
-        listFragment2.setArguments(args)
-
-        button.setVisibility(VISIBLE)
-        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
     }
 
     @Subscribe
@@ -297,6 +291,16 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         propertyViewModel!!.properties.observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList(listProperty)} )
     }
 
+    private fun updatePropertiesList2(listProperty: List<Property>) {
+
+        properties.clear()
+        for (property in listProperty as ArrayList<Property>){
+            properties.add(property)
+        }
+        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment).commit()
+        listFragment.adapter.updateData(properties)
+        button.setVisibility(VISIBLE)
+    }
 
     private fun updatePropertiesList(listProperty: List<Property>) {
 
@@ -369,7 +373,6 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
-
 
 }
 
