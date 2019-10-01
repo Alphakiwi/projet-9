@@ -16,10 +16,7 @@ import android.provider.MediaStore
 import android.widget.*
 import com.openclassrooms.realestatemanager.CameraActivity
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.event.AddEvent
-import com.openclassrooms.realestatemanager.event.AddVideoEvent
-import com.openclassrooms.realestatemanager.event.DeleteVideoEvent
-import com.openclassrooms.realestatemanager.event.ModifyEvent
+import com.openclassrooms.realestatemanager.event.*
 import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Video_property
@@ -33,6 +30,7 @@ class MyAddFragment : DialogFragment() {
     lateinit var nb_photo : TextView
     var modify : Property? = null
     var videoList  : ArrayList<Video_property>? = null
+    var imageList  : ArrayList<Image_property>? = null
 
 
 
@@ -43,6 +41,7 @@ class MyAddFragment : DialogFragment() {
         if (getArguments()!=null) {
             modify = getArguments().getParcelable<Property>("CreateOrModify");
             videoList = getArguments().getSerializable("Videos") as ArrayList<Video_property>?
+            imageList  = getArguments().getSerializable("Images") as ArrayList<Image_property>?
         }
 
         val add = rootView.findViewById<Button>(R.id.add)
@@ -80,12 +79,11 @@ class MyAddFragment : DialogFragment() {
             agent.text = modify!!.estate_agent
             proximity.text = modify!!.proximity
             description.text = modify!!.description
-           // nb_photo.text = modify!!.photo.size.toString()
 
 
-           if  (modify!!.selling_date!!.compareTo("0000-01-02") != 0) {
+         /*  if  (modify!!.selling_date!!.compareTo("0000-01-02") != 0) {
                date.text = modify!!.selling_date
-           }
+           }*/
 
             if(modify!!.priceIsDollar.compareTo("Dollar")==0){
                 dialogSpinnerMoney.setSelection(1)
@@ -109,7 +107,19 @@ class MyAddFragment : DialogFragment() {
                 dialogSpinnerType.setSelection(5)
             }
 
-           // for (photo in modify!!.photo){ photoList.add(photo) }
+            if ( imageList != null) {
+                for (image in imageList!!) {
+                    if (modify!!.id == image.id_property) {
+                        photoList.add(image)
+                    }
+                }
+                nb_photo.text = photoList.size.toString()
+
+            }
+
+
+
+                // for (photo in modify!!.photo){ photoList.add(photo) }
             photo.setText("Supprimer les photos")
 
             if ( videoList!! != null) {
@@ -213,7 +223,7 @@ class MyAddFragment : DialogFragment() {
 
 
 
-                val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(),  photoList.get(0).image , ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro)
+                val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro)
                 sendEvent(property)
 
                 if (modify != null) {
@@ -241,15 +251,26 @@ class MyAddFragment : DialogFragment() {
 
             if(photo.text.toString().compareTo("Supprimer les photos")==0){
                 photo.text = "Ajouter une photo"
+
+                for (photo in photoList!!) {
+                    EventBus.getDefault().post(DeleteImageEvent(photo))
+                }
+
                 photoList.clear()
                 nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
 
             }else {
 
+                val property = Property(nb_alea, "test", 0, 0,0, 0, 0, "", "", "", "", "", getTodayDate2, ""," ", "test")
+
                 val intent = Intent(context, CameraActivity::class.java)
                 intent.putExtra("listPhoto", ArrayList<Image_property>())
 
-                startActivityForResult(intent, 0)
+                if(modify==null) {
+                    EventBus.getDefault().post(AddEvent(property))
+                }
+                intent.putExtra("id", nb_alea )
+                startActivityForResult(intent,0)
             }
 
 
@@ -286,6 +307,7 @@ class MyAddFragment : DialogFragment() {
              EventBus.getDefault().post(AddEvent(property))
          }else{
              Toast.makeText(context, "Le bien à bien été modifié", Toast.LENGTH_SHORT).show()
+             EventBus.getDefault().post(ModifyEvent(property))
          }
 
 

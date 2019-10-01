@@ -4,6 +4,7 @@ import android.content.Context;
 
 
 import com.openclassrooms.realestatemanager.database.database.SaveMyData;
+import com.openclassrooms.realestatemanager.database.repositories.ImageDataRepository;
 import com.openclassrooms.realestatemanager.database.repositories.PropertyDataRepository;
 import com.openclassrooms.realestatemanager.database.repositories.VideoDataRepository;
 
@@ -24,12 +25,18 @@ public class Injection {
         return new VideoDataRepository(database.videoDao());
     }
 
+    public static ImageDataRepository provideImageDataSource(Context context) {
+        SaveMyData database = SaveMyData.getInstance(context);
+        return new ImageDataRepository(database.imageDao());
+    }
+
     public static Executor provideExecutor(){ return Executors.newSingleThreadExecutor(); }
 
     public static ViewModelFactory provideViewModelFactory(Context context) {
         PropertyDataRepository dataSourceItem = provideItemDataSource(context);
         VideoDataRepository videoSourceItem = provideVideoDataSource(context);
+        ImageDataRepository imageSourceItem = provideImageDataSource(context);
         Executor executor = provideExecutor();
-        return new ViewModelFactory(dataSourceItem, videoSourceItem, executor);
+        return new ViewModelFactory(dataSourceItem, videoSourceItem, imageSourceItem, executor);
     }
 }

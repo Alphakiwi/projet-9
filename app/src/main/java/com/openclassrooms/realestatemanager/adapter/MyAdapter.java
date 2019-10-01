@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.event.DetailEvent;
+import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.model.Property;
 import com.openclassrooms.realestatemanager.R;
 
@@ -29,14 +30,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     Context context;
     ArrayList<Property> properties ;
+    ArrayList<Image_property> images ;
     LinearLayout previousSelected = null;
 
 
 
 
-    public MyAdapter(Context c, ArrayList<Property> p){
+    public MyAdapter(Context c, ArrayList<Property> p, ArrayList<Image_property> i){
         context = c;
         properties = p;
+        images = i;
     }
 
     @NonNull
@@ -63,6 +66,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.price.setText(String.valueOf(properties.get(position).getPrice()) + " €");
         }
 
+        ArrayList<String> listImages = new ArrayList<String>();
+
+        if (images != null) {
+            for ( Image_property image : images ) {
+                if (properties.get(position).getId() ==  image.getId_property() ) {
+                    listImages.add(image.getImage());
+                }
+            }
+        }
 
 
         holder.root.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +97,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
                 Glide.with(holder.avatar.getContext())
-                        .load(properties.get(position).getPhoto()/*.get(0).getImage()*/)
+                        .load(listImages.get(0))
                         //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                         .apply(RequestOptions.circleCropTransform())
                         .into(holder.avatar);
@@ -104,7 +116,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
         Glide.with(holder.avatar.getContext())
-                .load(properties.get(position).getPhoto()/*.get(0).getImage()*/)
+                .load(listImages.get(0))
                 //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.avatar);

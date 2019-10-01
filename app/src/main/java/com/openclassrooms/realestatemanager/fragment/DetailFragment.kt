@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.adapter.ImageAdapter
 import com.openclassrooms.realestatemanager.adapter.VideoAdapter
+import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Video_property
 import java.io.IOException
@@ -60,6 +61,8 @@ class DetailFragment : Fragment() {
         val property = args!!.getParcelable<Parcelable>("property") as Property?
         val properties = args.getSerializable("properties") as ArrayList<Property>?
         val videos = args.getSerializable("Videos") as ArrayList<Video_property>?
+        val images = args.getSerializable("Images") as ArrayList<Image_property>?
+
 
 
         if (Geocoder.isPresent()) {
@@ -145,21 +148,33 @@ class DetailFragment : Fragment() {
         }
 
 
+        var listImages = ArrayList<String>()
+        var listDescription = ArrayList<String>()
+
+        if (images != null) {
+            for (image in images!!) {
+                if (property.id ==  image.id_property ) {
+                    listImages.add(image.image)
+                    listDescription.add(image.description)
+                }
+            }
+        }
+
         val gallery = myView.findViewById<View>(R.id.gallery1) as Gallery
-        gallery.adapter = ImageAdapter(mContext!!, listOf(property.photo))
+        gallery.adapter = ImageAdapter(mContext!!, listImages)
         val imageView = myView.findViewById<View>(R.id.imageAvatar) as ImageView
 
         Glide.with(mContext!!)
-                .load(property.photo/*[0].image*/)
+                .load(listImages!!.get(0))
                 //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                 .into(imageView)
 
         gallery.onItemClickListener = AdapterView.OnItemClickListener { parent, v, position, id ->
-            /*Toast.makeText(mContext, property.photo[position].descript,
-                    Toast.LENGTH_SHORT).show()*/
+            Toast.makeText(mContext, listDescription.get(position),
+                    Toast.LENGTH_SHORT).show()
             // display the images selected
             Glide.with(mContext!!)
-                    .load(property.photo/*[position].image*/)
+                    .load(listImages!!.get(position))
                     .into(imageView)
         }
 

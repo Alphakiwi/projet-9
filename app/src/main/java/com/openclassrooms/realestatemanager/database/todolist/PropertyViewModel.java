@@ -5,8 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.openclassrooms.realestatemanager.database.repositories.ImageDataRepository;
 import com.openclassrooms.realestatemanager.database.repositories.PropertyDataRepository;
 import com.openclassrooms.realestatemanager.database.repositories.VideoDataRepository;
+import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.model.Property;
 import com.openclassrooms.realestatemanager.model.Video_property;
 
@@ -18,6 +20,8 @@ public class PropertyViewModel extends ViewModel {
     // REPOSITORIES
     private final PropertyDataRepository propertyDataSource;
     private final VideoDataRepository videoDataSource;
+    private final ImageDataRepository imageDataSource;
+
 
     private final Executor executor;
 
@@ -25,9 +29,10 @@ public class PropertyViewModel extends ViewModel {
     @Nullable
     private LiveData<List<Property>> currentProperties;
 
-    public PropertyViewModel(PropertyDataRepository propertyDataSource, VideoDataRepository videoDataSource, Executor executor) {
+    public PropertyViewModel(PropertyDataRepository propertyDataSource, VideoDataRepository videoDataSource, ImageDataRepository imageDataSource, Executor executor) {
         this.propertyDataSource = propertyDataSource;
         this.videoDataSource = videoDataSource;
+        this.imageDataSource = imageDataSource;
         this.executor = executor;
     }
 
@@ -59,6 +64,31 @@ public class PropertyViewModel extends ViewModel {
             videoDataSource.deleteVideo(videoId);
         });
     }
+
+
+
+    public LiveData<List<Image_property>> getImages() {
+        return imageDataSource.getImages() ;
+
+    }
+
+    public void createImage(Image_property image) {
+        executor.execute(() -> {
+            imageDataSource.createImage(image);
+        });
+    }
+
+    public void deleteImage(int imageId) {
+        executor.execute(() -> {
+            imageDataSource.deleteImage(imageId);
+        });
+    }
+
+
+
+
+
+
 
    // public LiveData<List<Property>> findCorrectProperties(String type, String priceMin, String bedMin, String bathMin, String surfaceMin, String pieceMin, String priceMax, String bedMax, String bathMax, String surfaceMax, String pieceMax, String descript, String ville, String address, String proximity, String statu, String startDate, String sellingDate, String agent, String isDollar) {
    //     return propertyDataSource.findCorrectProperties( type, priceMin, bedMin,bathMin,  surfaceMin, pieceMin,  priceMax,  bedMax,  bathMax, surfaceMax,  pieceMax, descript,  ville,  address,  proximity,  statu,  startDate,  sellingDate, agent,  isDollar) ;

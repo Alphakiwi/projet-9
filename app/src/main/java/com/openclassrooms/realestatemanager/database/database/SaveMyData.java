@@ -23,7 +23,7 @@ import java.util.Vector;
 
 import javax.security.auth.callback.Callback;
 
-@Database(entities = { Property.class, Video_property.class},
+@Database(entities = { Property.class, Video_property.class, Image_property.class},
         version = 1, exportSchema = false)
 public abstract class SaveMyData extends RoomDatabase {
 
@@ -33,6 +33,8 @@ public abstract class SaveMyData extends RoomDatabase {
     // --- DAO ---
     public abstract PropertyDao propertyDao();
     public abstract VideoPropertyDao videoDao();
+    public abstract ImagePropertyDao imageDao();
+
 
     // --- INSTANCE ---
     public static SaveMyData getInstance(Context context) {
@@ -41,7 +43,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.
                                     getApplicationContext(),
-                            SaveMyData.class, "Database5.db")
+                            SaveMyData.class, "Database11.db")
                             .addCallback(prepopulateDatabase())
                             .build();
                 }
@@ -70,7 +72,6 @@ public abstract class SaveMyData extends RoomDatabase {
                 contentValues.put("surface", 135);
                 contentValues.put("nb_piece", 4);
                 contentValues.put("description", "Belle maison");
-                contentValues.put("photo", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg");
                 contentValues.put("ville", "Lille");
                 contentValues.put("address", "27 Rue Nationale, 59000 Lille");
                 contentValues.put("proximity", "école, métro");
@@ -79,6 +80,19 @@ public abstract class SaveMyData extends RoomDatabase {
                 contentValues.put("selling_date", "28/06/1999");
                 contentValues.put("estate_agent", "Denis");
                 contentValues.put("priceIsDollar", "Euro");
+
+
+                db.insert("Property", OnConflictStrategy.IGNORE, contentValues);
+
+                ContentValues contentValuesPHOTO = new ContentValues();
+                contentValuesPHOTO.put("id", 1);
+                contentValuesPHOTO.put("id_property", 1);
+                contentValuesPHOTO.put("image", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg");
+                contentValuesPHOTO.put("description", "jolie");
+
+
+
+                db.insert("Image_property", OnConflictStrategy.IGNORE, contentValuesPHOTO);
 
                 db.insert("Property", OnConflictStrategy.IGNORE, contentValues);
 
@@ -91,7 +105,6 @@ public abstract class SaveMyData extends RoomDatabase {
                 contentValues2.put("surface", 135);
                 contentValues2.put("nb_piece", 4);
                 contentValues2.put("description", "Bel Appartment");
-                contentValues2.put("photo", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg");
                 contentValues2.put("ville", "Villeneuve-d'Ascq");
                 contentValues2.put("address", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq");
                 contentValues2.put("proximity", "école, métro");
@@ -102,6 +115,25 @@ public abstract class SaveMyData extends RoomDatabase {
                 contentValues2.put("priceIsDollar", "Euro");
 
                 db.insert("Property", OnConflictStrategy.IGNORE, contentValues2);
+
+                ContentValues contentValuesPHOTO2 = new ContentValues();
+                contentValuesPHOTO2.put("id", 2);
+                contentValuesPHOTO2.put("id_property", 2);
+                contentValuesPHOTO2.put("image", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg");
+                contentValuesPHOTO2.put("description", "maison");
+
+                db.insert("Image_property", OnConflictStrategy.IGNORE, contentValuesPHOTO2);
+
+
+                ContentValues contentValuesPHOTO3 = new ContentValues();
+                contentValuesPHOTO3.put("id", 3);
+                contentValuesPHOTO3.put("id_property", 2);
+                contentValuesPHOTO3.put("image", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg");
+                contentValuesPHOTO3.put("description", "yo");
+
+
+
+                db.insert("Image_property", OnConflictStrategy.IGNORE, contentValuesPHOTO3);
 
             }
         };

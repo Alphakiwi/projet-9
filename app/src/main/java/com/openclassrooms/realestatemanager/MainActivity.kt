@@ -32,6 +32,7 @@ import com.openclassrooms.realestatemanager.fragment.*
 import com.openclassrooms.realestatemanager.database.injections.Injection
 import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel
 import com.openclassrooms.realestatemanager.event.*
+import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Video_property
 
 
@@ -64,6 +65,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     private var propertyViewModel: PropertyViewModel? = null
     var properties = ArrayList<Property>()
     var videos = ArrayList<Video_property>()
+    var images = ArrayList<Image_property>()
 
     lateinit var button :FloatingActionButton
 
@@ -100,15 +102,21 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
         }
 
-        var appart =  Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro");
+        var appart =  Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro");
         var video = Video_property(1,2,"https://www.youtube.com/watch?v=Vg729rnWsm0")
+        var image = Image_property(1,2, "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg", "chambre")
+        var image2 = Image_property(1,1, "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg", "chambre")
+
 
         properties.add(appart)
         videos.add(video)
+        images.add(image)
+        images.add(image2)
 
         configureViewModel()
         getProperties()
         getVideos()
+        getImages()
 
         lastProperty = properties.get(0);
 
@@ -116,6 +124,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
         val args = Bundle()
         args.putSerializable("properties", properties)
+        args.putSerializable("Images", images)
         listFragment.setArguments(args)
 
         fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
@@ -189,6 +198,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                 var listFragment2 = ListFragment()
                 val args = Bundle()
                 args.putSerializable("properties", properties)
+                args.putSerializable("Images", images)
                 listFragment2.setArguments(args)
                 fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
 
@@ -208,6 +218,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                 val args = Bundle()
                 args.putParcelable("CreateOrModify", lastProperty )
                 args.putSerializable("Videos", videos)
+                args.putSerializable("Images", images)
+
                 dialogFragment.arguments = args
 
                 return true
@@ -248,6 +260,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         args.putParcelable("property", event.property)
         args.putSerializable("properties", properties)
         args.putSerializable("Videos", videos)
+        args.putSerializable("Images", images)
         detailFragment.setArguments(args)
 
         lastProperty = event.property
@@ -283,6 +296,12 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         getVideos()
     }
 
+    @Subscribe
+    fun onDeleteImage(event: DeleteImageEvent) {
+
+        propertyViewModel!!.deleteImage(event.image.id)
+        getImages()
+    }
 
  /*   @Subscribe
     fun onSearch(event: SearchEvent) {
@@ -342,6 +361,18 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         videos.clear()
         for (video in listVideos as ArrayList<Video_property>){
             videos.add(video)
+        }
+    }
+
+    private fun getImages() {
+        propertyViewModel!!.images.observe(this, Observer<List<Image_property>> {  listImage: List<Image_property> -> updateImagesList(listImage)} )
+    }
+
+    private fun updateImagesList(listImage: List<Image_property>) {
+
+        images.clear()
+        for (image in listImage as ArrayList<Image_property>){
+            images.add(image)
         }
     }
 

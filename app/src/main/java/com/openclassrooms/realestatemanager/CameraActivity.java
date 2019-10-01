@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
 import android.content.Intent;
@@ -26,7 +27,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.openclassrooms.realestatemanager.database.injections.Injection;
+import com.openclassrooms.realestatemanager.database.injections.ViewModelFactory;
+import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel;
 import com.openclassrooms.realestatemanager.model.Image_property;
+import com.openclassrooms.realestatemanager.model.Property;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -48,6 +53,9 @@ public class CameraActivity extends AppCompatActivity {
     Uri downloadUrl;
     FirebaseStorage storage;
     StorageReference storageReference;
+    int id_property;
+
+    private PropertyViewModel propertyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +65,11 @@ public class CameraActivity extends AppCompatActivity {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
+        configureViewModel();
 
         Intent i = getIntent();
         photoList = i.getParcelableArrayListExtra("listPhoto");
+        id_property = i.getIntExtra("id",0);
 
         takePictureButton = (Button) findViewById(R.id.button_image);
         chooseButton = (Button) findViewById(R.id.button_choose);
@@ -172,7 +182,9 @@ public class CameraActivity extends AppCompatActivity {
 
             if( downloadUrl!= null) {
                 if (!descrPhoto.getText().toString().trim().isEmpty()) {
-                    photoList.add(new Image_property(downloadUrl.toString(), descrPhoto.getText().toString()));
+                    photoList.add(new Image_property(0,id_property,downloadUrl.toString(), descrPhoto.getText().toString()));
+
+                    propertyViewModel.createImage(new Image_property(0,id_property,downloadUrl.toString(), descrPhoto.getText().toString()));
                     i2.putExtra("listPhoto", photoList);
                     this.setResult(1, i2);
                     this.finish();
@@ -190,11 +202,11 @@ public class CameraActivity extends AppCompatActivity {
 
     public void cancelThis (View view){
 
-        Intent i2 = new Intent();
+       /* Intent i2 = new Intent();
 
 
         i2.putExtra("listPhoto",new ArrayList<Image_property>());
-        this.setResult(1, i2);
+        this.setResult(1, i2);*/
         this.finish();
     }
 
@@ -253,26 +265,14 @@ public class CameraActivity extends AppCompatActivity {
                 });
     }
 
-    private void uploadImage() {
 
-        if(file != null)
-        {
 
-            StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
-            ref.putFile(file)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(CameraActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CameraActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
+    private void configureViewModel(){
+        ViewModelFactory mViewModelFactory = Injection.
+                provideViewModelFactory(this);
+        this.propertyViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PropertyViewModel.class);
+        this.propertyViewModel.init();
+
     }
 
 

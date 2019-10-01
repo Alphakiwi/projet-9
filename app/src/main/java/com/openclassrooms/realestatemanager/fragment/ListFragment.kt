@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.adapter.MyAdapter
+import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Property
 
 
@@ -40,11 +41,12 @@ class ListFragment : Fragment() {
 
         val args = arguments
         val properties = args?.getSerializable("properties") as ArrayList<Property>
+        val images = args.getSerializable("Images") as ArrayList<Image_property>?
 
 
         val recyclerView = myView.findViewById<View>(R.id.list) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = MyAdapter(context, properties)
+        adapter = MyAdapter(context, properties, images)
         recyclerView.adapter = adapter
 
 
