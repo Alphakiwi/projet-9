@@ -184,7 +184,7 @@ public class CameraActivity extends AppCompatActivity {
                 if (!descrPhoto.getText().toString().trim().isEmpty()) {
                     photoList.add(new Image_property(0,id_property,downloadUrl.toString(), descrPhoto.getText().toString()));
 
-                    propertyViewModel.createImage(new Image_property(0,id_property,downloadUrl.toString(), descrPhoto.getText().toString()));
+                   // propertyViewModel.createImage(new Image_property(0,id_property,downloadUrl.toString(), descrPhoto.getText().toString()));
                     i2.putExtra("listPhoto", photoList);
                     this.setResult(1, i2);
                     this.finish();
@@ -202,11 +202,11 @@ public class CameraActivity extends AppCompatActivity {
 
     public void cancelThis (View view){
 
-       /* Intent i2 = new Intent();
+        Intent i2 = new Intent();
 
 
         i2.putExtra("listPhoto",new ArrayList<Image_property>());
-        this.setResult(1, i2);*/
+        this.setResult(1, i2);
         this.finish();
     }
 

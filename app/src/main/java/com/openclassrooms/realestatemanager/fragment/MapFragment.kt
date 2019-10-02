@@ -24,7 +24,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Property
+import com.openclassrooms.realestatemanager.model.Video_property
 import java.io.IOException
 
 import java.util.ArrayList
@@ -44,6 +46,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
     private var lng: Double? = null
     private var lat: Double? = null
     private var properties: ArrayList<Property>? = null
+    var videos : ArrayList<Video_property>? = null
+    var images : ArrayList<Image_property>? = null
 
 
     override fun onAttach(context: Context) {
@@ -61,6 +65,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         lat = args!!.getDouble("lat")
         lng = args.getDouble("long")
         properties = args!!.getSerializable("properties") as ArrayList<Property>
+        videos = args.getSerializable("Videos") as ArrayList<Video_property>?
+        images = args.getSerializable("Images") as ArrayList<Image_property>?
 
 
         val button = mView!!.findViewById<View>(R.id.recentrer) as FloatingActionButton
@@ -103,18 +109,24 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
 
 
         mMap!!.setOnInfoWindowClickListener { marker ->
-            val snippet = marker.snippet
+
             val name = marker.title
+
+
+            val comp = name.compareTo("Ici")
+
+            if (comp != 0) {
+
+            val snippet = marker.snippet
             val separated = snippet.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
 
 
 
-            val comp = name.compareTo("Ici")
 
             var propertyThis = properties!![0]
 
-            if (comp != 0) {
+
 
                 val detailFragment = DetailFragment()
                 // Supply index input as an argument.
@@ -127,6 +139,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
                 }
                 args.putParcelable("property", propertyThis)
                 args.putSerializable("properties", properties)
+                args.putSerializable("Videos", videos)
+                args.putSerializable("Images", images)
                 detailFragment.setArguments(args)
 
 

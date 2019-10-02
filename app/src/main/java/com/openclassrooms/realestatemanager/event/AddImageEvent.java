@@ -3,14 +3,14 @@ package com.openclassrooms.realestatemanager.event;
 import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.model.Video_property;
 
-public class DeleteImageEvent {
+public class AddImageEvent {
 
-    public int imageId;
+    public Image_property image;
 
 
-    public DeleteImageEvent(int  imageId) {
+    public AddImageEvent(Image_property image) {
 
-        this.imageId = imageId;
+        this.image = image;
 
 
     }

@@ -164,6 +164,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                     args.putDouble("lat", latitude)
                     args.putDouble("long", longitude)
                     args.putSerializable("properties", properties)
+                    args.putSerializable("Videos", videos)
+                    args.putSerializable("Images", images)
                     firstFragment.setArguments(args)
 
                     if (tabletSize) {
@@ -290,6 +292,13 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     }
 
     @Subscribe
+    fun onAddImage(event: AddImageEvent) {
+
+        propertyViewModel!!.createImage(event.image)
+        getImages()
+    }
+
+    @Subscribe
     fun onDeleteVideo(event: DeleteVideoEvent) {
 
         propertyViewModel!!.deleteVideo(event.video.id)
@@ -299,7 +308,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     @Subscribe
     fun onDeleteImage(event: DeleteImageEvent) {
 
-        propertyViewModel!!.deleteImage(event.image.id)
+        propertyViewModel!!.deleteImage(event.imageId)
         getImages()
     }
 
@@ -374,6 +383,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         for (image in listImage as ArrayList<Image_property>){
             images.add(image)
         }
+
+
     }
 
     private fun configureViewModel() {

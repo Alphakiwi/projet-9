@@ -27,16 +27,20 @@ import kotlinx.android.synthetic.main.fragment_sample_dialog.*
 class MyAddFragment : DialogFragment() {
 
     val photoList  = ArrayList<Image_property>()
+    val photoListStart  = ArrayList<Image_property>()
     lateinit var nb_photo : TextView
     var modify : Property? = null
     var videoList  : ArrayList<Video_property>? = null
     var imageList  : ArrayList<Image_property>? = null
+    var nb_alea = 0
 
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false)
         dialog.setTitle("Ajouter un bien !")
+
+       // setCancelable(false);
 
         if (getArguments()!=null) {
             modify = getArguments().getParcelable<Property>("CreateOrModify");
@@ -66,7 +70,7 @@ class MyAddFragment : DialogFragment() {
         val dialogSpinnerStatu = rootView.findViewById<Spinner>(R.id.spinner_statut)
         val dialogSpinnerType = rootView.findViewById<Spinner>(R.id.spinner_type)
 
-        var nb_alea = (Math.random() * 100000).toInt()
+        nb_alea = (Math.random() * 100000).toInt()
 
         if(modify!=null){
             ville.text = modify!!.ville
@@ -111,6 +115,7 @@ class MyAddFragment : DialogFragment() {
                 for (image in imageList!!) {
                     if (modify!!.id == image.id_property) {
                         photoList.add(image)
+                        photoListStart.add(image)
                     }
                 }
                 nb_photo.text = photoList.size.toString()
@@ -188,7 +193,7 @@ class MyAddFragment : DialogFragment() {
 
 
 
-            if (prix.text.toString().trim({ it <= ' ' }).isEmpty()) run { prix.setError("Veuillez renseignez correctement tout les champs obligatoire")}
+           if (prix.text.toString().trim({ it <= ' ' }).isEmpty()) run { prix.setError("Veuillez renseignez correctement tout les champs obligatoire")}
             else if (photoList.size<1) run { photo.setError("Veuillez ajouter au moins une photo")}
             else if (nb_bedroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bedroom.setError("Veuillez renseignez correctement tout les champs obligatoire")}
             else if (nb_bathroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bathroom.setError("Veuillez renseignez correctement tout les champs obligatoire")}
@@ -223,6 +228,8 @@ class MyAddFragment : DialogFragment() {
 
 
 
+
+
                 val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro)
                 sendEvent(property)
 
@@ -238,7 +245,28 @@ class MyAddFragment : DialogFragment() {
                     EventBus.getDefault().post(AddVideoEvent(Video_property(0,nb_alea,vid)))
                 }
 
+               if(modify != null){
+                   if(photo.text.toString().compareTo("Supprimer les photos")!=0){
+                        for (photo in photoListStart!!) {
+                          EventBus.getDefault().post(DeleteImageEvent(photo.id))
+                       }
+                       for (photo in photoList!!) {
+                           EventBus.getDefault().post(AddImageEvent(photo))
+                       }
+                   }
+               }else{
+                   for (photo in photoList!!) {
+                       EventBus.getDefault().post(AddImageEvent(photo))
+                   }
+               }
+
+
+
+
+
+
                 dismiss()
+
 
 
 
@@ -252,23 +280,22 @@ class MyAddFragment : DialogFragment() {
             if(photo.text.toString().compareTo("Supprimer les photos")==0){
                 photo.text = "Ajouter une photo"
 
-                for (photo in photoList!!) {
-                    EventBus.getDefault().post(DeleteImageEvent(photo))
-                }
+               // for (photo in photoList!!) {
+                 //   EventBus.getDefault().post(DeleteImageEvent(photo.id))
+                //}
 
                 photoList.clear()
                 nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
 
+
+
             }else {
 
-                val property = Property(nb_alea, "test", 0, 0,0, 0, 0, "", "", "", "", "", getTodayDate2, ""," ", "test")
 
                 val intent = Intent(context, CameraActivity::class.java)
                 intent.putExtra("listPhoto", ArrayList<Image_property>())
 
-                if(modify==null) {
-                    EventBus.getDefault().post(AddEvent(property))
-                }
+
                 intent.putExtra("id", nb_alea )
                 startActivityForResult(intent,0)
             }
@@ -294,6 +321,10 @@ class MyAddFragment : DialogFragment() {
             }
 
             nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
+
+            if(photoList.size>0){
+                add.setText("Ajouter le bien")
+            }
         }
 
         super.onActivityResult(requestCode, resultCode, data)
@@ -312,6 +343,7 @@ class MyAddFragment : DialogFragment() {
 
 
      }
+
 
 
 }

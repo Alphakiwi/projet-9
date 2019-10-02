@@ -35,8 +35,6 @@ class DetailFragment : Fragment() {
     private var mContext: Context? = null
 
     internal lateinit var recyclerView: RecyclerView
-    var latitude = 0.0
-    var longitude = 0.0
     private val firstFragment = MapFragment()
 
 
@@ -84,6 +82,8 @@ class DetailFragment : Fragment() {
                     args2.putDouble("lat", ll.get(0).latitude)
                     args2.putDouble("long", ll.get(0).longitude)
                     args2.putSerializable("properties", properties)
+                    args2.putSerializable("Videos", videos)
+                    args2.putSerializable("Images", images)
                     firstFragment.setArguments(args2)
                     fragmentManager!!.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
                 }
