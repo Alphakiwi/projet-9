@@ -9,7 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import android.net.wifi.WifiManager.WIFI_STATE_ENABLED
-import com.openclassrooms.realestatemanager.utils.haveInternetConnection
+import com.openclassrooms.realestatemanager.utils.Utils.haveInternetConnection
 import org.junit.Assert.*
 
 /**

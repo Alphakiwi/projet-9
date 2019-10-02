@@ -10,6 +10,10 @@ import androidx.room.PrimaryKey
 import java.util.*
 import androidx.room.ColumnInfo
 import androidx.room.ForeignKey
+import android.content.ClipData.Item
+import android.content.ContentValues
+
+
 
 
 
@@ -35,7 +39,7 @@ class Video_property (@PrimaryKey(autoGenerate = true) var id : Int, var id_prop
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Video_property> {
+   /* companion object CREATOR : Parcelable.Creator<Video_property> {
         override fun createFromParcel(parcel: Parcel): Video_property {
             return Video_property(parcel)
         }
@@ -43,7 +47,19 @@ class Video_property (@PrimaryKey(autoGenerate = true) var id : Int, var id_prop
         override fun newArray(size: Int): Array<Video_property?> {
             return arrayOfNulls(size)
         }
+    }*/
+
+    companion object {
+        fun fromContentValues(values: ContentValues): Video_property {
+            val video_property = Video_property(0, 0, "")
+            if (values.containsKey("id")) video_property.id = values.getAsInteger("id")
+            if (values.containsKey("id_property")) video_property.id_property = values.getAsInteger("id_property")
+            if (values.containsKey("video")) video_property.video = values.getAsString("video")
+
+            return video_property
+        }
     }
+
 
 }
 
