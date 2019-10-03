@@ -40,7 +40,6 @@ class MyAddFragment : DialogFragment() {
         val rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false)
         dialog.setTitle("Ajouter un bien !")
 
-       // setCancelable(false);
 
         if (getArguments()!=null) {
             modify = getArguments().getParcelable<Property>("CreateOrModify");
@@ -293,9 +292,7 @@ class MyAddFragment : DialogFragment() {
 
 
                 val intent = Intent(context, CameraActivity::class.java)
-                intent.putExtra("listPhoto", ArrayList<Image_property>())
-
-
+                //intent.putExtra("listPhoto", ArrayList<Image_property>())
                 intent.putExtra("id", nb_alea )
                 startActivityForResult(intent,0)
             }
@@ -310,20 +307,23 @@ class MyAddFragment : DialogFragment() {
         return rootView
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (resultCode == 1) {
-            val s : ArrayList<Image_property>  = data.getParcelableArrayListExtra("listPhoto")
+        if (data != null) {
+
+            if (resultCode == 1) {
+                val s: ArrayList<Image_property> = data.getParcelableArrayListExtra("photo")
 
 
-            for (photo in s){
-                photoList.add(photo)
-            }
+                for (photo in s) {
+                    photoList.add(photo)
+                }
 
-            nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
+                nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
 
-            if(photoList.size>0){
-                add.setText("Ajouter le bien")
+                if (photoList.size > 0) {
+                    add.setText("Ajouter le bien")
+                }
             }
         }
 

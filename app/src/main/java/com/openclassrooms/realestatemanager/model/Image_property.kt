@@ -10,18 +10,18 @@ import androidx.room.PrimaryKey
 @Entity(foreignKeys = arrayOf(ForeignKey(entity = Property::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("id_property"))))
-class Image_property (@PrimaryKey(autoGenerate = true) var id : Int, var id_property: Int, var image : String, var description : String) : Parcelable {
+class Image_property (@PrimaryKey(autoGenerate = true) var id : Int, var id_property: Int, var image : ByteArray, var description : String) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readInt(),
-            parcel.readString()!!,
+            parcel.createByteArray()!!,
             parcel.readString()!!) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
         parcel.writeInt(id_property)
-        parcel.writeString(image)
+        parcel.writeByteArray(image)
         parcel.writeString(description)
     }
 

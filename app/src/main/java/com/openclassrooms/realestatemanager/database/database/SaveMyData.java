@@ -3,6 +3,9 @@ package com.openclassrooms.realestatemanager.database.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -11,11 +14,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.openclassrooms.realestatemanager.MainActivity;
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.model.Property;
 import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.model.Video_property;
 
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +49,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.
                                     getApplicationContext(),
-                            SaveMyData.class, "Database15.db")
+                            SaveMyData.class, "Database.db")
                             .addCallback(prepopulateDatabase())
                             .build();
                 }
@@ -61,6 +67,11 @@ public abstract class SaveMyData extends RoomDatabase {
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
 
                 super.onCreate(db);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 30, baos);
+                byte[] photo = baos.toByteArray();
 
 
                 ContentValues contentValues = new ContentValues();
@@ -87,7 +98,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 ContentValues contentValuesPHOTO = new ContentValues();
                 contentValuesPHOTO.put("id", 1);
                 contentValuesPHOTO.put("id_property", 1);
-                contentValuesPHOTO.put("image", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg");
+                contentValuesPHOTO.put("image", photo);
                 contentValuesPHOTO.put("description", "jolie");
 
 
@@ -119,7 +130,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 ContentValues contentValuesPHOTO2 = new ContentValues();
                 contentValuesPHOTO2.put("id", 2);
                 contentValuesPHOTO2.put("id_property", 2);
-                contentValuesPHOTO2.put("image", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg");
+                contentValuesPHOTO2.put("image", photo);
                 contentValuesPHOTO2.put("description", "maison");
 
                 db.insert("Image_property", OnConflictStrategy.IGNORE, contentValuesPHOTO2);
@@ -128,7 +139,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 ContentValues contentValuesPHOTO3 = new ContentValues();
                 contentValuesPHOTO3.put("id", 3);
                 contentValuesPHOTO3.put("id_property", 2);
-                contentValuesPHOTO3.put("image", "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg");
+                contentValuesPHOTO3.put("image", photo);
                 contentValuesPHOTO3.put("description", "yo");
 
 

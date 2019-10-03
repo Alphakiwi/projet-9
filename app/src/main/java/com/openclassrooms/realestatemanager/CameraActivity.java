@@ -9,6 +9,9 @@ import androidx.lifecycle.ViewModelProviders;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel;
 import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.model.Property;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,14 +49,12 @@ public class CameraActivity extends AppCompatActivity {
     private Button chooseButton;
     private ImageView imageView;
     private Uri file;
-    private Uri uriImageSelected;
-    private Drawable draw;
     ArrayList<Image_property> photoList;
     TextView descrPhoto;
     //Firebase
-    Uri downloadUrl;
-    FirebaseStorage storage;
-    StorageReference storageReference;
+   // Uri downloadUrl;
+   // FirebaseStorage storage;
+   // StorageReference storageReference;
     int id_property;
 
     private PropertyViewModel propertyViewModel;
@@ -65,10 +67,11 @@ public class CameraActivity extends AppCompatActivity {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-        configureViewModel();
 
         Intent i = getIntent();
-        photoList = i.getParcelableArrayListExtra("listPhoto");
+
+
+        photoList = new  ArrayList<Image_property>();
         id_property = i.getIntExtra("id",0);
 
         takePictureButton = (Button) findViewById(R.id.button_image);
@@ -86,8 +89,8 @@ public class CameraActivity extends AppCompatActivity {
 
 
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
+       // storage = FirebaseStorage.getInstance();
+      //  storageReference = storage.getReference();
 
     }
 
@@ -114,10 +117,14 @@ public class CameraActivity extends AppCompatActivity {
                         .load(this.file)
                         .into(this.imageView);
 
-               // imageView.setRotation(90);
+              /*  ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                var photo = baos.toByteArray();*/
+                // imageView.setRotation(90);
 
                 // uploadImage();
-                uploadPhotoInFirebase();
+                //uploadPhotoInFirebase();
 
 
                 // draw = imageView.getDrawable();
@@ -139,7 +146,12 @@ public class CameraActivity extends AppCompatActivity {
                     Glide.with(this) //SHOWING PREVIEW OF IMAGE
                             .load(this.file)
                             .into(this.imageView);
-                    uploadPhotoInFirebase();
+
+                   /* ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                    photo = baos.toByteArray();*/
+                    //uploadPhotoInFirebase();
                     /*
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
@@ -161,44 +173,53 @@ public class CameraActivity extends AppCompatActivity {
     }
 
 
-        public void takePicture (View view){
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            file = Uri.fromFile(getOutputMediaFile());
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-            startActivityForResult(intent, 100);
-        }
+    public void takePicture (View view){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        file = Uri.fromFile(getOutputMediaFile());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+        startActivityForResult(intent, 100);
+    }
 
-        public void choosePicture (View view){
-            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            photoPickerIntent.setType("image/*");
-            startActivityForResult(photoPickerIntent, 200);
-        }
+    public void choosePicture (View view){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 200);
+    }
 
-        public void finishThis (View view){
+    public void finishThis (View view){
 
-            Intent i2 = new Intent();
+        Intent i2 = new Intent();
 
-           // uploadImage();
+       // uploadImage();
 
-            if( downloadUrl!= null) {
-                if (!descrPhoto.getText().toString().trim().isEmpty()) {
-                    photoList.add(new Image_property(0,id_property,downloadUrl.toString(), descrPhoto.getText().toString()));
+       // if( downloadUrl!= null) {
+            if (!descrPhoto.getText().toString().trim().isEmpty()) {
 
-                   // propertyViewModel.createImage(new Image_property(0,id_property,downloadUrl.toString(), descrPhoto.getText().toString()));
-                    i2.putExtra("listPhoto", photoList);
-                    this.setResult(1, i2);
-                    this.finish();
-                }else{
-                    descrPhoto.setError("Ajouter une description à la photo !");
-                }
+
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                Bitmap bitmap = imageView2Bitmap(imageView);
+                Bitmap.createScaledBitmap(bitmap,10,10,true);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 30, baos);
+
+                byte[] photo = baos.toByteArray();
+                photoList.add(new Image_property(0,id_property,photo, descrPhoto.getText().toString()));
+
+               // propertyViewModel.createImage(new Image_property(0,id_property,downloadUrl.toString(), descrPhoto.getText().toString()));
+                i2.putExtra("photo", photoList);
+                this.setResult(1, i2);
+                this.finish();
             }else{
-                descrPhoto.setError("Ajouter une photo !");
-
+                descrPhoto.setError("Ajouter une description à la photo !");
             }
+       // }else{
+          //  descrPhoto.setError("Ajouter une photo !");
+
+     //   }
 
 
 
-        }
+    }
 
     public void cancelThis (View view){
 
@@ -215,20 +236,20 @@ public class CameraActivity extends AppCompatActivity {
 
 
 
-        private static File getOutputMediaFile () {
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), "CameraDemo");
+    private static File getOutputMediaFile () {
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "CameraDemo");
 
-            if (!mediaStorageDir.exists()) {
-                if (!mediaStorageDir.mkdirs()) {
-                    return null;
-                }
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
             }
-
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            return new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_" + timeStamp + ".jpg");
         }
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_" + timeStamp + ".jpg");
+    }
 
      /*   // 1 - Upload a picture in Firebase and send a message
         private void uploadPhotoInFirebase ( ){
@@ -244,7 +265,7 @@ public class CameraActivity extends AppCompatActivity {
                             photoList.add(new Image_property(pathImageSavedInFirebase, " test "));
                         }
                     });
-        }*/
+        }
 
 
     private void uploadPhotoInFirebase() {
@@ -263,19 +284,16 @@ public class CameraActivity extends AppCompatActivity {
                         });
                     }
                 });
+    }*/
+
+
+
+
+
+
+    private Bitmap imageView2Bitmap(ImageView view){
+        Bitmap bitmap = ((BitmapDrawable)view.getDrawable()).getBitmap();
+        return bitmap;
     }
-
-
-
-    private void configureViewModel(){
-        ViewModelFactory mViewModelFactory = Injection.
-                provideViewModelFactory(this);
-        this.propertyViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PropertyViewModel.class);
-        this.propertyViewModel.init();
-
-    }
-
-
-
 
 }

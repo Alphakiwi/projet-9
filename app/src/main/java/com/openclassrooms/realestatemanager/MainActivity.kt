@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.*
@@ -34,7 +35,14 @@ import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel
 import com.openclassrooms.realestatemanager.event.*
 import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Video_property
-
+import com.google.android.gms.common.util.IOUtils.toByteArray
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import java.io.ByteArrayOutputStream
+import java.sql.Blob
 
 class MainActivity() : AppCompatActivity(), LocationListener{
 
@@ -70,6 +78,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     lateinit var button :FloatingActionButton
 
 
+    @SuppressLint("WrongThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_container)
@@ -102,10 +111,14 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
         }
 
+        val baos = ByteArrayOutputStream()
+        val bitmap = (resources.getDrawable(R.drawable.test) as BitmapDrawable).bitmap
+        bitmap.compress(Bitmap.CompressFormat.PNG, 30, baos)
+        val photo = baos.toByteArray()
         var appart =  Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro");
         var video = Video_property(1,2,"https://www.youtube.com/watch?v=Vg729rnWsm0")
-        var image = Image_property(1,2, "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg", "chambre")
-        var image2 = Image_property(1,1, "https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg", "chambre")
+        var image = Image_property(1,2, photo, "chambre")
+        var image2 = Image_property(1,1, photo, "chambre")
 
 
         properties.add(appart)

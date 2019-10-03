@@ -18,7 +18,6 @@ import android.location.Geocoder
 
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.model.LatLng
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.adapter.ImageAdapter
 import com.openclassrooms.realestatemanager.adapter.VideoAdapter
 import com.openclassrooms.realestatemanager.model.Image_property
@@ -27,6 +26,10 @@ import com.openclassrooms.realestatemanager.model.Video_property
 import java.io.IOException
 
 import java.util.ArrayList
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
+import com.openclassrooms.realestatemanager.R
+import java.io.ByteArrayInputStream
 
 
 class DetailFragment : Fragment() {
@@ -148,8 +151,9 @@ class DetailFragment : Fragment() {
         }
 
 
-        var listImages = ArrayList<String>()
+        var listImages = ArrayList<ByteArray>()
         var listDescription = ArrayList<String>()
+
 
         if (images != null) {
             for (image in images!!) {
@@ -162,10 +166,15 @@ class DetailFragment : Fragment() {
 
         val gallery = myView.findViewById<View>(R.id.gallery1) as Gallery
         gallery.adapter = ImageAdapter(mContext!!, listImages)
-        val imageView = myView.findViewById<View>(R.id.imageAvatar) as ImageView
+        val imageView = myView.findViewById<View>(com.openclassrooms.realestatemanager.R.id.imageAvatar) as ImageView
+
+
+        val imageStream = ByteArrayInputStream(listImages!!.get(0))
+        val theImage = BitmapFactory.decodeStream(imageStream)
+
 
         Glide.with(mContext!!)
-                .load(listImages!!.get(0))
+                .load(theImage)
                 //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                 .into(imageView)
 

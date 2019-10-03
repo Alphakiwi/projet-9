@@ -2,6 +2,8 @@ package com.openclassrooms.realestatemanager.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,14 +14,15 @@ import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.R;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {
     private Context context;
    // private List<Image_property> imageIDs;
-    private List<String> imageIDs;
+    private List<byte[]> imageIDs;
     private int itemBackground;
-    public ImageAdapter(Context c, List<String> IDs)
+    public ImageAdapter(Context c, List<byte[]> IDs)
     {
         context = c;
         imageIDs = IDs ;
@@ -43,8 +46,13 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView = new ImageView(context);
 
+
+
+        ByteArrayInputStream imageStream = new ByteArrayInputStream(imageIDs.get(position));
+        Bitmap theImage= BitmapFactory.decodeStream(imageStream);
+
         Glide.with(context)
-                .load(imageIDs.get(position)/*.getImage()*/)
+                .load(theImage)
                 .into(imageView);
 
         //Glide.with(context)
