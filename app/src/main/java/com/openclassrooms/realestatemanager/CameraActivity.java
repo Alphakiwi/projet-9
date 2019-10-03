@@ -51,6 +51,7 @@ public class CameraActivity extends AppCompatActivity {
     private Uri file;
     ArrayList<Image_property> photoList;
     TextView descrPhoto;
+
     //Firebase
    // Uri downloadUrl;
    // FirebaseStorage storage;
@@ -141,6 +142,7 @@ public class CameraActivity extends AppCompatActivity {
 
                 if (resultCode == RESULT_OK) {
 
+//                    Toast.makeText(this, file.toString(), Toast.LENGTH_LONG).show();
 
                     this.file = data.getData();
                     Glide.with(this) //SHOWING PREVIEW OF IMAGE
@@ -196,14 +198,8 @@ public class CameraActivity extends AppCompatActivity {
             if (!descrPhoto.getText().toString().trim().isEmpty()) {
 
 
-
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                Bitmap bitmap = imageView2Bitmap(imageView);
-                Bitmap.createScaledBitmap(bitmap,10,10,true);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 30, baos);
-
-                byte[] photo = baos.toByteArray();
-                photoList.add(new Image_property(0,id_property,photo, descrPhoto.getText().toString()));
+               // byte[] photo = baos.toByteArray();
+                photoList.add(new Image_property(0,id_property,file.toString(), descrPhoto.getText().toString()));
 
                // propertyViewModel.createImage(new Image_property(0,id_property,downloadUrl.toString(), descrPhoto.getText().toString()));
                 i2.putExtra("photo", photoList);

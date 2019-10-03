@@ -11,6 +11,7 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.openclassrooms.realestatemanager.Base64CODEC;
 import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.R;
 
@@ -20,9 +21,9 @@ import java.util.List;
 public class ImageAdapter extends BaseAdapter {
     private Context context;
    // private List<Image_property> imageIDs;
-    private List<byte[]> imageIDs;
+    private List<String> imageIDs;
     private int itemBackground;
-    public ImageAdapter(Context c, List<byte[]> IDs)
+    public ImageAdapter(Context c, List<String> IDs)
     {
         context = c;
         imageIDs = IDs ;
@@ -48,11 +49,13 @@ public class ImageAdapter extends BaseAdapter {
 
 
 
-        ByteArrayInputStream imageStream = new ByteArrayInputStream(imageIDs.get(position));
-        Bitmap theImage= BitmapFactory.decodeStream(imageStream);
+        //ByteArrayInputStream imageStream = new ByteArrayInputStream(imageIDs.get(position));
+        //Bitmap theImage= BitmapFactory.decodeStream(imageStream);
+
+
 
         Glide.with(context)
-                .load(theImage)
+                .load(imageIDs.get(position))
                 .into(imageView);
 
         //Glide.with(context)

@@ -41,6 +41,7 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.net.Uri
 import java.io.ByteArrayOutputStream
 import java.sql.Blob
 
@@ -111,14 +112,11 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
         }
 
-        val baos = ByteArrayOutputStream()
-        val bitmap = (resources.getDrawable(R.drawable.test) as BitmapDrawable).bitmap
-        bitmap.compress(Bitmap.CompressFormat.PNG, 30, baos)
-        val photo = baos.toByteArray()
+        var path = Uri.parse("file:///storage/emulated/0/Pictures/CameraDemo/IMG_20191003_190647.jpg");
         var appart =  Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro");
         var video = Video_property(1,2,"https://www.youtube.com/watch?v=Vg729rnWsm0")
-        var image = Image_property(1,2, photo, "chambre")
-        var image2 = Image_property(1,1, photo, "chambre")
+        var image = Image_property(1,2, path.toString() , "chambre")
+        var image2 = Image_property(1,1, path.toString(), "chambre")
 
 
         properties.add(appart)

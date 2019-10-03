@@ -28,6 +28,7 @@ import java.io.IOException
 import java.util.ArrayList
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
+import com.openclassrooms.realestatemanager.Base64CODEC
 import com.openclassrooms.realestatemanager.R
 import java.io.ByteArrayInputStream
 
@@ -151,7 +152,7 @@ class DetailFragment : Fragment() {
         }
 
 
-        var listImages = ArrayList<ByteArray>()
+        var listImages = ArrayList<String>()
         var listDescription = ArrayList<String>()
 
 
@@ -169,12 +170,9 @@ class DetailFragment : Fragment() {
         val imageView = myView.findViewById<View>(com.openclassrooms.realestatemanager.R.id.imageAvatar) as ImageView
 
 
-        val imageStream = ByteArrayInputStream(listImages!!.get(0))
-        val theImage = BitmapFactory.decodeStream(imageStream)
-
 
         Glide.with(mContext!!)
-                .load(theImage)
+                .load(listImages[0])
                 //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                 .into(imageView)
 

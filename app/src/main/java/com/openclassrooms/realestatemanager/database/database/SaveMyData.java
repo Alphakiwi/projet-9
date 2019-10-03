@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -14,6 +15,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.openclassrooms.realestatemanager.Base64CODEC;
 import com.openclassrooms.realestatemanager.MainActivity;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.model.Property;
@@ -49,7 +51,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.
                                     getApplicationContext(),
-                            SaveMyData.class, "Database.db")
+                            SaveMyData.class, "Database3.db")
                             .addCallback(prepopulateDatabase())
                             .build();
                 }
@@ -68,10 +70,9 @@ public abstract class SaveMyData extends RoomDatabase {
 
                 super.onCreate(db);
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 30, baos);
-                byte[] photo = baos.toByteArray();
+
+
+
 
 
                 ContentValues contentValues = new ContentValues();
@@ -98,7 +99,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 ContentValues contentValuesPHOTO = new ContentValues();
                 contentValuesPHOTO.put("id", 1);
                 contentValuesPHOTO.put("id_property", 1);
-                contentValuesPHOTO.put("image", photo);
+                contentValuesPHOTO.put("image", "file:///storage/emulated/0/Pictures/CameraDemo/IMG_20191003_190647.jpg");
                 contentValuesPHOTO.put("description", "jolie");
 
 
@@ -130,7 +131,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 ContentValues contentValuesPHOTO2 = new ContentValues();
                 contentValuesPHOTO2.put("id", 2);
                 contentValuesPHOTO2.put("id_property", 2);
-                contentValuesPHOTO2.put("image", photo);
+                contentValuesPHOTO2.put("image","file:///storage/emulated/0/Pictures/CameraDemo/IMG_20191003_190647.jpg");
                 contentValuesPHOTO2.put("description", "maison");
 
                 db.insert("Image_property", OnConflictStrategy.IGNORE, contentValuesPHOTO2);
@@ -139,7 +140,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 ContentValues contentValuesPHOTO3 = new ContentValues();
                 contentValuesPHOTO3.put("id", 3);
                 contentValuesPHOTO3.put("id_property", 2);
-                contentValuesPHOTO3.put("image", photo);
+                contentValuesPHOTO3.put("image", "file:///storage/emulated/0/Pictures/CameraDemo/IMG_20191003_190647.jpg");
                 contentValuesPHOTO3.put("description", "yo");
 
 

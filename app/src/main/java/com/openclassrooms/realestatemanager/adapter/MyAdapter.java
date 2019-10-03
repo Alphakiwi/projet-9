@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.openclassrooms.realestatemanager.Base64CODEC;
 import com.openclassrooms.realestatemanager.event.DetailEvent;
 import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.model.Property;
@@ -69,7 +70,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.price.setText(String.valueOf(properties.get(position).getPrice()) + " €");
         }
 
-        ArrayList<byte[]> listImages = new ArrayList<byte[]>();
+        ArrayList<String> listImages = new ArrayList<String>();
 
         if (images != null) {
             for ( Image_property image : images ) {
@@ -79,8 +80,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             }
         }
 
-        ByteArrayInputStream imageStream = new ByteArrayInputStream(listImages.get(0));
-        Bitmap theImage= BitmapFactory.decodeStream(imageStream);
+        //ByteArrayInputStream imageStream = new ByteArrayInputStream(listImages.get(0));
+        //Bitmap theImage= BitmapFactory.decodeStream(imageStream);
+
+
 
         holder.root.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
@@ -103,7 +106,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
                 Glide.with(holder.avatar.getContext())
-                        .load(theImage)
+                        .load(listImages.get(0))
                         //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                         .apply(RequestOptions.circleCropTransform())
                         .into(holder.avatar);
@@ -122,7 +125,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
         Glide.with(holder.avatar.getContext())
-                .load(theImage)
+                .load(listImages.get(0))
                 //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.avatar);
