@@ -11,7 +11,7 @@ import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.openclassrooms.realestatemanager.database.database.SaveMyData;
-import com.openclassrooms.realestatemanager.database.provider.VideoContentProvider;
+import com.openclassrooms.realestatemanager.database.provider.ImageContentProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-public class VideoContentProviderTest {
+public class ImageContentProviderTest {
 
     // FOR DATA
     private ContentResolver mContentResolver;
@@ -40,31 +40,35 @@ public class VideoContentProviderTest {
     }
 
     @Test
-    public void getVideosWhenNoVideoInserted() {
-        final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(VideoContentProvider.URI_VIDEO, PROPERTY_ID), null, null, null, null);
+    public void getImagesWhenNoOtherImageInserted() {
+        final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(ImageContentProvider.URI_IMAGE, PROPERTY_ID), null, null, null, null);
         assertThat(cursor, notNullValue());
-        assertThat(cursor.getCount(), is(0));
+        assertThat(cursor.getCount(), is(1));
         cursor.close();
     }
 
     @Test
-    public void insertAndGetVideo() {
-        // BEFORE : Adding demo video
-        final Uri propertyUri = mContentResolver.insert(VideoContentProvider.URI_VIDEO, generateVideo());
+    public void insertAndGetImage() {
+        // BEFORE : Adding demo image
+        final Uri propertyUri = mContentResolver.insert(ImageContentProvider.URI_IMAGE, generateImage());
         // TEST
-        final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(VideoContentProvider.URI_VIDEO, PROPERTY_ID), null, null, null, null);
+        final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(ImageContentProvider.URI_IMAGE, PROPERTY_ID), null, null, null, null);
         assertThat(cursor, notNullValue());
-        assertThat(cursor.getCount(), is(1));
-        assertThat(cursor.moveToFirst(), is(true));
-        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("video")), is("https://www.youtube.com/watch?v=6qtQhCGS22c"));
+        assertThat(cursor.getCount(), is(2));
+        assertThat(cursor.moveToPosition(1), is(true));
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("description")), is("Belle piscine !"));
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("image")), is("https://www.maisons-elytis-lyonouest.fr/wp-content/uploads/Maison-G.-REYRIEUX-HD-3-1300x868.jpg"));
+
     }
 
     // ---
 
-    private ContentValues generateVideo(){
+    private ContentValues generateImage(){
         final ContentValues values = new ContentValues();
         values.put("id_property", 1);
-        values.put("video", "https://www.youtube.com/watch?v=6qtQhCGS22c");
+        values.put("description", "Belle piscine !");
+        values.put("image", "https://www.maisons-elytis-lyonouest.fr/wp-content/uploads/Maison-G.-REYRIEUX-HD-3-1300x868.jpg");
+
         return values;
     }
 }

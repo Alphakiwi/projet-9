@@ -113,10 +113,10 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         }
 
         var path = Uri.parse("file:///storage/emulated/0/Pictures/CameraDemo/IMG_20191003_190647.jpg");
-        var appart =  Property(2, "Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro");
-        var video = Video_property(1,2,"https://www.youtube.com/watch?v=Vg729rnWsm0")
-        var image = Image_property(1,2, path.toString() , "chambre")
-        var image2 = Image_property(1,1, path.toString(), "chambre")
+        var appart =  Property( 786,"Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro");
+        var video = Video_property(0, 786,"https://www.youtube.com/watch?v=Vg729rnWsm0")
+        var image = Image_property(0,786, path.toString() , "chambre")
+        var image2 = Image_property(0,786, path.toString(), "chambre")
 
 
         properties.add(appart)

@@ -3,6 +3,7 @@
 
 package com.openclassrooms.realestatemanager.model
 
+import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
@@ -19,6 +20,7 @@ import android.content.ContentValues
 
 
 
+@SuppressLint("ParcelCreator")
 @Entity(foreignKeys = arrayOf(ForeignKey(entity = Property::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("id_property"))))

@@ -2,8 +2,6 @@ package com.openclassrooms.realestatemanager.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.openclassrooms.realestatemanager.Base64CODEC;
 import com.openclassrooms.realestatemanager.event.DetailEvent;
 import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.model.Property;
@@ -24,7 +21,6 @@ import com.openclassrooms.realestatemanager.R;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
 import static android.graphics.Color.WHITE;

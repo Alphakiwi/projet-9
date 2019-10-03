@@ -26,11 +26,7 @@ import com.openclassrooms.realestatemanager.model.Video_property
 import java.io.IOException
 
 import java.util.ArrayList
-import android.graphics.BitmapFactory
-import android.graphics.Bitmap
-import com.openclassrooms.realestatemanager.Base64CODEC
 import com.openclassrooms.realestatemanager.R
-import java.io.ByteArrayInputStream
 
 
 class DetailFragment : Fragment() {

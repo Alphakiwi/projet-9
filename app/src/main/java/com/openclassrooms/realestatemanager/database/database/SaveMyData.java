@@ -3,10 +3,6 @@ package com.openclassrooms.realestatemanager.database.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -15,21 +11,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.openclassrooms.realestatemanager.Base64CODEC;
-import com.openclassrooms.realestatemanager.MainActivity;
-import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.model.Property;
 import com.openclassrooms.realestatemanager.model.Image_property;
 import com.openclassrooms.realestatemanager.model.Video_property;
-
-
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
-
-import javax.security.auth.callback.Callback;
 
 @Database(entities = { Property.class, Video_property.class, Image_property.class},
         version = 1, exportSchema = false)
@@ -51,7 +35,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.
                                     getApplicationContext(),
-                            SaveMyData.class, "Database3.db")
+                            SaveMyData.class, "Database12.db")
                             .addCallback(prepopulateDatabase())
                             .build();
                 }

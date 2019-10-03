@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.database.database;
 
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -23,4 +25,7 @@ public interface ImagePropertyDao {
 
     @Query("DELETE FROM Image_property WHERE id = :imageId")
     int deleteImage(int imageId);
+
+    @Query("SELECT * FROM Image_property WHERE id_property = :propertyId")
+    Cursor getImagesWithCursor(int propertyId);
 }
