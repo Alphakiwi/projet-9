@@ -44,6 +44,11 @@
             android:name=".database.provider.ImageContentProvider"
             android:authorities="com.openclassrooms.realestatemanager.provider"
             android:exported="true"/>
+
+        <provider
+            android:name=".database.provider.PropertyContentProvider"
+            android:authorities="com.openclassrooms"
+            android:exported="true"/>
     </application>
 
 

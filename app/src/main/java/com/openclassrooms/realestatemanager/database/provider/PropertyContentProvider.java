@@ -10,14 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.openclassrooms.realestatemanager.database.database.SaveMyData;
-import com.openclassrooms.realestatemanager.model.Image_property;
+import com.openclassrooms.realestatemanager.model.Property;
 
-public class ImageContentProvider extends ContentProvider {
+public class PropertyContentProvider extends ContentProvider {
 
     // FOR DATA
-    public static final String AUTHORITY = "com.openclassrooms.realestatemanager.provider";
-    public static final String TABLE_NAME = Image_property.class.getSimpleName();
-    public static final Uri URI_IMAGE = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
+    public static final String AUTHORITY = "com.openclassrooms";
+    public static final String TABLE_NAME = Property.class.getSimpleName();
+    public static final Uri URI_PROPERTY = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
     @Override
     public boolean onCreate() { return true; }
@@ -28,7 +28,7 @@ public class ImageContentProvider extends ContentProvider {
 
         if (getContext() != null){
             int  propertyId = (int) ContentUris.parseId(uri);
-            final Cursor cursor = SaveMyData.getInstance(getContext()).imageDao().getImagesWithCursor(propertyId);
+            final Cursor cursor = SaveMyData.getInstance(getContext()).propertyDao().getPropertiesWithCursor(propertyId);
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
             return cursor;
         }
@@ -47,7 +47,7 @@ public class ImageContentProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
 
         if (getContext() != null){
-            final long id = SaveMyData.getInstance(getContext()).imageDao().insertImage(Image_property.CREATOR.fromContentValues(contentValues));
+            final long id = SaveMyData.getInstance(getContext()).propertyDao().insertProperty(Property.CREATOR.fromContentValues(contentValues));
             if (id != 0){
                 getContext().getContentResolver().notifyChange(uri, null);
                 return ContentUris.withAppendedId(uri, id);
@@ -59,12 +59,7 @@ public class ImageContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        if (getContext() != null){
-            final int count = SaveMyData.getInstance(getContext()).imageDao().deleteImage((int) ContentUris.parseId(uri));
-            getContext().getContentResolver().notifyChange(uri, null);
-            return count;
-        }
-        throw new IllegalArgumentException("Failed to delete row into " + uri);
+        return 0;
     }
 
     @Override

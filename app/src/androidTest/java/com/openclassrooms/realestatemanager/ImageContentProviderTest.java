@@ -28,7 +28,7 @@ public class ImageContentProviderTest {
     private ContentResolver mContentResolver;
 
     // DATA SET FOR TEST
-    private static int PROPERTY_ID = 1;
+    private static int PROPERTY_ID = 666;
 
     @Before
     public void setUp() {
@@ -43,7 +43,7 @@ public class ImageContentProviderTest {
     public void getImagesWhenNoOtherImageInserted() {
         final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(ImageContentProvider.URI_IMAGE, PROPERTY_ID), null, null, null, null);
         assertThat(cursor, notNullValue());
-        assertThat(cursor.getCount(), is(1));
+        assertThat(cursor.getCount(), is(0));
         cursor.close();
     }
 
@@ -54,8 +54,8 @@ public class ImageContentProviderTest {
         // TEST
         final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(ImageContentProvider.URI_IMAGE, PROPERTY_ID), null, null, null, null);
         assertThat(cursor, notNullValue());
-        assertThat(cursor.getCount(), is(2));
-        assertThat(cursor.moveToPosition(1), is(true));
+        assertThat(cursor.getCount(), is(1));
+        assertThat(cursor.moveToPosition(0), is(true));
         assertThat(cursor.getString(cursor.getColumnIndexOrThrow("description")), is("Belle piscine !"));
         assertThat(cursor.getString(cursor.getColumnIndexOrThrow("image")), is("https://www.maisons-elytis-lyonouest.fr/wp-content/uploads/Maison-G.-REYRIEUX-HD-3-1300x868.jpg"));
 
@@ -65,7 +65,7 @@ public class ImageContentProviderTest {
 
     private ContentValues generateImage(){
         final ContentValues values = new ContentValues();
-        values.put("id_property", 1);
+        values.put("id_property", 666);
         values.put("description", "Belle piscine !");
         values.put("image", "https://www.maisons-elytis-lyonouest.fr/wp-content/uploads/Maison-G.-REYRIEUX-HD-3-1300x868.jpg");
 

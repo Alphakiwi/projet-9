@@ -33,7 +33,7 @@ class MyAddFragment : DialogFragment() {
     var videoList  : ArrayList<Video_property>? = null
     var imageList  : ArrayList<Image_property>? = null
     var nb_alea = 0
-
+    var nb_video = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -133,6 +133,7 @@ class MyAddFragment : DialogFragment() {
                 for (video in videoList!!) {
                     if (modify!!.id == video.id_property) {
                         youtubeString += video.video + ","
+                        nb_video += 1
                     }
                 }
 
@@ -229,7 +230,7 @@ class MyAddFragment : DialogFragment() {
 
 
 
-                val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro)
+                val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro, photoList.size, youtubeVideos.size)
                 sendEvent(property)
 
                 if (modify != null) {
@@ -285,6 +286,7 @@ class MyAddFragment : DialogFragment() {
 
                 photoList.clear()
                 nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
+
 
 
 

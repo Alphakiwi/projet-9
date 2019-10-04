@@ -63,6 +63,7 @@ class DetailFragment : Fragment() {
 
 
 
+
         if (Geocoder.isPresent()) {
             try {
                 val location = property!!.address

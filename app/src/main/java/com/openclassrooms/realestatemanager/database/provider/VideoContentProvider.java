@@ -27,7 +27,7 @@ public class VideoContentProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
         if (getContext() != null){
-            int  propertyId = 1;
+            int  propertyId = (int) ContentUris.parseId(uri);
             final Cursor cursor = SaveMyData.getInstance(getContext()).videoDao().getVideosWithCursor(propertyId);
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
             return cursor;

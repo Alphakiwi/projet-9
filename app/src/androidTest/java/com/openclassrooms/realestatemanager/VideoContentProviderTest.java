@@ -28,7 +28,7 @@ public class VideoContentProviderTest {
     private ContentResolver mContentResolver;
 
     // DATA SET FOR TEST
-    private static int PROPERTY_ID = 1;
+    private static int PROPERTY_ID = 666;
 
     @Before
     public void setUp() {
@@ -63,7 +63,7 @@ public class VideoContentProviderTest {
 
     private ContentValues generateVideo(){
         final ContentValues values = new ContentValues();
-        values.put("id_property", 1);
+        values.put("id_property", 666);
         values.put("video", "https://www.youtube.com/watch?v=6qtQhCGS22c");
         return values;
     }

@@ -119,12 +119,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             }
         });
 
-
-        Glide.with(holder.avatar.getContext())
-                .load(listImages.get(0))
-                //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
-                .apply(RequestOptions.circleCropTransform())
-                .into(holder.avatar);
+        if (listImages.size()>0) {
+            Glide.with(holder.avatar.getContext())
+                    .load(listImages.get(0))
+                    //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(holder.avatar);
+        }
 
 
     }

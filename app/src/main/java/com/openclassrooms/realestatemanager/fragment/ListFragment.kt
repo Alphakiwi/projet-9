@@ -44,6 +44,7 @@ class ListFragment : Fragment() {
         val images = args.getSerializable("Images") as ArrayList<Image_property>?
 
 
+
         val recyclerView = myView.findViewById<View>(R.id.list) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
         adapter = MyAdapter(context, properties, images)
