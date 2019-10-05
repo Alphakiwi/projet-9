@@ -35,7 +35,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.
                                     getApplicationContext(),
-                            SaveMyData.class, "Database16.db")
+                            SaveMyData.class, "Database18.db")
                             .addCallback(prepopulateDatabase())
                             .build();
                 }
@@ -109,7 +109,7 @@ public abstract class SaveMyData extends RoomDatabase {
                 contentValues2.put("proximity", "école, métro");
                 contentValues2.put("status", "à vendre");
                 contentValues2.put("start_date", "26/06/1999");
-                contentValues2.put("selling_date",  "0000-01-02");
+                contentValues2.put("selling_date",  "02/01/0000");
                 contentValues2.put("estate_agent", "Denis");
                 contentValues2.put("priceIsDollar", "Euro");
                 contentValues2.put("nb_photo", 2);

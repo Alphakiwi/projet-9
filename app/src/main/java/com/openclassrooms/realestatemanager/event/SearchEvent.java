@@ -26,12 +26,16 @@ public class SearchEvent {
     public String sellingDate;
     public String agent;
     public String isDollar;
+    public String photoMin;
+    public String photoMax;
+    public String videoMin;
+    public String videoMax;
 
 
 
-    public SearchEvent( String type, String priceMin, String bedMin, String bathMin, String surfaceMin, String pieceMin, String priceMax, String bedMax, String bathMax, String surfaceMax, String pieceMax, String descript, String ville, String address, String proximity, String statu, String startDate, String sellingDate, String agent, String isDollar) {
+    public SearchEvent( String type, String priceMin, String bedMin, String bathMin, String surfaceMin, String pieceMin, String priceMax, String bedMax, String bathMax, String surfaceMax, String pieceMax, String descript, String ville, String address, String proximity, String statu, String startDate, String sellingDate, String agent, String isDollar, String photoMin,String photoMax, String videoMin, String videoMax) {
 
-       /* this.type        = type           ;
+        this.type        = type           ;
         this.priceMin    = priceMin   ;
         this.bedMin      =   bedMin     ;
         this.bathMin     =   bathMin    ;
@@ -50,9 +54,11 @@ public class SearchEvent {
         this.startDate   =   startDate  ;
         this.sellingDate =   sellingDate;
         this.agent       =   agent      ;
-        this.isDollar    =   isDollar   ;*/
-
-
+        this.isDollar    =   isDollar   ;
+        this.photoMin = photoMin;
+        this.photoMax = photoMax;
+        this.videoMin = videoMin;
+        this.videoMax = videoMax;
 
     }
 }

@@ -13,6 +13,7 @@ import android.widget.*
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.event.SearchEvent
 import com.openclassrooms.realestatemanager.model.Property
+import com.openclassrooms.realestatemanager.utils.toNewDateFormat
 import kotlinx.android.synthetic.main.fragment_research_dialog.*
 
 
@@ -40,10 +41,14 @@ class MyResearchFragment : DialogFragment() {
         var _address ="%%"
         var _proximity ="%%"
         var _statu ="%%"
-        var _startDate ="0000-01-01"
-        var _sellingDate = "0000-01-01"
+        var _startDate ="01/01/0000"
+        var _sellingDate = "01/01/0000"
         var _agent ="%%"
         var _isDollar ="%%"
+        var _photoMin = "0"
+        var _photoMax = "999999999"
+        var _videoMin = "0"
+        var _videoMax = "999999999"
 
 
         val args = arguments
@@ -203,22 +208,38 @@ class MyResearchFragment : DialogFragment() {
                 }
 
                 if (switchProximity.isChecked()) {
+
+                    var proximityString = proximity.text.toString()
+                    val proximityStringList = ArrayList<String>()
+                    if (proximity.text.toString().length > 2) {
+                        val strings = proximity.text.toString().split(",")
+                        for (i in strings.indices) {
+                            proximityStringList.add((strings[i]))
+                        }
+                        proximityStringList.sort()
+                        proximityString = ""
+                        for (i in proximityStringList) {
+                            proximityString += i + "%"
+                        }
+
+                    }
                     _proximity = "%" + proximity.text.toString() + "%"
                 }
 
 
-                /*if (switchYoutube.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
-                }*/
+                if (switchYoutube.isChecked()) {
+                    _photoMin = nbPhotoMin.text.toString()
+                    _photoMax = nbPhotoMax.text.toString()
+                }
 
                 if (switchDescription.isChecked()) {
 
                     _descript = "%" + description.text.toString() +  "%"
                 }
 
-                /*if (switchPhoto.isChecked()) {
-                    Toast.makeText(context, "filtre statut", Toast.LENGTH_SHORT).show()
-                }*/
+                if (switchPhoto.isChecked()) {
+                    _videoMin = nbVideoMin.text.toString()
+                    _videoMax = nbVideoMax.text.toString()                }
 
                 if (switchStart.isChecked()) {
 
@@ -233,8 +254,7 @@ class MyResearchFragment : DialogFragment() {
 
 
 
-
-            //    EventBus.getDefault().post(SearchEvent(_type,  _priceMin,  _bedMin,  _bathMin,  _surfaceMin,  _pieceMin,  _priceMax ,  _bedMax,  _bathMax,  _surfaceMax,  _pieceMax,  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate,  _sellingDate,  _agent,  _isDollar))
+                EventBus.getDefault().post(SearchEvent(_type,  _priceMin,  _bedMin,  _bathMin,  _surfaceMin,  _pieceMin,  _priceMax ,  _bedMax,  _bathMax,  _surfaceMax,  _pieceMax,  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate.toNewDateFormat(),  _sellingDate.toNewDateFormat(),  _agent,  _isDollar, _photoMin, _photoMax, _videoMin, _videoMax))
                 dismiss()
 
 

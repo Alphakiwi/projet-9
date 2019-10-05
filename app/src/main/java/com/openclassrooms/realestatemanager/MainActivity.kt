@@ -113,7 +113,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         }
 
         var path = Uri.parse("file:///storage/emulated/0/Pictures/CameraDemo/IMG_20191003_190647.jpg");
-        var appart =  Property( 786,"Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", null, "Denis", "Euro", 2, 1);
+        var appart =  Property( 786,"Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", "02-01-00000", "Denis", "Euro", 2, 1);
         var video = Video_property(0, 786,"https://www.youtube.com/watch?v=Vg729rnWsm0")
         var image = Image_property(0,786, path.toString() , "chambre")
         var image2 = Image_property(0,786, path.toString(), "chambre")
@@ -323,14 +323,15 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         getImages()
     }
 
- /*   @Subscribe
+    @Subscribe
     fun onSearch(event: SearchEvent) {
         propertyViewModel!!.findCorrectProperties(event.type,event.priceMin, event.bedMin, event.bathMin, event.surfaceMin, event.pieceMin,
                 event.priceMax, event.bedMax,  event.bathMax,  event.surfaceMax,  event.pieceMax, event.descript,  event.ville,
-                event.address,  event.proximity, event.statu,  event.startDate, event.sellingDate, event.agent, event.isDollar)
+                event.address,  event.proximity, event.statu,  event.startDate, event.sellingDate, event.agent, event.isDollar,
+                event.photoMin, event.photoMax, event.videoMin, event.videoMax)
                 .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList2(listProperty)} )
 
-    }*/
+    }
 
     @Subscribe
     fun onModify(event: ModifyEvent) {

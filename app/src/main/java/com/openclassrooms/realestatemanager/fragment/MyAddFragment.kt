@@ -84,9 +84,9 @@ class MyAddFragment : DialogFragment() {
             description.text = modify!!.description
 
 
-         /*  if  (modify!!.selling_date!!.compareTo("0000-01-02") != 0) {
+           if  (modify!!.selling_date!!.compareTo("01/02/0000") != 0) {
                date.text = modify!!.selling_date
-           }*/
+           }
 
             if(modify!!.priceIsDollar.compareTo("Dollar")==0){
                 dialogSpinnerMoney.setSelection(1)
@@ -226,11 +226,24 @@ class MyAddFragment : DialogFragment() {
                 }
 
 
+               var proximityString = proximity.text.toString()
+               val proximityStringList = ArrayList<String>()
+               if (proximity.text.toString().length > 2) {
+                   val strings = proximity.text.toString().split(",")
+                   for (i in strings.indices) {
+                       proximityStringList.add((strings[i]))
+                   }
+                   proximityStringList.sort()
+                   proximityString = ""
+                   for (i in proximityStringList) {
+                       proximityString += i + ","                   }
+
+               }
 
 
 
 
-                val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), ville.text.toString(), adresse.text.toString(), proximity.text.toString(), statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro, photoList.size, youtubeVideos.size)
+                val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), ville.text.toString(), adresse.text.toString(), proximityString, statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro, photoList.size, youtubeVideos.size)
                 sendEvent(property)
 
                 if (modify != null) {
