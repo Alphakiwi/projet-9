@@ -7,16 +7,12 @@ import java.util.ArrayList;
 public class SearchEvent {
 
     public String type;
-    public String priceMin;
-    public String bedMin;
-    public String bathMin;
-    public String surfaceMin;
-    public String pieceMin;
-    public String priceMax;
-    public String bedMax;
-    public String bathMax;
-    public String surfaceMax;
-    public String pieceMax;
+    public int priceMin;
+    public int surfaceMin;
+    public int pieceMin;
+    public int priceMax;
+    public int surfaceMax;
+    public int pieceMax;
     public String descript;
     public String ville;
     public String address;
@@ -26,24 +22,20 @@ public class SearchEvent {
     public String sellingDate;
     public String agent;
     public String isDollar;
-    public String photoMin;
-    public String photoMax;
-    public String videoMin;
-    public String videoMax;
+    public int photoMin;
+    public int photoMax;
+    public int videoMin;
+    public int videoMax;
 
 
 
-    public SearchEvent( String type, String priceMin, String bedMin, String bathMin, String surfaceMin, String pieceMin, String priceMax, String bedMax, String bathMax, String surfaceMax, String pieceMax, String descript, String ville, String address, String proximity, String statu, String startDate, String sellingDate, String agent, String isDollar, String photoMin,String photoMax, String videoMin, String videoMax) {
+    public SearchEvent( String type, int priceMin, int surfaceMin, int pieceMin, int priceMax, int surfaceMax, int pieceMax, String descript, String ville, String address, String proximity, String statu, String startDate, String sellingDate, String agent, String isDollar, int photoMin,int photoMax, int videoMin, int videoMax) {
 
         this.type        = type           ;
         this.priceMin    = priceMin   ;
-        this.bedMin      =   bedMin     ;
-        this.bathMin     =   bathMin    ;
         this.surfaceMin  =    surfaceMin ;
         this.pieceMin    =    pieceMin   ;
         this.priceMax    =    priceMax   ;
-        this.bedMax      =   bedMax     ;
-        this.bathMax     =   bathMax    ;
         this.surfaceMax  =   surfaceMax ;
         this.pieceMax    =   pieceMax   ;
         this.descript    =   descript   ;

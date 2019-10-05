@@ -42,6 +42,7 @@ import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
+import com.openclassrooms.realestatemanager.utils.toNewDateFormat
 import java.io.ByteArrayOutputStream
 import java.sql.Blob
 
@@ -112,8 +113,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
         }
 
-        var path = Uri.parse("file:///storage/emulated/0/Pictures/CameraDemo/IMG_20191003_190647.jpg");
-        var appart =  Property( 786,"Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999", "02-01-00000", "Denis", "Euro", 2, 1);
+        var path = Uri.parse("https://www.ledrein-courgeon.fr/wp-content/uploads/2015/11/littre-facade-3.jpg");
+        var appart =  Property( 786,"Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999".toNewDateFormat(), "02-01-0000".toNewDateFormat(), "Denis", "Euro", 2, 1);
         var video = Video_property(0, 786,"https://www.youtube.com/watch?v=Vg729rnWsm0")
         var image = Image_property(0,786, path.toString() , "chambre")
         var image2 = Image_property(0,786, path.toString(), "chambre")
@@ -325,8 +326,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
     @Subscribe
     fun onSearch(event: SearchEvent) {
-        propertyViewModel!!.findCorrectProperties(event.type,event.priceMin, event.bedMin, event.bathMin, event.surfaceMin, event.pieceMin,
-                event.priceMax, event.bedMax,  event.bathMax,  event.surfaceMax,  event.pieceMax, event.descript,  event.ville,
+        propertyViewModel!!.findCorrectProperties(event.type,event.priceMin, event.surfaceMin, event.pieceMin,
+                event.priceMax,  event.surfaceMax,  event.pieceMax, event.descript,  event.ville,
                 event.address,  event.proximity, event.statu,  event.startDate, event.sellingDate, event.agent, event.isDollar,
                 event.photoMin, event.photoMax, event.videoMin, event.videoMax)
                 .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList2(listProperty)} )

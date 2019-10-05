@@ -117,60 +117,8 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/nb_bedroom_min"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned"
-                android:hint="nb bedroom min"/>
 
-            <EditText
-                android:id="@+id/nb_bedroom_max"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned"
-                android:hint="nb bedroom max"/>
-
-            <Switch
-                android:id="@+id/switch_bed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/nb_bathroom_min"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned"
-                android:hint="nb bathroom min"/>
-
-            <EditText
-                android:id="@+id/nb_bathroom_max"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned"
-                android:hint="nb bathroom max"/>
-
-            <Switch
-                android:id="@+id/switch_bath"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -27,6 +27,7 @@ import java.io.IOException
 
 import java.util.ArrayList
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.utils.toFrenchDateFormat
 
 
 class DetailFragment : Fragment() {
@@ -103,7 +104,7 @@ class DetailFragment : Fragment() {
 
         var soldate = " "
         if (property!!.selling_date!!.compareTo("0000-01-02")!= 0) {
-            soldate += property.selling_date
+            soldate += property.selling_date!!.toFrenchDateFormat()
         }
 
         val description = myView.findViewById<TextView>(R.id.description)
@@ -124,7 +125,7 @@ class DetailFragment : Fragment() {
         val interest = myView.findViewById<TextView>(R.id.interest)
         interest.text = interest.text.toString() + property.proximity
         val start_date = myView.findViewById<TextView>(R.id.start_date)
-        start_date.text = start_date.text.toString() + " " + property.start_date
+        start_date.text = start_date.text.toString() + " " + property.start_date.toFrenchDateFormat()
         val status = myView.findViewById<TextView>(R.id.status)
         status.text = status.text.toString() + " " + property.status + soldate
         val agent = myView.findViewById<TextView>(R.id.agent)

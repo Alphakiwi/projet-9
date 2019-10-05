@@ -21,6 +21,8 @@ import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Video_property
 import com.openclassrooms.realestatemanager.utils.Utils.getTodayDate2
+import com.openclassrooms.realestatemanager.utils.toFrenchDateFormat
+import com.openclassrooms.realestatemanager.utils.toNewDateFormat
 import kotlinx.android.synthetic.main.fragment_sample_dialog.*
 
 
@@ -71,7 +73,10 @@ class MyAddFragment : DialogFragment() {
 
         nb_alea = (Math.random() * 100000).toInt()
 
+        var startDate = getTodayDate2
+
         if(modify!=null){
+            startDate = modify!!.start_date
             ville.text = modify!!.ville
             prix.text = modify!!.price.toString()
             nb_bedroom.text = modify!!.nb_bedroom.toString()
@@ -84,8 +89,8 @@ class MyAddFragment : DialogFragment() {
             description.text = modify!!.description
 
 
-           if  (modify!!.selling_date!!.compareTo("01/02/0000") != 0) {
-               date.text = modify!!.selling_date
+           if  (modify!!.selling_date!!.compareTo("02/01/0000".toNewDateFormat()) != 0) {
+               date.text = modify!!.selling_date!!.toFrenchDateFormat()
            }
 
             if(modify!!.priceIsDollar.compareTo("Dollar")==0){
@@ -163,8 +168,12 @@ class MyAddFragment : DialogFragment() {
             val  datePickerDialog = DatePickerDialog(context,
                     DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
-                        date.setText(dayOfMonth.toString() + "/"
-                                + (monthOfYear + 1) + "/" + year)
+                        var day = dayOfMonth.toString()
+                        if(day.length!=2){ day = "0" + day}
+                        var month = (monthOfYear + 1).toString()
+                        if(month.length!=2){ month = "0" + ( monthOfYear+1)}
+                        date.setText( day + "/"
+                                + month  + "/" + year)
                     }, mYear, mMonth, mDay)
             datePickerDialog.show()
         })
@@ -243,7 +252,7 @@ class MyAddFragment : DialogFragment() {
 
 
 
-                val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), ville.text.toString(), adresse.text.toString(), proximityString, statut, getTodayDate2, dateSelling, agent.text.toString(), dollarEuro, photoList.size, youtubeVideos.size)
+                val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), ville.text.toString(), adresse.text.toString(), proximityString, statut, startDate, dateSelling.toNewDateFormat(), agent.text.toString(), dollarEuro, photoList.size, youtubeVideos.size)
                 sendEvent(property)
 
                 if (modify != null) {

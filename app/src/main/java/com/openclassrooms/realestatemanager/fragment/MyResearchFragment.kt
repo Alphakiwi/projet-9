@@ -27,13 +27,9 @@ class MyResearchFragment : DialogFragment() {
 
         var _type ="%%"
         var _priceMin = "0"
-        var _bedMin = "0"
-        var _bathMin = "0"
         var _surfaceMin = "0"
         var _pieceMin = "0"
         var _priceMax = "999999999"
-        var _bedMax = "999999999"
-        var _bathMax = "999999999"
         var _surfaceMax = "999999999"
         var _pieceMax = "999999999"
         var _descript ="%%"
@@ -71,13 +67,6 @@ class MyResearchFragment : DialogFragment() {
         val prixMax = rootView.findViewById<TextView>(R.id.price_max)
         val switchPrice = rootView.findViewById<Switch>(R.id.switch_price)
 
-        val bedMin = rootView.findViewById<TextView>(R.id.nb_bedroom_min)
-        val bedMax = rootView.findViewById<TextView>(R.id.nb_bedroom_max)
-        val switchBed = rootView.findViewById<Switch>(R.id.switch_bed)
-
-        val bathMin = rootView.findViewById<TextView>(R.id.nb_bathroom_min)
-        val bathMax = rootView.findViewById<TextView>(R.id.nb_bathroom_max)
-        val switchBath = rootView.findViewById<Switch>(R.id.switch_bath)
 
         val surfaceMin = rootView.findViewById<TextView>(R.id.surface_min)
         val surfaceMax = rootView.findViewById<TextView>(R.id.surface_max)
@@ -127,8 +116,12 @@ class MyResearchFragment : DialogFragment() {
             val  datePickerDialog = DatePickerDialog(context,
                     DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
-                        startDate.setText(dayOfMonth.toString() + "/"
-                                + (monthOfYear + 1) + "/" + year)
+                        var day = dayOfMonth.toString()
+                        if(day.length!=2){ day = "0" + day}
+                        var month = (monthOfYear + 1).toString()
+                        if(month.length!=2){ month = "0" + ( monthOfYear+1)}
+                        startDate.setText( day + "/"
+                                + month  + "/" + year)
                     }, mYear, mMonth, mDay)
             datePickerDialog.show()
         })
@@ -143,8 +136,12 @@ class MyResearchFragment : DialogFragment() {
             val  datePickerDialog = DatePickerDialog(context,
                     DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
-                        sellingDate.setText(dayOfMonth.toString() + "/"
-                                + (monthOfYear + 1) + "/" + year)
+                        var day = dayOfMonth.toString()
+                        if(day.length!=2){ day = "0" + day}
+                        var month = (monthOfYear + 1).toString()
+                        if(month.length!=2){ month = "0" + ( monthOfYear+1)}
+                        sellingDate.setText( day + "/"
+                                + month  + "/" + year)
                     }, mYear, mMonth, mDay)
             datePickerDialog.show()
         })
@@ -175,15 +172,7 @@ class MyResearchFragment : DialogFragment() {
                     _priceMax = prixMax.text.toString()
                 }
 
-                if (switchBed.isChecked()) {
-                    _bedMin = bedMin.text.toString()
-                    _bedMax = bedMax.text.toString()
-                }
 
-                if (switchBath.isChecked()) {
-                    _bathMin = bathMin.text.toString()
-                    _bathMax = bathMax.text.toString()
-                }
 
                 if (switchSurface.isChecked()) {
                     _surfaceMin = surfaceMin.text.toString()
@@ -219,17 +208,21 @@ class MyResearchFragment : DialogFragment() {
                         proximityStringList.sort()
                         proximityString = ""
                         for (i in proximityStringList) {
-                            proximityString += i + "%"
+                            proximityString +=   i + "%"
                         }
 
                     }
-                    _proximity = "%" + proximity.text.toString() + "%"
+                    _proximity = "%" + proximityString + "%"
+                    Toast.makeText(context, _proximity, Toast.LENGTH_SHORT).show()
+
                 }
 
 
+
+
                 if (switchYoutube.isChecked()) {
-                    _photoMin = nbPhotoMin.text.toString()
-                    _photoMax = nbPhotoMax.text.toString()
+                    _videoMin = nbVideoMin.text.toString()
+                    _videoMax = nbVideoMax.text.toString()
                 }
 
                 if (switchDescription.isChecked()) {
@@ -238,12 +231,14 @@ class MyResearchFragment : DialogFragment() {
                 }
 
                 if (switchPhoto.isChecked()) {
-                    _videoMin = nbVideoMin.text.toString()
-                    _videoMax = nbVideoMax.text.toString()                }
+                    _photoMin = nbPhotoMin.text.toString()
+                    _photoMax = nbPhotoMax.text.toString()
+                                   }
 
                 if (switchStart.isChecked()) {
 
                     _startDate = startDate.text.toString()
+                    "01/01/0000"
                 }
 
                 if (switchSelling.isChecked()) {
@@ -254,7 +249,7 @@ class MyResearchFragment : DialogFragment() {
 
 
 
-                EventBus.getDefault().post(SearchEvent(_type,  _priceMin,  _bedMin,  _bathMin,  _surfaceMin,  _pieceMin,  _priceMax ,  _bedMax,  _bathMax,  _surfaceMax,  _pieceMax,  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate.toNewDateFormat(),  _sellingDate.toNewDateFormat(),  _agent,  _isDollar, _photoMin, _photoMax, _videoMin, _videoMax))
+                EventBus.getDefault().post(SearchEvent(_type,  _priceMin.toInt(),  _surfaceMin.toInt(),  _pieceMin.toInt(),  _priceMax.toInt() ,  _surfaceMax.toInt(),  _pieceMax.toInt(),  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate.toNewDateFormat(),  _sellingDate.toNewDateFormat(),  _agent,  _isDollar, _photoMin.toInt(), _photoMax.toInt(), _videoMin.toInt(), _videoMax.toInt()))
                 dismiss()
 
 
