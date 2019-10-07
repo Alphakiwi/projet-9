@@ -59,7 +59,7 @@ class DetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         myView = inflater.inflate(R.layout.fragment_detail, container, false)
 
-        var fragmentManager = getChildFragmentManager()
+        val fragmentManager = getChildFragmentManager()
 
 
         val args: Bundle? = arguments
@@ -93,7 +93,7 @@ class DetailFragment : Fragment() {
                     args2.putSerializable(VIDEOS, videos)
                     args2.putSerializable(IMAGES, images)
                     firstFragment.setArguments(args2)
-                    fragmentManager!!.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
                 }
 
 
@@ -156,12 +156,12 @@ class DetailFragment : Fragment() {
         }
 
 
-        var listImages = ArrayList<String>()
-        var listDescription = ArrayList<String>()
+        val listImages = ArrayList<String>()
+        val listDescription = ArrayList<String>()
 
 
         if (images != null) {
-            for (image in images!!) {
+            for (image in images) {
                 if (property.id ==  image.id_property ) {
                     listImages.add(image.image)
                     listDescription.add(image.description)
@@ -177,7 +177,6 @@ class DetailFragment : Fragment() {
 
         Glide.with(mContext!!)
                 .load(listImages[0])
-                //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                 .into(imageView)
 
         gallery.onItemClickListener = AdapterView.OnItemClickListener { parent, v, position, id ->
@@ -185,14 +184,14 @@ class DetailFragment : Fragment() {
                     Toast.LENGTH_SHORT).show()
             // display the images selected
             Glide.with(mContext!!)
-                    .load(listImages!!.get(position))
+                    .load(listImages.get(position))
                     .into(imageView)
         }
 
         var listVideos = ArrayList<String>()
 
         if (videos != null) {
-            for (video in videos!!) {
+            for (video in videos) {
                 if (property.id ==  video.id_property ) {
                     listVideos.add(video.video)
                 }
@@ -202,16 +201,12 @@ class DetailFragment : Fragment() {
 
 
 
+        recyclerView = myView.findViewById<View>(R.id.recyclerView) as RecyclerView
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(mContext)
+        val videoAdapter = VideoAdapter(listVideos)
+        recyclerView.adapter = videoAdapter
 
-
-        if (listVideos != null) {
-            recyclerView = myView.findViewById<View>(R.id.recyclerView) as RecyclerView
-            recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager = LinearLayoutManager(mContext)
-            val videoAdapter = VideoAdapter(listVideos)
-           // val videoAdapter = VideoAdapter(listOf("https://www.youtube.com/watch?v=Hi7Rx3En7-k","https://www.youtube.com/watch?v=Hi7Rx3En7-k"))
-            recyclerView.adapter = videoAdapter
-        }
 
 
 

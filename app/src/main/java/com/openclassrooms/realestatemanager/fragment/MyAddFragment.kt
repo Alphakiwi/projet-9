@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 import android.app.DatePickerDialog
+import android.content.Context
 import android.widget.*
 import com.openclassrooms.realestatemanager.CameraActivity
 import com.openclassrooms.realestatemanager.MainActivity.Companion.CREATEORMODIFY
@@ -36,6 +37,15 @@ class MyAddFragment : DialogFragment() {
     var imageList  : ArrayList<Image_property>? = null
     var nb_alea = 0
     var nb_video = 0
+    var mContext: Context? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        this.mContext = context
+    }
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -160,15 +170,15 @@ class MyAddFragment : DialogFragment() {
             val mMonth = c.get(Calendar.MONTH) // current month
             val mDay = c.get(Calendar.DAY_OF_MONTH) // current day
             // date picker dialog
-            val  datePickerDialog = DatePickerDialog(context,
+            val  datePickerDialog = DatePickerDialog(mContext!!,
                     DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
                         var day = dayOfMonth.toString()
                         if(day.length!=2){ day = "0" + day}
                         var month = (monthOfYear + 1).toString()
                         if(month.length!=2){ month = "0" + ( monthOfYear+1)}
-                        date.setText( day + "/"
-                                + month  + "/" + year)
+                        var texte =  day + "/" + month  + "/" + year
+                        date.setText(texte )
                     }, mYear, mMonth, mDay)
             datePickerDialog.show()
         })
@@ -250,16 +260,16 @@ class MyAddFragment : DialogFragment() {
 
                if(modify != null){
                    if(photo.text.toString().compareTo("Supprimer les photos")!=0){
-                        for (photo in photoListStart!!) {
-                          EventBus.getDefault().post(DeleteImageEvent(photo.id))
+                        for (photog in photoListStart) {
+                          EventBus.getDefault().post(DeleteImageEvent(photog.id))
                        }
-                       for (photo in photoList!!) {
-                           EventBus.getDefault().post(AddImageEvent(photo))
+                       for (photog in photoList) {
+                           EventBus.getDefault().post(AddImageEvent(photog))
                        }
                    }
                }else{
-                   for (photo in photoList!!) {
-                       EventBus.getDefault().post(AddImageEvent(photo))
+                   for (photog in photoList) {
+                       EventBus.getDefault().post(AddImageEvent(photog))
                    }
                }
 
@@ -281,8 +291,7 @@ class MyAddFragment : DialogFragment() {
 
             }else {
 
-                val intent = Intent(context, CameraActivity::class.java)
-                //intent.putExtra("listPhoto", ArrayList<Image_property>())
+                val intent = Intent(mContext, CameraActivity::class.java)
                 intent.putExtra(ID, nb_alea )
                 startActivityForResult(intent,0)
             }
@@ -318,10 +327,10 @@ class MyAddFragment : DialogFragment() {
      fun sendEvent ( property : Property) {
 
          if(modify==null) {
-             Toast.makeText(context, "Le bien à bien été ajouté", Toast.LENGTH_SHORT).show()
+             Toast.makeText(mContext, "Le bien à bien été ajouté", Toast.LENGTH_SHORT).show()
              EventBus.getDefault().post(AddEvent(property))
          }else{
-             Toast.makeText(context, "Le bien à bien été modifié", Toast.LENGTH_SHORT).show()
+             Toast.makeText(mContext, "Le bien à bien été modifié", Toast.LENGTH_SHORT).show()
              EventBus.getDefault().post(ModifyEvent(property))
          }
      }

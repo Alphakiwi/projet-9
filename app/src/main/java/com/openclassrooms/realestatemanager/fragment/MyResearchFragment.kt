@@ -9,6 +9,7 @@ import org.greenrobot.eventbus.EventBus
 
 import java.util.*
 import android.app.DatePickerDialog
+import android.content.Context
 import android.widget.*
 import com.openclassrooms.realestatemanager.MainActivity.Companion.PROPERTIES
 import com.openclassrooms.realestatemanager.R
@@ -19,6 +20,17 @@ import kotlinx.android.synthetic.main.fragment_research_dialog.*
 
 
 class MyResearchFragment : DialogFragment() {
+
+    private var mContext: Context? = null
+
+
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        this.mContext = context
+    }
 
 
 
@@ -50,7 +62,6 @@ class MyResearchFragment : DialogFragment() {
 
         val args = arguments
         var properties = args?.getSerializable(PROPERTIES) as ArrayList<Property>
-        var propertiesCopy  = ArrayList<Property>(properties)
 
 
         val research = rootView.findViewById<Button>(R.id.search)
@@ -114,15 +125,15 @@ class MyResearchFragment : DialogFragment() {
             val mMonth = c.get(Calendar.MONTH) // current month
             val mDay = c.get(Calendar.DAY_OF_MONTH) // current day
             // date picker dialog
-            val  datePickerDialog = DatePickerDialog(context,
+            val  datePickerDialog = DatePickerDialog(mContext!!,
                     DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
                         var day = dayOfMonth.toString()
                         if(day.length!=2){ day = "0" + day}
                         var month = (monthOfYear + 1).toString()
                         if(month.length!=2){ month = "0" + ( monthOfYear+1)}
-                        startDate.setText( day + "/"
-                                + month  + "/" + year)
+                        var texte = day + "/" + month  + "/" + year
+                        startDate.setText(texte )
                     }, mYear, mMonth, mDay)
             datePickerDialog.show()
         })
@@ -134,20 +145,22 @@ class MyResearchFragment : DialogFragment() {
             val mMonth = c.get(Calendar.MONTH) // current month
             val mDay = c.get(Calendar.DAY_OF_MONTH) // current day
             // date picker dialog
-            val  datePickerDialog = DatePickerDialog(context,
+            val  datePickerDialog = DatePickerDialog(mContext!!,
                     DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
                         var day = dayOfMonth.toString()
                         if(day.length!=2){ day = "0" + day}
                         var month = (monthOfYear + 1).toString()
                         if(month.length!=2){ month = "0" + ( monthOfYear+1)}
-                        sellingDate.setText( day + "/"
-                                + month  + "/" + year)
+                        var texte = day + "/"+ month  + "/" + year
+                        sellingDate.setText( texte)
                     }, mYear, mMonth, mDay)
             datePickerDialog.show()
         })
 
         research.setOnClickListener {
+
+            var canSearch = true
 
 
                 if (switchStatut.isChecked()) {
@@ -171,6 +184,10 @@ class MyResearchFragment : DialogFragment() {
 
                     _priceMin = prixMin.text.toString()
                     _priceMax = prixMax.text.toString()
+
+                    if (prixMin.text.toString().length<1) run { prixMin.setError("Veuillez remplir le champs"); canSearch = false}
+                    if (prixMax.text.toString().length<1) run { prixMax.setError("Veuillez remplir le champs"); canSearch = false}
+
                 }
 
 
@@ -178,23 +195,34 @@ class MyResearchFragment : DialogFragment() {
                 if (switchSurface.isChecked()) {
                     _surfaceMin = surfaceMin.text.toString()
                     _surfaceMax = surfaceMax.text.toString()
+
+                    if (surfaceMin.text.toString().length<1) run { surfaceMin.setError("Veuillez remplir le champs"); canSearch = false}
+                    if (surfaceMax.text.toString().length<1) run { surfaceMax.setError("Veuillez remplir le champs"); canSearch = false}
                 }
 
                 if (switchNbPiece.isChecked()) {
-                    _pieceMin = nb_piece_min.text.toString()
-                    _pieceMax = nb_piece_max.text.toString()
+                    _pieceMin = nbPieceMin.text.toString()
+                    _pieceMax = nbPieceMax.text.toString()
+
+                    if (nbPieceMin.text.toString().length<1) run { nbPieceMin.setError("Veuillez remplir le champs"); canSearch = false}
+                    if (nbPieceMax.text.toString().length<1) run { nbPieceMax.setError("Veuillez remplir le champs"); canSearch = false}
                 }
 
                 if (switchVille.isChecked()) {
                     _ville =  "%" + ville.text.toString() + "%"
+
+                    if (ville.text.toString().length<1) run { ville.setError("Veuillez remplir le champs"); canSearch = false}
+
                 }
 
                 if (switchAdress.isChecked()) {
                     _address = "%" + address.text.toString() + "%"
+                    if (address.text.toString().length<1) run { address.setError("Veuillez remplir le champs"); canSearch = false}
                 }
 
                 if (switchAgent.isChecked()) {
                     _agent = "%" + agent.text.toString() + "%"
+                    if (agent.text.toString().length<1) run { agent.setError("Veuillez remplir le champs"); canSearch = false}
                 }
 
                 if (switchProximity.isChecked()) {
@@ -214,7 +242,9 @@ class MyResearchFragment : DialogFragment() {
 
                     }
                     _proximity = "%" + proximityString + "%"
-                    Toast.makeText(context, _proximity, Toast.LENGTH_SHORT).show()
+
+                    if (proximity.text.toString().length<1) run { proximity.setError("Veuillez remplir le champs"); canSearch = false}
+
 
                 }
 
@@ -224,34 +254,48 @@ class MyResearchFragment : DialogFragment() {
                 if (switchYoutube.isChecked()) {
                     _videoMin = nbVideoMin.text.toString()
                     _videoMax = nbVideoMax.text.toString()
+
+                    if (nbVideoMin.text.toString().length<1) run { nbVideoMin.setError("Veuillez remplir le champs"); canSearch = false}
+                    if (nbVideoMax.text.toString().length<1) run { nbVideoMax.setError("Veuillez remplir le champs"); canSearch = false}
+
+
                 }
 
                 if (switchDescription.isChecked()) {
 
                     _descript = "%" + description.text.toString() +  "%"
+
+                    if (description.text.toString().length<1) run { description.setError("Veuillez remplir le champs"); canSearch = false}
+
                 }
 
                 if (switchPhoto.isChecked()) {
                     _photoMin = nbPhotoMin.text.toString()
                     _photoMax = nbPhotoMax.text.toString()
-                                   }
+
+                    if (nbPhotoMin.text.toString().length<1) run { nbPhotoMin.setError("Veuillez remplir le champs"); canSearch = false}
+                    if (nbPhotoMax.text.toString().length<1) run { nbPhotoMax.setError("Veuillez remplir le champs"); canSearch = false}
+
+                }
 
                 if (switchStart.isChecked()) {
 
                     _startDate = startDate.text.toString()
-                    "01/01/0000"
+                    if (startDate.text.toString().length!=10) run {startDate.setError("Veuillez remplir  correctement le champs"); canSearch = false}
                 }
 
                 if (switchSelling.isChecked()) {
 
                     _sellingDate = sellingDate.text.toString()
+                    if (sellingDate.text.toString().length!=10) run {sellingDate.setError("Veuillez remplir correctement le champs"); canSearch = false}
+
                 }
 
 
-
-
-                EventBus.getDefault().post(SearchEvent(_type,  _priceMin.toInt(),  _surfaceMin.toInt(),  _pieceMin.toInt(),  _priceMax.toInt() ,  _surfaceMax.toInt(),  _pieceMax.toInt(),  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate.toNewDateFormat(),  _sellingDate.toNewDateFormat(),  _agent,  _isDollar, _photoMin.toInt(), _photoMax.toInt(), _videoMin.toInt(), _videoMax.toInt()))
-                dismiss()
+                if(canSearch == true) {
+                    EventBus.getDefault().post(SearchEvent(_type,  _priceMin.toInt(),  _surfaceMin.toInt(),  _pieceMin.toInt(),  _priceMax.toInt() ,  _surfaceMax.toInt(),  _pieceMax.toInt(),  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate.toNewDateFormat(),  _sellingDate.toNewDateFormat(),  _agent,  _isDollar, _photoMin.toInt(), _photoMax.toInt(), _videoMin.toInt(), _videoMax.toInt()))
+                    dismiss()
+                }
 
 
         }
