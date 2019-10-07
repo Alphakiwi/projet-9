@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.openclassrooms.realestatemanager.MainActivity.Companion.IMAGES
+import com.openclassrooms.realestatemanager.MainActivity.Companion.PROPERTIES
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.adapter.MyAdapter
 import com.openclassrooms.realestatemanager.model.Image_property
@@ -40,8 +42,8 @@ class ListFragment : Fragment() {
 
 
         val args = arguments
-        val properties = args?.getSerializable("properties") as ArrayList<Property>
-        val images = args.getSerializable("Images") as ArrayList<Image_property>?
+        val properties = args?.getSerializable(PROPERTIES) as ArrayList<Property>
+        val images = args.getSerializable(IMAGES) as ArrayList<Image_property>?
 
 
 

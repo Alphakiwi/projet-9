@@ -23,6 +23,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.openclassrooms.realestatemanager.MainActivity.Companion.IMAGES
+import com.openclassrooms.realestatemanager.MainActivity.Companion.LAT
+import com.openclassrooms.realestatemanager.MainActivity.Companion.LONG
+import com.openclassrooms.realestatemanager.MainActivity.Companion.PROPERTIES
+import com.openclassrooms.realestatemanager.MainActivity.Companion.PROPERTY
+import com.openclassrooms.realestatemanager.MainActivity.Companion.VIDEOS
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Property
@@ -62,11 +68,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         mView = inflater.inflate(R.layout.map_layout, container, false)
 
         val args = arguments
-        lat = args!!.getDouble("lat")
-        lng = args.getDouble("long")
-        properties = args!!.getSerializable("properties") as ArrayList<Property>
-        videos = args.getSerializable("Videos") as ArrayList<Video_property>?
-        images = args.getSerializable("Images") as ArrayList<Image_property>?
+        lat = args!!.getDouble(LAT)
+        lng = args.getDouble(LONG)
+        properties = args!!.getSerializable(PROPERTIES) as ArrayList<Property>
+        videos = args.getSerializable(VIDEOS) as ArrayList<Video_property>?
+        images = args.getSerializable(IMAGES) as ArrayList<Image_property>?
 
 
         val button = mView!!.findViewById<View>(R.id.recentrer) as FloatingActionButton
@@ -137,10 +143,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
                         propertyThis = property
                     }
                 }
-                args.putParcelable("property", propertyThis)
-                args.putSerializable("properties", properties)
-                args.putSerializable("Videos", videos)
-                args.putSerializable("Images", images)
+                args.putParcelable(PROPERTY, propertyThis)
+                args.putSerializable(PROPERTIES, properties)
+                args.putSerializable(VIDEOS, videos)
+                args.putSerializable(IMAGES, images)
                 detailFragment.setArguments(args)
 
 

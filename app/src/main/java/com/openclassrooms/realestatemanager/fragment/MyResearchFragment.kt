@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.EventBus
 import java.util.*
 import android.app.DatePickerDialog
 import android.widget.*
+import com.openclassrooms.realestatemanager.MainActivity.Companion.PROPERTIES
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.event.SearchEvent
 import com.openclassrooms.realestatemanager.model.Property
@@ -48,7 +49,7 @@ class MyResearchFragment : DialogFragment() {
 
 
         val args = arguments
-        var properties = args?.getSerializable("properties") as ArrayList<Property>
+        var properties = args?.getSerializable(PROPERTIES) as ArrayList<Property>
         var propertiesCopy  = ArrayList<Property>(properties)
 
 

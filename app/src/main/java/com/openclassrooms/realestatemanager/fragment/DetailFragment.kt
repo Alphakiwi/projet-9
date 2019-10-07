@@ -18,6 +18,12 @@ import android.location.Geocoder
 
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.model.LatLng
+import com.openclassrooms.realestatemanager.MainActivity.Companion.IMAGES
+import com.openclassrooms.realestatemanager.MainActivity.Companion.LAT
+import com.openclassrooms.realestatemanager.MainActivity.Companion.LONG
+import com.openclassrooms.realestatemanager.MainActivity.Companion.PROPERTIES
+import com.openclassrooms.realestatemanager.MainActivity.Companion.PROPERTY
+import com.openclassrooms.realestatemanager.MainActivity.Companion.VIDEOS
 import com.openclassrooms.realestatemanager.adapter.ImageAdapter
 import com.openclassrooms.realestatemanager.adapter.VideoAdapter
 import com.openclassrooms.realestatemanager.model.Image_property
@@ -57,10 +63,10 @@ class DetailFragment : Fragment() {
 
 
         val args: Bundle? = arguments
-        val property = args!!.getParcelable<Parcelable>("property") as Property?
-        val properties = args.getSerializable("properties") as ArrayList<Property>?
-        val videos = args.getSerializable("Videos") as ArrayList<Video_property>?
-        val images = args.getSerializable("Images") as ArrayList<Image_property>?
+        val property = args!!.getParcelable<Parcelable>(PROPERTY) as Property?
+        val properties = args.getSerializable(PROPERTIES) as ArrayList<Property>?
+        val videos = args.getSerializable(VIDEOS) as ArrayList<Video_property>?
+        val images = args.getSerializable(IMAGES) as ArrayList<Image_property>?
 
 
 
@@ -81,11 +87,11 @@ class DetailFragment : Fragment() {
                 if (ll.size>0) {
 
                     val args2 = Bundle()
-                    args2.putDouble("lat", ll.get(0).latitude)
-                    args2.putDouble("long", ll.get(0).longitude)
-                    args2.putSerializable("properties", properties)
-                    args2.putSerializable("Videos", videos)
-                    args2.putSerializable("Images", images)
+                    args2.putDouble(LAT, ll.get(0).latitude)
+                    args2.putDouble(LONG, ll.get(0).longitude)
+                    args2.putSerializable(PROPERTIES, properties)
+                    args2.putSerializable(VIDEOS, videos)
+                    args2.putSerializable(IMAGES, images)
                     firstFragment.setArguments(args2)
                     fragmentManager!!.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
                 }

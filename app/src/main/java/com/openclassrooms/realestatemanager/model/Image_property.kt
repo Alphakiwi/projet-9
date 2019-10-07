@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.model
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.os.Parcel
 import android.os.Parcelable

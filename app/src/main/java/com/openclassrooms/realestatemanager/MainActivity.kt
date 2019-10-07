@@ -35,16 +35,9 @@ import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel
 import com.openclassrooms.realestatemanager.event.*
 import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Video_property
-import com.google.android.gms.common.util.IOUtils.toByteArray
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import com.openclassrooms.realestatemanager.utils.toNewDateFormat
-import java.io.ByteArrayOutputStream
-import java.sql.Blob
+
 
 class MainActivity() : AppCompatActivity(), LocationListener{
 
@@ -76,8 +69,20 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     var properties = ArrayList<Property>()
     var videos = ArrayList<Video_property>()
     var images = ArrayList<Image_property>()
-
     lateinit var button :FloatingActionButton
+
+    companion object {
+
+        val ID = "id"
+        val VIDEOS = "Videos"
+        val LONG = "long"
+        val LAT = "lat"
+        val IMAGES = "Image"
+        val PROPERTIES = "properties"
+        val PROPERTY = "property"
+        val CREATEORMODIFY = "CreateOrModify"
+    }
+
 
 
     @SuppressLint("WrongThread")
@@ -135,8 +140,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
 
         val args = Bundle()
-        args.putSerializable("properties", properties)
-        args.putSerializable("Images", images)
+        args.putSerializable(PROPERTIES, properties)
+        args.putSerializable(IMAGES, images)
         listFragment.setArguments(args)
 
         fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
@@ -173,11 +178,11 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                 if (Utils.haveInternetConnection(this)) {
 
                     val args = Bundle()
-                    args.putDouble("lat", latitude)
-                    args.putDouble("long", longitude)
-                    args.putSerializable("properties", properties)
-                    args.putSerializable("Videos", videos)
-                    args.putSerializable("Images", images)
+                    args.putDouble(LAT, latitude)
+                    args.putDouble(LONG, longitude)
+                    args.putSerializable(PROPERTIES, properties)
+                    args.putSerializable(VIDEOS, videos)
+                    args.putSerializable(IMAGES, images)
                     firstFragment.setArguments(args)
 
                     if (tabletSize) {
@@ -211,8 +216,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
                 var listFragment2 = ListFragment()
                 val args = Bundle()
-                args.putSerializable("properties", properties)
-                args.putSerializable("Images", images)
+                args.putSerializable(PROPERTIES, properties)
+                args.putSerializable(IMAGES, images)
                 listFragment2.setArguments(args)
                 fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
 
@@ -230,9 +235,9 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                 dialogFragment.show(fm, "Sample Fragment")
 
                 val args = Bundle()
-                args.putParcelable("CreateOrModify", lastProperty )
-                args.putSerializable("Videos", videos)
-                args.putSerializable("Images", images)
+                args.putParcelable(CREATEORMODIFY, lastProperty )
+                args.putSerializable(VIDEOS, videos)
+                args.putSerializable(IMAGES, images)
 
                 dialogFragment.arguments = args
 
@@ -255,7 +260,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                 val researchFragment = MyResearchFragment()
 
                 val args = Bundle()
-                args.putSerializable("properties", ArrayList(properties))
+                args.putSerializable(PROPERTIES, ArrayList(properties))
                 researchFragment.arguments = args
                 researchFragment.show(fm, "Sample Fragment")
 
@@ -271,10 +276,10 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         val detailFragment = DetailFragment()
         // Supply index input as an argument.
         val args = Bundle()
-        args.putParcelable("property", event.property)
-        args.putSerializable("properties", properties)
-        args.putSerializable("Videos", videos)
-        args.putSerializable("Images", images)
+        args.putParcelable(PROPERTY, event.property)
+        args.putSerializable(PROPERTIES, properties)
+        args.putSerializable(VIDEOS, videos)
+        args.putSerializable(IMAGES, images)
         detailFragment.setArguments(args)
 
         lastProperty = event.property

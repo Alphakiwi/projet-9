@@ -6,15 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import com.openclassrooms.realestatemanager.utils.Utils.getTodayDate
 import org.greenrobot.eventbus.EventBus
-
 import java.util.*
 import android.app.DatePickerDialog
-import android.provider.MediaStore
 import android.widget.*
 import com.openclassrooms.realestatemanager.CameraActivity
+import com.openclassrooms.realestatemanager.MainActivity.Companion.CREATEORMODIFY
+import com.openclassrooms.realestatemanager.MainActivity.Companion.ID
+import com.openclassrooms.realestatemanager.MainActivity.Companion.IMAGES
+import com.openclassrooms.realestatemanager.MainActivity.Companion.VIDEOS
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.event.*
 import com.openclassrooms.realestatemanager.model.Image_property
@@ -44,9 +44,9 @@ class MyAddFragment : DialogFragment() {
 
 
         if (getArguments()!=null) {
-            modify = getArguments().getParcelable<Property>("CreateOrModify");
-            videoList = getArguments().getSerializable("Videos") as ArrayList<Video_property>?
-            imageList  = getArguments().getSerializable("Images") as ArrayList<Image_property>?
+            modify = getArguments().getParcelable<Property>(CREATEORMODIFY);
+            videoList = getArguments().getSerializable(VIDEOS) as ArrayList<Video_property>?
+            imageList  = getArguments().getSerializable(IMAGES) as ArrayList<Image_property>?
         }
 
         val add = rootView.findViewById<Button>(R.id.add)
@@ -126,9 +126,6 @@ class MyAddFragment : DialogFragment() {
 
             }
 
-
-
-                // for (photo in modify!!.photo){ photoList.add(photo) }
             photo.setText("Supprimer les photos")
 
             if ( videoList!! != null) {
@@ -156,8 +153,6 @@ class MyAddFragment : DialogFragment() {
         }
 
 
-
-
         date.setOnClickListener(View.OnClickListener {
             // calender class's instance and get current date , month and year from calender
             val c = Calendar.getInstance()
@@ -183,12 +178,6 @@ class MyAddFragment : DialogFragment() {
         if (date.text.toString().length>9){
             dateSelling = date.text.toString()
         }
-
-
-
-
-
-
 
         add.setOnClickListener {
 
@@ -220,10 +209,6 @@ class MyAddFragment : DialogFragment() {
                     run { selling_date.setError("Il y a une date alors le bien n'est pas en vente")}
             }else{
 
-
-
-                    //val couleurs2 = Arrays.asList(Image_property("https://q-ec.bstatic.com/images/hotel/max1024x768/480/48069729.jpg", "descrip"))
-
                 val youtubeVideos = Vector<String>()
 
                 if (youtube.text.toString().length > 2) {
@@ -233,7 +218,6 @@ class MyAddFragment : DialogFragment() {
                     }
 
                 }
-
 
                var proximityString = proximity.text.toString()
                val proximityStringList = ArrayList<String>()
@@ -248,9 +232,6 @@ class MyAddFragment : DialogFragment() {
                        proximityString += i + ","                   }
 
                }
-
-
-
 
                 val property = Property(nb_alea, type, prix.text.toString().toInt(), nb_bedroom.text.toString().toInt(), nb_bathroom.text.toString().toInt(), surface.text.toString().toInt(), nb_piece.text.toString().toInt(), description.text.toString(), ville.text.toString(), adresse.text.toString(), proximityString, statut, startDate, dateSelling.toNewDateFormat(), agent.text.toString(), dollarEuro, photoList.size, youtubeVideos.size)
                 sendEvent(property)
@@ -283,14 +264,7 @@ class MyAddFragment : DialogFragment() {
                }
 
 
-
-
-
-
                 dismiss()
-
-
-
 
             }
         }
@@ -302,31 +276,18 @@ class MyAddFragment : DialogFragment() {
             if(photo.text.toString().compareTo("Supprimer les photos")==0){
                 photo.text = "Ajouter une photo"
 
-               // for (photo in photoList!!) {
-                 //   EventBus.getDefault().post(DeleteImageEvent(photo.id))
-                //}
-
                 photoList.clear()
                 nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
 
-
-
-
             }else {
-
 
                 val intent = Intent(context, CameraActivity::class.java)
                 //intent.putExtra("listPhoto", ArrayList<Image_property>())
-                intent.putExtra("id", nb_alea )
+                intent.putExtra(ID, nb_alea )
                 startActivityForResult(intent,0)
             }
 
-
-
         }
-
-
-
 
         return rootView
     }
@@ -354,7 +315,6 @@ class MyAddFragment : DialogFragment() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-
      fun sendEvent ( property : Property) {
 
          if(modify==null) {
@@ -364,11 +324,7 @@ class MyAddFragment : DialogFragment() {
              Toast.makeText(context, "Le bien à bien été modifié", Toast.LENGTH_SHORT).show()
              EventBus.getDefault().post(ModifyEvent(property))
          }
-
-
      }
-
-
 
 }
 

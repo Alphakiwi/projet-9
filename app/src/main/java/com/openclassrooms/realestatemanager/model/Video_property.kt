@@ -8,15 +8,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
-import androidx.room.ColumnInfo
 import androidx.room.ForeignKey
-import android.content.ClipData.Item
 import android.content.ContentValues
-
-
-
-
 
 
 
@@ -41,15 +34,6 @@ class Video_property (@PrimaryKey(autoGenerate = true) var id : Int, var id_prop
         return 0
     }
 
-   /* companion object CREATOR : Parcelable.Creator<Video_property> {
-        override fun createFromParcel(parcel: Parcel): Video_property {
-            return Video_property(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Video_property?> {
-            return arrayOfNulls(size)
-        }
-    }*/
 
     companion object {
         fun fromContentValues(values: ContentValues): Video_property {
