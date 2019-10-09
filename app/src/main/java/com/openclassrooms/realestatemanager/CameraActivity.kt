@@ -3,16 +3,10 @@ package com.openclassrooms.realestatemanager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
-
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -26,13 +20,14 @@ import android.widget.Toast
 
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.MainActivity.Companion.ID
-import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel
+import com.openclassrooms.realestatemanager.MainActivity.Companion.PHOTO
 import com.openclassrooms.realestatemanager.model.Image_property
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 import java.util.Date
 
+@Suppress("UNUSED_PARAMETER")
 class CameraActivity : AppCompatActivity() {
 
     private var takePictureButton: Button? = null
@@ -43,11 +38,10 @@ class CameraActivity : AppCompatActivity() {
     internal lateinit var descrPhoto: TextView
     internal var id_property: Int = 0
 
-    private val propertyViewModel: PropertyViewModel? = null
-
 
     private val outputMediaFile: File?
         get() {
+            @Suppress("DEPRECATION")
             val mediaStorageDir = File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES), "CameraDemo")
 
@@ -126,7 +120,7 @@ class CameraActivity : AppCompatActivity() {
                         .into(this.imageView!!)
 
             } else {
-                Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.no_image_picked, Toast.LENGTH_LONG).show()
             }
         }
 
@@ -134,7 +128,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
 
-    fun takePicture(view: View) {
+    fun takePicture() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         file = Uri.fromFile(outputMediaFile)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, file)
@@ -156,11 +150,11 @@ class CameraActivity : AppCompatActivity() {
 
             photoList.add(Image_property(0, id_property, file!!.toString(), descrPhoto.text.toString()))
 
-            i2.putExtra("photo", photoList)
+            i2.putExtra(PHOTO, photoList)
             this.setResult(1, i2)
             this.finish()
         } else {
-            descrPhoto.error = "Ajouter une description à la photo !"
+            descrPhoto.error = getString(R.string.add_description_image)
         }
 
 
@@ -171,14 +165,10 @@ class CameraActivity : AppCompatActivity() {
         val i2 = Intent()
 
 
-        i2.putExtra("listPhoto", ArrayList<Image_property>())
+        i2.putExtra(PHOTO, ArrayList<Image_property>())
         this.setResult(1, i2)
         this.finish()
     }
 
-
-    private fun imageView2Bitmap(view: ImageView): Bitmap {
-        return (view.drawable as BitmapDrawable).bitmap
-    }
 
 }

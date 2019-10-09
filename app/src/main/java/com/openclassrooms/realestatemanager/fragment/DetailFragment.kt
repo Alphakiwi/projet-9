@@ -4,7 +4,6 @@ package com.openclassrooms.realestatemanager.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +35,7 @@ import java.io.IOException
 import java.util.ArrayList
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.utils.toFrenchDateFormat
+import com.openclassrooms.realestatemanager.utils.toNewDateFormat
 
 @Suppress("UNCHECKED_CAST")
 class DetailFragment : Fragment() {
@@ -107,7 +107,7 @@ class DetailFragment : Fragment() {
 
 
         var soldate = " "
-        if (property!!.selling_date!!.compareTo("0000-01-02")!= 0) {
+        if (property!!.selling_date!!.compareTo(getString(R.string.date_default2).toNewDateFormat())!= 0) {
             soldate += property.selling_date!!.toFrenchDateFormat()
         }
 
@@ -137,13 +137,13 @@ class DetailFragment : Fragment() {
 
         val sold = myView.findViewById<ImageView>(R.id.sold)
 
-        val comparison = property.status.compareTo("vendu")
+        val comparison = property.status.compareTo(getString(R.string.sold))
 
         if (comparison != 0) {
             sold.visibility = View.GONE
         }
 
-        if (property.priceIsDollar === "Dollar") {
+        if (property.priceIsDollar === getString(R.string.dollar)) {
             money.text = money.text.toString() + "$ " + property.price.toString()
             money.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dollar, 0, 0, 0)
 

@@ -63,6 +63,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         this.mContext = context
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this com.openclassrooms.realestatemanager.fragment
@@ -120,7 +121,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
             val name = marker.title
 
 
-            val comp = name.compareTo("Ici")
+            val comp = name.compareTo(getString(R.string.here))
 
             if (comp != 0) {
 
@@ -175,7 +176,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         val here = LatLng(lat!!, lng!!)
 
 
-        mMap!!.addMarker(MarkerOptions().position(here).title("Ici").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+        mMap!!.addMarker(MarkerOptions().position(here).title(getString(R.string.here)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
 
        for ( property in properties!!) {
 

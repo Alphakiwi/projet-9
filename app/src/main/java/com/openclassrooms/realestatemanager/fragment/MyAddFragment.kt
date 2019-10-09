@@ -10,12 +10,12 @@ import org.greenrobot.eventbus.EventBus
 import java.util.*
 import android.app.DatePickerDialog
 import android.content.Context
-import android.os.Parcelable
 import android.widget.*
 import com.openclassrooms.realestatemanager.CameraActivity
 import com.openclassrooms.realestatemanager.MainActivity.Companion.CREATEORMODIFY
 import com.openclassrooms.realestatemanager.MainActivity.Companion.ID
 import com.openclassrooms.realestatemanager.MainActivity.Companion.IMAGES
+import com.openclassrooms.realestatemanager.MainActivity.Companion.PHOTO
 import com.openclassrooms.realestatemanager.MainActivity.Companion.VIDEOS
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.event.*
@@ -25,7 +25,7 @@ import com.openclassrooms.realestatemanager.model.Video_property
 import com.openclassrooms.realestatemanager.utils.Utils.getTodayDate2
 import com.openclassrooms.realestatemanager.utils.toFrenchDateFormat
 import com.openclassrooms.realestatemanager.utils.toNewDateFormat
-import kotlinx.android.synthetic.main.fragment_sample_dialog.*
+import kotlinx.android.synthetic.main.fragment_add_dialog.*
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -52,8 +52,8 @@ class MyAddFragment : DialogFragment() {
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false)
-        dialog!!.setTitle("Ajouter un bien !")
+        val rootView = inflater.inflate(R.layout.fragment_add_dialog, container, false)
+        dialog!!.setTitle(getString(R.string.add_title))
 
 
         if (getArguments()!=null) {
@@ -102,29 +102,29 @@ class MyAddFragment : DialogFragment() {
             description.text = modify!!.description
 
 
-           if  (modify!!.selling_date!!.compareTo("02/01/0000".toNewDateFormat()) != 0) {
+           if  (modify!!.selling_date!!.compareTo(getString(R.string.date_default2).toNewDateFormat()) != 0) {
                date.text = modify!!.selling_date!!.toFrenchDateFormat()
            }
 
-            if(modify!!.priceIsDollar.compareTo("Dollar")==0){
+            if(modify!!.priceIsDollar.compareTo(getString(R.string.dollar))==0){
                 dialogSpinnerMoney.setSelection(1)
             }
 
-            if(modify!!.status.compareTo("à louer")==0){
+            if(modify!!.status.compareTo(getString(R.string.rent))==0){
                 dialogSpinnerStatu.setSelection(1)
-            }else if(modify!!.status.compareTo("vendu")==0){
+            }else if(modify!!.status.compareTo(getString(R.string.sold))==0){
                 dialogSpinnerStatu.setSelection(2)
             }
 
-            if(modify!!.type.compareTo("Appartement")==0){
+            if(modify!!.type.compareTo(getString(R.string.apartment))==0){
                 dialogSpinnerType.setSelection(1)
-            }else if(modify!!.status.compareTo("Immeuble")==0){
+            }else if(modify!!.status.compareTo(getString(R.string.building))==0){
                 dialogSpinnerType.setSelection(2)
-            }else if(modify!!.status.compareTo("Studio")==0){
+            }else if(modify!!.status.compareTo(getString(R.string.studio))==0){
                 dialogSpinnerType.setSelection(3)
-            }else if(modify!!.status.compareTo("Villa")==0){
+            }else if(modify!!.status.compareTo(getString(R.string.villa))==0){
                 dialogSpinnerType.setSelection(4)
-            }else if(modify!!.status.compareTo("Autre")==0){
+            }else if(modify!!.status.compareTo(getString(R.string.other))==0){
                 dialogSpinnerType.setSelection(5)
             }
 
@@ -139,7 +139,7 @@ class MyAddFragment : DialogFragment() {
 
             }
 
-            photo.setText("Supprimer les photos")
+            photo.setText(getString(R.string.delete_image))
 
 
             var youtubeString = ""
@@ -160,7 +160,7 @@ class MyAddFragment : DialogFragment() {
 
             nb_alea = modify!!.id
 
-            add.setText("Modifier le bien")
+            add.setText(getString(R.string.modify))
 
         }
 
@@ -185,7 +185,7 @@ class MyAddFragment : DialogFragment() {
             datePickerDialog.show()
         })
 
-        var dateSelling =  "0000-01-02"
+        var dateSelling =  getString(R.string.date_default2)
 
         if (date.text.toString().length>9){
             dateSelling = date.text.toString()
@@ -199,26 +199,26 @@ class MyAddFragment : DialogFragment() {
             val statut = dialogSpinnerStatu.getSelectedItem() as String
             val type = dialogSpinnerType.getSelectedItem() as String
 
-            val comparison = statut.compareTo("vendu")
+            val comparison = statut.compareTo(getString(R.string.sold))
 
 
 
-           if (prix.text.toString().trim({ it <= ' ' }).isEmpty()) run { prix.setError("Veuillez renseignez correctement tout les champs obligatoire")}
-            else if (photoList.size<1) run { photo.setError("Veuillez ajouter au moins une photo")}
-            else if (nb_bedroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bedroom.setError("Veuillez renseignez correctement tout les champs obligatoire")}
-            else if (nb_bathroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bathroom.setError("Veuillez renseignez correctement tout les champs obligatoire")}
-            else if (surface.text.toString().trim({ it <= ' ' }).isEmpty()) run { surface.setError("Veuillez renseignez correctement tout les champs obligatoire")}
-            else if (nb_piece.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_piece.setError("Veuillez renseignez correctement tout les champs obligatoire")}
-            else if (ville.text.toString().trim({ it <= ' ' }).isEmpty()) run { ville.setError("Veuillez renseignez correctement tout les champs obligatoire")}
-            else if (adresse.text.toString().trim({ it <= ' ' }).isEmpty()) run { adresse.setError("Veuillez renseignez correctement tout les champs obligatoire")}
-            else if (agent.text.toString().trim({ it <= ' ' }).isEmpty()) run { agent.setError("Veuillez renseignez correctement tout les champs obligatoire")}
-            else if (proximity.text.toString().trim({ it <= ' ' }).isEmpty()) run { proximity.setError("Veuillez renseignez correctement tout les champs obligatoire")}
-            else if (description.text.toString().trim({ it <= ' ' }).isEmpty()) run {description.setError("Veuillez renseignez correctement tout les champs obligatoire")}
+           if (prix.text.toString().trim({ it <= ' ' }).isEmpty()) run { prix.setError(getString(R.string.complete))}
+            else if (photoList.size<1) run { photo.setError(getString(R.string.error_photo))}
+            else if (nb_bedroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bedroom.setError(getString(R.string.complete))}
+            else if (nb_bathroom.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_bathroom.setError(getString(R.string.complete))}
+            else if (surface.text.toString().trim({ it <= ' ' }).isEmpty()) run { surface.setError(getString(R.string.complete))}
+            else if (nb_piece.text.toString().trim({ it <= ' ' }).isEmpty()) run { nb_piece.setError(getString(R.string.complete))}
+            else if (ville.text.toString().trim({ it <= ' ' }).isEmpty()) run { ville.setError(getString(R.string.complete))}
+            else if (adresse.text.toString().trim({ it <= ' ' }).isEmpty()) run { adresse.setError(getString(R.string.complete))}
+            else if (agent.text.toString().trim({ it <= ' ' }).isEmpty()) run { agent.setError(getString(R.string.complete))}
+            else if (proximity.text.toString().trim({ it <= ' ' }).isEmpty()) run { proximity.setError(getString(R.string.complete))}
+            else if (description.text.toString().trim({ it <= ' ' }).isEmpty()) run {description.setError(getString(R.string.complete))}
             else if (comparison == 0 && selling_date.text.toString().trim({ it <= ' ' }).isEmpty()) {
 
-                    run { selling_date.setError("Veuillez renseignez la date de vente quand le bien est vendu") }
+                    run { selling_date.setError(getString(R.string.error_date)) }
             }else if (comparison != 0 && !selling_date.text.toString().trim({ it <= ' ' }).isEmpty()){
-                    run { selling_date.setError("Il y a une date alors le bien n'est pas en vente")}
+                    run { selling_date.setError(getString(R.string.error_date2))}
             }else{
 
                 val youtubeVideos = Vector<String>()
@@ -261,7 +261,7 @@ class MyAddFragment : DialogFragment() {
                 }
 
                if(modify != null){
-                   if(photo.text.toString().compareTo("Supprimer les photos")!=0){
+                   if(photo.text.toString().compareTo(getString(R.string.delete_image))!=0){
                         for (photog in photoListStart) {
                           EventBus.getDefault().post(DeleteImageEvent(photog.id))
                        }
@@ -285,11 +285,11 @@ class MyAddFragment : DialogFragment() {
         photo.setOnClickListener {
 
 
-            if(photo.text.toString().compareTo("Supprimer les photos")==0){
-                photo.text = "Ajouter une photo"
+            if(photo.text.toString().compareTo(getString(R.string.delete_image))==0){
+                photo.text = getString(R.string.add_photo)
 
                 photoList.clear()
-                nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
+                nb_photo.text = getString(R.string.nb_photo) + photoList.size.toString();
 
             }else {
 
@@ -308,17 +308,17 @@ class MyAddFragment : DialogFragment() {
         if (data != null) {
 
             if (resultCode == 1) {
-                val s: ArrayList<Image_property> = data.getParcelableArrayListExtra("photo")
+                val s: ArrayList<Image_property> = data.getParcelableArrayListExtra(PHOTO)
 
 
                 for (photo in s) {
                     photoList.add(photo)
                 }
 
-                nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
+                nb_photo.text = getString(R.string.nb_photo) + photoList.size.toString();
 
                 if (photoList.size > 0) {
-                    add.text = "Ajouter le bien"
+                    add.text = getString(R.string.add_property)
                 }
             }
         }
@@ -329,10 +329,10 @@ class MyAddFragment : DialogFragment() {
      fun sendEvent ( property : Property) {
 
          if(modify==null) {
-             Toast.makeText(mContext, "Le bien à bien été ajouté", Toast.LENGTH_SHORT).show()
+             Toast.makeText(mContext,getString(R.string.success_add), Toast.LENGTH_SHORT).show()
              EventBus.getDefault().post(AddEvent(property))
          }else{
-             Toast.makeText(mContext, "Le bien à bien été modifié", Toast.LENGTH_SHORT).show()
+             Toast.makeText(mContext, getString(R.string.asuccess_modify) , Toast.LENGTH_SHORT).show()
              EventBus.getDefault().post(ModifyEvent(property))
          }
      }

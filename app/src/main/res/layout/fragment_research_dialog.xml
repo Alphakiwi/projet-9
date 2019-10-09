@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="Prix Min"/>
+                android:hint="@string/r_price_min"/>
 
 
             <EditText
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="Prix Max"/>
+                android:hint="@string/r_price_max"/>
 
             <Switch
                 android:id="@+id/switch_price"
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="Surface min"/>
+                android:hint="@string/r_surface_min"/>
 
 
             <EditText
@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="Surface max"/>
+                android:hint="@string/r_surface_max"/>
 
             <Switch
                 android:id="@+id/switch_surface"
@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="nb piece min"/>
+                android:hint="@string/r_room_min"/>
 
             <EditText
                 android:id="@+id/nb_piece_max"
@@ -168,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="nb piece max"/>
+                android:hint="@string/r_room_max"/>
 
             <Switch
                 android:id="@+id/switch_piece"
@@ -185,7 +185,7 @@
                 android:id="@+id/ville"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Ville"/>
+                android:hint="@string/a_ville"/>
 
             <Switch
                 android:id="@+id/switch_ville"
@@ -204,7 +204,7 @@
                 android:id="@+id/adresse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Adresse"/>
+                android:hint="@string/a_location"/>
 
             <Switch
                 android:id="@+id/switch_adresse"
@@ -222,7 +222,7 @@
                 android:id="@+id/agent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="estate agent"/>
+                android:hint="@string/a_agent"/>
 
             <Switch
                 android:id="@+id/switch_agent"
@@ -240,7 +240,7 @@
                 android:id="@+id/proximity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="point of interests"/>
+                android:hint="@string/a_proximity"/>
 
             <Switch
                 android:id="@+id/switch_proximity"
@@ -261,7 +261,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="nb video min"/>
+                android:hint="@string/r_video_min"/>
 
             <EditText
                 android:id="@+id/nb_video_max"
@@ -269,7 +269,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="nb video max"/>
+                android:hint="@string/r_video_max"/>
 
 
             <Switch
@@ -289,7 +289,7 @@
                 android:id="@+id/description"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:hint="chercher un mot dans la description"/>
+                android:hint="@string/r_description"/>
 
             <Switch
                 android:id="@+id/switch_description"
@@ -310,7 +310,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="nb photo min"/>
+                android:hint="@string/r_photo_min"/>
 
             <EditText
                 android:id="@+id/nb_photo_max"
@@ -318,7 +318,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:hint="nb photo max"/>
+                android:hint="@string/r_photo_max"/>
 
             <Switch
                 android:id="@+id/switch_photo"
@@ -340,7 +340,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:background="#d4d4d4"
-                android:hint="Select starting Date... (de cette date à aujourd'hui)"
+                android:hint="@string/r_date_start"
                 android:padding="15dp"
                 android:textColor="#897"
                 android:textColorHint="#090"
@@ -368,7 +368,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:background="#d4d4d4"
-                android:hint="Select selling Date... (si 'vendu')"
+                android:hint="@string/r_date_selling"
                 android:padding="15dp"
                 android:textColor="#897"
                 android:textColorHint="#090"
@@ -388,7 +388,7 @@
                 android:id="@+id/search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chercher les biens correspondants"/>
+                android:text="@string/r_search"/>
 
         </LinearLayout>
 

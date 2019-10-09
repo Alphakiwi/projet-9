@@ -75,6 +75,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     companion object {
 
         val ID = "id"
+        val PHOTO = "photo"
         val VIDEOS = "Videos"
         val LONG = "long"
         val LAT = "lat"
@@ -193,7 +194,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                     }
 
                 }else{
-                    Toast.makeText(this, "Besoin d'une connexion internet pour afficher la carte.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.map_internet), Toast.LENGTH_SHORT).show()
 
                 }
 
@@ -203,13 +204,13 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             R.id.costItem-> {
 
                 for (property in properties){
-                    if (property.priceIsDollar == "Dollar") {
+                    if (property.priceIsDollar == getString(R.string.dollar)) {
                         property.price = convertEuroToDollar(property.price)
-                        property.priceIsDollar =  "Euro"
+                        property.priceIsDollar =  getString(R.string.euro)
                         item.setIcon(R.drawable.ic_euro)
                     }else{
                         property.price = convertDollarToEuro(property.price)
-                        property.priceIsDollar =  "Dollar"
+                        property.priceIsDollar =  getString(R.string.dollar)
                         item.setIcon(R.drawable.ic_dollar)
                     }
                 }
@@ -221,7 +222,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                 listFragment2.setArguments(args)
                 fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment2).commit()
 
-                Toast.makeText(this, "La monnaie à bien été converti", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.convert_money), Toast.LENGTH_SHORT).show()
 
                 button.setVisibility(GONE)
 
@@ -409,7 +410,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Permission is already available, show restaurants
             Snackbar.make(mLayout!!,
-                    "Accès à la localisation disponible", Snackbar.LENGTH_SHORT).show()
+                    getString(R.string.location_permission), Snackbar.LENGTH_SHORT).show()
         } else {// Permission is missing and must be requested.
             requestLocationPermission()
         }
@@ -422,10 +423,10 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                 // Permission has been granted. Start preview Activity.
                 recreate()
 
-                Snackbar.make(mLayout!!, "localisation autorisé", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(mLayout!!, getString(R.string.location_permission_granted), Snackbar.LENGTH_SHORT).show()
             } else {
                 // Permission request was denied.
-                Snackbar.make(mLayout!!, "localisation refusé", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(mLayout!!, getString(R.string.location_permission_denied), Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -435,14 +436,14 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.ACCESS_FINE_LOCATION)) {
             // Display a SnackBar with a button to request the missing permission.
-            Snackbar.make(mLayout!!, "la permission pour la localisation est nécessaire pour afficher la carte",
+            Snackbar.make(mLayout!!, getString(R.string.location_permission_required),
                     Snackbar.LENGTH_INDEFINITE).setAction("OK") {
                 // Request the permission
                 ActivityCompat.requestPermissions(this,
                         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION_REQUEST_LOCATION)
             }.show()
         } else {
-            Snackbar.make(mLayout!!, "Autorisez vous l'accès à la localisation ?", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(mLayout!!, getString(R.string.location_permission_request), Snackbar.LENGTH_SHORT).show()
             // Request the permission. The result will be received in onRequestPermissionResult().
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     PERMISSION_REQUEST_LOCATION)

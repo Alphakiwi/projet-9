@@ -43,7 +43,6 @@
                 android:drawableLeft="@drawable/ic_pen"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Description... "
                 android:textSize="20dp" />
 
 
@@ -54,7 +53,7 @@
                 android:drawableLeft="@drawable/ic_batiment"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Type : "
+                android:text="@string/d_type"
                 android:textSize="20dp" />
 
             <TextView
@@ -64,7 +63,7 @@
                 android:drawableLeft="@drawable/ic_euro"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Price : "
+                android:text="@string/d_price"
                 android:textSize="20dp" />
 
             <TextView
@@ -74,7 +73,7 @@
                 android:drawableLeft="@drawable/ic_surface"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Surface : "
+                android:text="@string/d_surface"
                 android:textSize="20dp" />
 
             <TextView
@@ -84,7 +83,7 @@
                 android:drawableLeft="@drawable/ic_home"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Number of rooms : "
+                android:text="@string/d_room"
                 android:textSize="20dp" />
 
             <TextView
@@ -94,7 +93,7 @@
                 android:drawableLeft="@drawable/ic_bed"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Number of bedrooms : "
+                android:text="@string/d_bed"
                 android:textSize="20dp" />
 
             <TextView
@@ -104,7 +103,7 @@
                 android:drawableLeft="@drawable/ic_bath"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Number of bathrooms: "
+                android:text="@string/d_bath"
                 android:textSize="20dp" />
 
 
@@ -115,7 +114,7 @@
                 android:drawableLeft="@drawable/ic_map"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Location : "
+                android:text="@string/d_location"
                 android:textSize="20dp" />
 
             <TextView
@@ -125,7 +124,7 @@
                 android:drawableLeft="@drawable/ic_interest"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" points of interest : "
+                android:text="@string/d_proximity"
                 android:textSize="20dp" />
 
             <TextView
@@ -135,7 +134,7 @@
                 android:drawableLeft="@drawable/ic_date"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Starting date : "
+                android:text="@string/d_date"
                 android:textSize="20dp" />
 
             <TextView
@@ -145,7 +144,7 @@
                 android:drawableLeft="@drawable/ic_sold"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Status : "
+                android:text="@string/d_statu"
                 android:textSize="20dp" />
 
             <TextView
@@ -155,7 +154,7 @@
                 android:drawableLeft="@drawable/ic_face"
                 android:fontFamily="monospace"
                 android:gravity="left"
-                android:text=" Estate agent : "
+                android:text="@string/d_agent"
                 android:textSize="20dp" />
 
 
