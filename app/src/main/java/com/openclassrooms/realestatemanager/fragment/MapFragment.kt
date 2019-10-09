@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,7 +71,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         val args = arguments
         lat = args!!.getDouble(LAT)
         lng = args.getDouble(LONG)
-        properties = args!!.getSerializable(PROPERTIES) as ArrayList<Property>
+        properties = args.getSerializable(PROPERTIES) as ArrayList<Property>
         videos = args.getSerializable(VIDEOS) as ArrayList<Video_property>?
         images = args.getSerializable(IMAGES) as ArrayList<Image_property>?
 
@@ -125,9 +126,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
 
             val snippet = marker.snippet
             val separated = snippet.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-
-
-
 
 
             var propertyThis = properties!![0]

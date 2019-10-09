@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,12 +38,13 @@ class ListFragment : Fragment() {
 
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        myView = inflater.inflate(R.layout.user_recycler, container, false) // https://www.youtube.com/watch?v=IdvFBL4Kalo
+        myView = inflater.inflate(R.layout.user_recycler, container, false)
 
 
         val args = arguments
-        val properties = args?.getSerializable(PROPERTIES) as ArrayList<Property>
+        val properties = args!!.getSerializable(PROPERTIES) as ArrayList<Property>?
         val images = args.getSerializable(IMAGES) as ArrayList<Image_property>?
 
 

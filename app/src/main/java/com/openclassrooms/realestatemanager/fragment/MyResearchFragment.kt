@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.fragment
 
-import android.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +16,6 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.event.SearchEvent
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.utils.toNewDateFormat
-import kotlinx.android.synthetic.main.fragment_research_dialog.*
 
 
 class MyResearchFragment : DialogFragment() {
@@ -36,7 +35,7 @@ class MyResearchFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_research_dialog, container, false)
-        dialog.setTitle("Rechercher des biens !")
+        dialog!!.setTitle("Rechercher des biens !")
 
         var _type ="%%"
         var _priceMin = "0"
@@ -58,11 +57,6 @@ class MyResearchFragment : DialogFragment() {
         var _photoMax = "999999999"
         var _videoMin = "0"
         var _videoMax = "999999999"
-
-
-        val args = arguments
-        var properties = args?.getSerializable(PROPERTIES) as ArrayList<Property>
-
 
         val research = rootView.findViewById<Button>(R.id.search)
 
@@ -126,14 +120,14 @@ class MyResearchFragment : DialogFragment() {
             val mDay = c.get(Calendar.DAY_OF_MONTH) // current day
             // date picker dialog
             val  datePickerDialog = DatePickerDialog(mContext!!,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
                         var day = dayOfMonth.toString()
-                        if(day.length!=2){ day = "0" + day}
+                        if(day.length!=2){ day = "0$day" }
                         var month = (monthOfYear + 1).toString()
                         if(month.length!=2){ month = "0" + ( monthOfYear+1)}
-                        var texte = day + "/" + month  + "/" + year
-                        startDate.setText(texte )
+                        var texte = "$day/$month/$year"
+                        startDate.text = texte
                     }, mYear, mMonth, mDay)
             datePickerDialog.show()
         })
@@ -146,14 +140,15 @@ class MyResearchFragment : DialogFragment() {
             val mDay = c.get(Calendar.DAY_OF_MONTH) // current day
             // date picker dialog
             val  datePickerDialog = DatePickerDialog(mContext!!,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
                         var day = dayOfMonth.toString()
-                        if(day.length!=2){ day = "0" + day}
+                        if(day.length!=2){ day = "0$day"
+                        }
                         var month = (monthOfYear + 1).toString()
                         if(month.length!=2){ month = "0" + ( monthOfYear+1)}
-                        var texte = day + "/"+ month  + "/" + year
-                        sellingDate.setText( texte)
+                        var texte = "$day/$month/$year"
+                        sellingDate.text = texte
                     }, mYear, mMonth, mDay)
             datePickerDialog.show()
         })

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.openclassrooms.realestatemanager.fragment
 
 import android.content.Context
@@ -35,7 +37,7 @@ import java.util.ArrayList
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.utils.toFrenchDateFormat
 
-
+@Suppress("UNCHECKED_CAST")
 class DetailFragment : Fragment() {
 
     internal lateinit var myView: View
@@ -51,10 +53,6 @@ class DetailFragment : Fragment() {
         this.mContext = context
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         myView = inflater.inflate(R.layout.fragment_detail, container, false)
@@ -63,7 +61,7 @@ class DetailFragment : Fragment() {
 
 
         val args: Bundle? = arguments
-        val property = args!!.getParcelable<Parcelable>(PROPERTY) as Property?
+        val property = args!!.getParcelable(PROPERTY) as Property?
         val properties = args.getSerializable(PROPERTIES) as ArrayList<Property>?
         val videos = args.getSerializable(VIDEOS) as ArrayList<Video_property>?
         val images = args.getSerializable(IMAGES) as ArrayList<Image_property>?
@@ -169,9 +167,10 @@ class DetailFragment : Fragment() {
             }
         }
 
+        @Suppress("DEPRECATION")
         val gallery = myView.findViewById<View>(R.id.gallery1) as Gallery
         gallery.adapter = ImageAdapter(mContext!!, listImages)
-        val imageView = myView.findViewById<View>(com.openclassrooms.realestatemanager.R.id.imageAvatar) as ImageView
+        val imageView = myView.findViewById<View>(R.id.imageAvatar) as ImageView
 
 
 
@@ -179,7 +178,7 @@ class DetailFragment : Fragment() {
                 .load(listImages[0])
                 .into(imageView)
 
-        gallery.onItemClickListener = AdapterView.OnItemClickListener { parent, v, position, id ->
+        gallery.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             Toast.makeText(mContext, listDescription.get(position),
                     Toast.LENGTH_SHORT).show()
             // display the images selected

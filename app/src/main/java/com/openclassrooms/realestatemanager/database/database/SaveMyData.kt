@@ -35,7 +35,7 @@ abstract class SaveMyData : RoomDatabase() {
                 synchronized(SaveMyData::class.java) {
                     if (INSTANCE == null) {
                         INSTANCE = Room.databaseBuilder(context.applicationContext,
-                                SaveMyData::class.java, "Database24.db")
+                                SaveMyData::class.java, "Database.db")
                                 .addCallback(prepopulateDatabase())
                                 .build()
                     }

@@ -10,15 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.utils.toVideoUrl
 
-class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
+class VideoAdapter(internal var youtubeVideoList: List<String>) : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
 
-    internal lateinit var youtubeVideoList: List<String>
-
-    constructor() {}
-
-    constructor(youtubeVideoList: List<String>) {
-        this.youtubeVideoList = youtubeVideoList
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
 

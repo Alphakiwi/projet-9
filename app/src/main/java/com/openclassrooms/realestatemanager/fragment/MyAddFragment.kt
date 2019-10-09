@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.fragment
 
-import android.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.EventBus
 import java.util.*
 import android.app.DatePickerDialog
 import android.content.Context
+import android.os.Parcelable
 import android.widget.*
 import com.openclassrooms.realestatemanager.CameraActivity
 import com.openclassrooms.realestatemanager.MainActivity.Companion.CREATEORMODIFY
@@ -27,6 +28,8 @@ import com.openclassrooms.realestatemanager.utils.toNewDateFormat
 import kotlinx.android.synthetic.main.fragment_sample_dialog.*
 
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+@SuppressWarnings("unchecked")
 class MyAddFragment : DialogFragment() {
 
     val photoList  = ArrayList<Image_property>()
@@ -47,16 +50,16 @@ class MyAddFragment : DialogFragment() {
     }
 
 
-
+    @Suppress("UNCHECKED_CAST")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false)
-        dialog.setTitle("Ajouter un bien !")
+        dialog!!.setTitle("Ajouter un bien !")
 
 
         if (getArguments()!=null) {
-            modify = getArguments().getParcelable<Property>(CREATEORMODIFY);
-            videoList = getArguments().getSerializable(VIDEOS) as ArrayList<Video_property>?
-            imageList  = getArguments().getSerializable(IMAGES) as ArrayList<Image_property>?
+            modify = getArguments()!!.getParcelable(CREATEORMODIFY);
+            videoList = getArguments()!!.getSerializable(VIDEOS) as ArrayList<Video_property>?
+            imageList  = getArguments()!!.getSerializable(IMAGES) as ArrayList<Image_property>?
         }
 
         val add = rootView.findViewById<Button>(R.id.add)
@@ -138,23 +141,22 @@ class MyAddFragment : DialogFragment() {
 
             photo.setText("Supprimer les photos")
 
-            if ( videoList!! != null) {
 
-                var youtubeString = ""
+            var youtubeString = ""
 
-                for (video in videoList!!) {
-                    if (modify!!.id == video.id_property) {
-                        youtubeString += video.video + ","
-                        nb_video += 1
-                    }
+            for (video in videoList!!) {
+                if (modify!!.id == video.id_property) {
+                    youtubeString += video.video + ","
+                    nb_video += 1
                 }
-
-                if(youtubeString.length>2) {
-                youtube.text = youtubeString.substring(0, youtubeString.length - 1)
-                }
-
-
             }
+
+            if(youtubeString.length>2) {
+            youtube.text = youtubeString.substring(0, youtubeString.length - 1)
+            }
+
+
+
 
             nb_alea = modify!!.id
 
@@ -171,14 +173,14 @@ class MyAddFragment : DialogFragment() {
             val mDay = c.get(Calendar.DAY_OF_MONTH) // current day
             // date picker dialog
             val  datePickerDialog = DatePickerDialog(mContext!!,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                         // set day of month , month and year value in the edit text
                         var day = dayOfMonth.toString()
-                        if(day.length!=2){ day = "0" + day}
+                        if(day.length!=2){ day = "0$day" }
                         var month = (monthOfYear + 1).toString()
                         if(month.length!=2){ month = "0" + ( monthOfYear+1)}
-                        var texte =  day + "/" + month  + "/" + year
-                        date.setText(texte )
+                        var texte = "$day/$month/$year"
+                        date.text = texte
                     }, mYear, mMonth, mDay)
             datePickerDialog.show()
         })
@@ -316,7 +318,7 @@ class MyAddFragment : DialogFragment() {
                 nb_photo.text = "Nombre de photo ajouté : " + photoList.size.toString();
 
                 if (photoList.size > 0) {
-                    add.setText("Ajouter le bien")
+                    add.text = "Ajouter le bien"
                 }
             }
         }

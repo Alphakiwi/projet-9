@@ -24,7 +24,19 @@
 
 
 
-    <!-- Main Activity -->
+    <!-- Main Activity-->
+
+    <string name="location_internet">Le chargement de la localisation peut prendre plus ou moins de temps en fonction de votre connexion internet.</string>
+    <!-- <string name="app_name">Real Estate Manager</string>
+    <string name="app_name">Real Estate Manager</string>
+    <string name="app_name">Real Estate Manager</string>
+    <string name="app_name">Real Estate Manager</string>
+
+    <string name="app_name">Real Estate Manager</string>
+    <string name="app_name">Real Estate Manager</string>
+    <string name="app_name">Real Estate Manager</string>
+    <string name="app_name">Real Estate Manager</string>
+    <string name="app_name">Real Estate Manager</string> Main Activity-->
 
     <!-- Camera Activity -->
 

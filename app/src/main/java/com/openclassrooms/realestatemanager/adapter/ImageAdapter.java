@@ -43,22 +43,9 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView = new ImageView(context);
 
 
-
-        //ByteArrayInputStream imageStream = new ByteArrayInputStream(imageIDs.get(position));
-        //Bitmap theImage= BitmapFactory.decodeStream(imageStream);
-
-
-
         Glide.with(context)
                 .load(imageIDs.get(position))
                 .into(imageView);
-
-        //Glide.with(context)
-               // .load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
-               // .into(imageView);
-
-        //imageView.setImageBitmap( BitmapFactory.decodeByteArray(imageIDs.get(position).getImage(), 0, imageIDs.get(position).getImage().length));
-
 
 
         imageView.setLayoutParams(new Gallery.LayoutParams(250, 250));

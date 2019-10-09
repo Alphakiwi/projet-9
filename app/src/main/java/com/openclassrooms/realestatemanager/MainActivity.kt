@@ -39,6 +39,7 @@ import android.net.Uri
 import com.openclassrooms.realestatemanager.utils.toNewDateFormat
 
 
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity() : AppCompatActivity(), LocationListener{
 
     override fun onProviderEnabled(p0: String?) {}
@@ -50,7 +51,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         locationManager.removeUpdates(this)
 
         latitude = p0!!.getLatitude()
-        longitude = p0!!.getLongitude()
+        longitude = p0.getLongitude()
     }
 
     internal var listFragment = ListFragment()
@@ -85,7 +86,6 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
 
 
-    @SuppressLint("WrongThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_container)
@@ -107,14 +107,14 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
         val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         if (location != null) {
-            longitude = location!!.getLongitude()
-            latitude = location!!.getLatitude()
+            longitude = location.getLongitude()
+            latitude = location.getLatitude()
             fragmentManager = supportFragmentManager
         } else {
             locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             criteria = Criteria()
             bestProvider = locationManager.getBestProvider(criteria, true).toString()
-            Toast.makeText(this, "Le chargement de la localisation peut prendre plus ou moins de temps en fonction de votre connexion internet.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.location_internet), Toast.LENGTH_SHORT).show()
             locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
         }
 
@@ -230,9 +230,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             }
             R.id.modifyItem -> {
 
-                val fm = getFragmentManager()
                 val dialogFragment = MyAddFragment()
-                dialogFragment.show(fm, "Sample Fragment")
+                dialogFragment.show(fragmentManager, "Sample Fragment")
 
                 val args = Bundle()
                 args.putParcelable(CREATEORMODIFY, lastProperty )
@@ -246,9 +245,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             }
             R.id.addItem -> {
 
-                val fm = getFragmentManager()
                 val dialogFragment = MyAddFragment()
-                dialogFragment.show(fm, "Sample Fragment")
+                dialogFragment.show(fragmentManager, "Sample Fragment")
 
                 return true
 
@@ -256,13 +254,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
             R.id.researchItem -> {
 
-                val fm = getFragmentManager()
                 val researchFragment = MyResearchFragment()
-
-                val args = Bundle()
-                args.putSerializable(PROPERTIES, ArrayList(properties))
-                researchFragment.arguments = args
-                researchFragment.show(fm, "Sample Fragment")
+                researchFragment.show(fragmentManager, "Sample Fragment")
 
                 return true
             }

@@ -61,9 +61,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
         if (properties.get(position).getPriceIsDollar().compareTo("Dollar") == 0) {
-            holder.price.setText("$ " + String.valueOf(properties.get(position).getPrice()));
+            holder.price.setText("$ " + properties.get(position).getPrice());
         }else{
-            holder.price.setText(String.valueOf(properties.get(position).getPrice()) + " €");
+            holder.price.setText(properties.get(position).getPrice() + " €");
         }
 
         ArrayList<String> listImages = new ArrayList<String>();
@@ -75,11 +75,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 }
             }
         }
-
-        //ByteArrayInputStream imageStream = new ByteArrayInputStream(listImages.get(0));
-        //Bitmap theImage= BitmapFactory.decodeStream(imageStream);
-
-
 
         holder.root.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
@@ -94,7 +89,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
 
-
                 holder.root.setBackgroundColor(R.color.colorAccent);
 
                 previousSelected = holder.root;
@@ -103,16 +97,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                 Glide.with(holder.avatar.getContext())
                         .load(listImages.get(0))
-                        //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                         .apply(RequestOptions.circleCropTransform())
                         .into(holder.avatar);
 
-
-
-                // Intent i = new Intent(context, DetailRestaurantActivity.class);
-                //i.putExtra(RESTAURANT, properties.get(position).getResto());
-
-               // context.startActivity(i);
 
                 EventBus.getDefault().post(new DetailEvent(properties.get(position)));
 
@@ -122,11 +109,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         if (listImages.size()>0) {
             Glide.with(holder.avatar.getContext())
                     .load(listImages.get(0))
-                    //.load("https://www.cheneaudiere.com/wp-content/uploads/2014/03/CHAMBRE-CHENEAUDIERE-%C2%AE-JEROME-MONDIERE-3-1.jpg")
                     .apply(RequestOptions.circleCropTransform())
                     .into(holder.avatar);
         }
-
 
     }
 
