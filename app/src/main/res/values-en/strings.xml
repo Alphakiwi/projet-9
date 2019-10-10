@@ -1,0 +1,162 @@
+<resources>
+    <string name="app_name">Real Estate Manager</string>
+
+
+    <string-array name="choice_money">
+        <item>Euro</item>
+        <item>Dollar</item>
+    </string-array>
+
+    <string name="dollar">Dollar</string>
+    <string name="euro">Euro</string>
+
+    <string-array name="choice_statut">
+        <item>To sell</item>
+        <item>To rent </item>
+        <item>Sold</item>
+    </string-array>
+
+    <string name="sell">To sell</string>
+    <string name="rent">To rent</string>
+    <string name="sold">Sold</string>
+
+    <string-array name="choice_type">
+        <item>House</item>
+        <item>Apartment</item>
+        <item>Building</item>
+        <item>Studio</item>
+        <item>Villa</item>
+        <item>Other</item>
+    </string-array>
+
+
+    <string name="house">House</string>
+    <string name="apartment">Apartment</string>
+    <string name="building">Building</string>
+    <string name="studio">Studio</string>
+    <string name="villa">Villa</string>
+    <string name="other">Other</string>
+
+    <!-- Main Activity-->
+
+    <string name="location_internet">The location loading depends of your internet connection...</string>
+    <string name="map_internet">Need an internet connection to access the map.</string>
+
+
+    <string name="location_permission">Location permission available.</string>
+    <string name="location_permission_granted">Location permission granted.</string>
+    <string name="location_permission_denied">Location permission request was denied.</string>
+    <string name="location_permission_required">Location access is required to display properties near you.</string>
+    <string name="location_permission_request">Permission is not available. Requesting location permission.</string>
+
+
+
+    <string name="convert_money">The currency has been converted</string>
+
+    <!-- Camera Activity -->
+
+    <string name="no_image_picked">You haven\'t picked Image</string>
+    <string name="add_description_image">Add a description to the image !</string>
+
+
+    <!-- Research Fragment -->
+
+    <string name="pourcentage">%%</string>
+    <string name="minimum">0</string>
+    <string name="maximum">99999999</string>
+    <string name="date_default">01/01/0000</string>
+
+    <string name="research">Research properties !</string>
+    <string name="complete">Complete carefully !</string>
+
+
+    <!-- Add Fragment -->
+
+    <string name="add_title">Add a property !</string>
+
+    <string name="date_default2">02/01/0000</string>
+
+    <string name="delete_image">Delete images</string>
+    <string name="modify">Update the property</string>
+
+    <string name="error_photo">Add at least one image</string>
+    <string name="error_date">This property is sold but when ?!</string>
+    <string name="error_date2">There is a selling date whereas the property is not sold !</string>
+    <string name="add_photo">Add an image</string>
+    <string name="nb_photo">Number of images : </string>
+
+    <string name="add_property">Add the property</string>
+
+    <string name="success_add">The property has been added</string>
+    <string name="asuccess_modify">The property has been updated</string>
+
+
+    <!-- Map Fragment -->
+
+    <string name="here">Here</string>
+
+    <!-- activity camera -->
+
+
+    <string name="choose_picture">Choose a picture!</string>
+    <string name="take_picture">Take a picture!</string>
+    <string name="description">Description</string>
+    <string name="this_photo">Choose this photo !</string>
+    <string name="cancel">Cancel </string>
+
+    <!-- activity add -->
+
+    <string name="a_price">Price</string>
+    <string name="a_surface">Surface</string>
+    <string name="a_room">nb piece</string>
+    <string name="a_ville">City</string>
+    <string name="a_bath">nb bathroom</string>
+    <string name="a_bed">nb bedroom</string>
+    <string name="a_location">Address </string>
+    <string name="a_proximity">point of interests (separated by \',\' if many)</string>
+    <string name="a_date">Select selling Date (if \'sold\')</string>
+    <string name="a_agent">estate agent</string>
+    <string name="a_photo">Add an image</string>
+    <string name="a_nb_photo">Number of images : 0</string>
+    <string name="a_youtube">Link format video : https://www.youtube.com/watch?v= (optional | separated by \',\' if many)</string>
+    <string name="a_description">Description </string>
+    <string name="a_add_">Add the property</string>
+
+
+    <!-- fragment detail -->
+
+    <string name="d_type">\u0020  Type : </string>
+    <string name="d_price">\u0020  Price : </string>
+    <string name="d_surface">\u0020  Surface : </string>
+    <string name="d_room">\u0020  Number of rooms : </string>
+    <string name="d_bed">\u0020 Number of bedrooms : </string>
+    <string name="d_bath">\u0020  Number of bathrooms: </string>
+    <string name="d_location">\u0020  Location : </string>
+    <string name="d_proximity">\u0020  points of interest : </string>
+    <string name="d_date">\u0020 Starting date :</string>
+    <string name="d_statu">\u0020  Status : </string>
+    <string name="d_agent">\u0020  Estate agent : </string>
+
+
+
+
+    <!-- activity research -->
+
+    <string name="r_surface_min">Surface min</string>
+    <string name="r_room_min">nb piece min</string>
+    <string name="r_surface_max">Surface max</string>
+    <string name="r_price_min">Prix Min</string>
+    <string name="r_price_max">Prix Max</string>
+    <string name="r_room_max">nb piece max</string>
+    <string name="r_date_start">Select starting Date (from this date to today)</string>
+    <string name="r_date_selling">Select selling Date ( \'sold\')</string>
+    <string name="r_photo_min">nb photo min</string>
+    <string name="r_photo_max">nb photo max</string>
+    <string name="r_video_min">nb video min</string>
+    <string name="r_video_max">nb video max</string>
+    <string name="r_description">Search a word in the description</string>
+    <string name="r_search">Resaerch the coresponding properties</string>
+
+
+
+</resources>

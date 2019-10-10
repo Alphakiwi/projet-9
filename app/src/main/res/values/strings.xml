@@ -53,7 +53,7 @@
 
     <!-- Camera Activity -->
 
-    <string name="no_image_picked">You haven\'t picked Image</string>
+    <string name="no_image_picked">Vous n\'avez pas sélectionné d\'images.</string>
     <string name="add_description_image">Ajouter une description à la photo !</string>
 
 
@@ -96,11 +96,11 @@
     <!-- activity camera -->
 
 
-    <string name="choose_picture">Choose a picture!</string>
-    <string name="take_picture">Take a picture!</string>
+    <string name="choose_picture">Choisir une photo !</string>
+    <string name="take_picture">Prendre une photo !</string>
     <string name="description">Description</string>
-    <string name="this_photo">Choose this photo !</string>
-    <string name="cancel">Cancel: </string>
+    <string name="this_photo">Choisir cette photo !</string>
+    <string name="cancel">Annuler </string>
 
     <!-- activity add -->
 
@@ -108,12 +108,12 @@
     <string name="a_surface">Surface</string>
     <string name="a_room">nb piece</string>
     <string name="a_ville">Ville</string>
-    <string name="a_bath">nb bathroom</string>
-    <string name="a_bed">nb bedroom</string>
+    <string name="a_bath">nb SDB</string>
+    <string name="a_bed">nb chambres</string>
     <string name="a_location">Adresse </string>
-    <string name="a_proximity">point of interests</string>
-    <string name="a_date">Select selling Date (si \'vendu\')</string>
-    <string name="a_agent">estate agent</string>
+    <string name="a_proximity">A proximité de (séparé par \',\' si plusieurs) </string>
+    <string name="a_date">Selection de la date de vente (si \'vendu\')</string>
+    <string name="a_agent">Agent immobilier</string>
     <string name="a_photo">Ajouter une photo</string>
     <string name="a_nb_photo">Nombre de photo ajouté : 0</string>
     <string name="a_youtube">Lien video format : https://www.youtube.com/watch?v= (facultatif | séparé par \',\' si plusieurs)</string>
@@ -126,14 +126,14 @@
     <string name="d_type">\u0020  Type : </string>
     <string name="d_price">\u0020  Price : </string>
     <string name="d_surface">\u0020  Surface : </string>
-    <string name="d_room">\u0020  Number of rooms : </string>
-    <string name="d_bed">\u0020 Number of bedrooms : </string>
-    <string name="d_bath">\u0020  Number of bathrooms: </string>
-    <string name="d_location">\u0020  Location : </string>
-    <string name="d_proximity">\u0020  points of interest : </string>
-    <string name="d_date">\u0020 Starting date :</string>
-    <string name="d_statu">\u0020  Status : </string>
-    <string name="d_agent">\u0020  Estate agent : </string>
+    <string name="d_room">\u0020  Nombre de pièces : </string>
+    <string name="d_bed">\u0020 Nombre de chambres : </string>
+    <string name="d_bath">\u0020  Nombre of salles de bain: </string>
+    <string name="d_location">\u0020  Adresse : </string>
+    <string name="d_proximity">\u0020  Proche de : </string>
+    <string name="d_date">\u0020 Date de mise en ligne :</string>
+    <string name="d_statu">\u0020  Statut : </string>
+    <string name="d_agent">\u0020  Agent immobilier : </string>
 
 
 
@@ -146,13 +146,13 @@
     <string name="r_price_min">Prix Min</string>
     <string name="r_price_max">Prix Max</string>
     <string name="r_room_max">nb piece max</string>
-    <string name="r_date_start">Select starting Date (de cette date à aujourd\'hui)</string>
-    <string name="r_date_selling">Select selling Date (si \'vendu\')</string>
+    <string name="r_date_start">Selection de la date de mise en ligne)</string>
+    <string name="r_date_selling">Selection de la date de vente (si \'vendu\')</string>
     <string name="r_photo_min">nb photo min</string>
     <string name="r_photo_max">nb photo max</string>
     <string name="r_video_min">nb video min</string>
     <string name="r_video_max">nb video max</string>
-    <string name="r_description">chercher un mot dans la description</string>
+    <string name="r_description">Chercher un mot dans la description</string>
     <string name="r_search">Chercher les biens correspondants</string>
 
 
