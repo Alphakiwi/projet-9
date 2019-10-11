@@ -42,6 +42,7 @@
     <string name="location_internet">Le chargement de la localisation peut prendre plus ou moins de temps en fonction de votre connexion internet.</string>
     <string name="map_internet">Besoin d\'une connexion internet pour afficher la carte.</string>
 
+
     <string name="location_permission">La localisation des biens est disponible.</string>
     <string name="location_permission_granted">La permission pour la localisation à été obtenue.</string>
     <string name="location_permission_denied">La permission pour la localisation à été refusée.</string>

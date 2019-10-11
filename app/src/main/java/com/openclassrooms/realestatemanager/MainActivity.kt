@@ -119,24 +119,14 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             locationManager.requestLocationUpdates(bestProvider, 1000, 0f, this)
         }
 
-        var path = Uri.parse("https://www.ledrein-courgeon.fr/wp-content/uploads/2015/11/littre-facade-3.jpg");
-        var appart =  Property( 786,"Appartement", 70000, 3, 1, 135, 4, "belle maison", "Villeneuve d'Ascq", " 12 Rue du Président Paul Doumer, Villeneuve-d'Ascq", "école, métro", "à vendre", "26/06/1999".toNewDateFormat(), "02-01-0000".toNewDateFormat(), "Denis", "Euro", 2, 1);
-        var video = Video_property(0, 786,"https://www.youtube.com/watch?v=Vg729rnWsm0")
-        var image = Image_property(0,786, path.toString() , "chambre")
-        var image2 = Image_property(0,786, path.toString(), "chambre")
 
-
-        properties.add(appart)
-        videos.add(video)
-        images.add(image)
-        images.add(image2)
 
         configureViewModel()
         getProperties()
         getVideos()
         getImages()
 
-        lastProperty = properties.get(0);
+
 
 
 
@@ -370,6 +360,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         }
         fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment).commit()
         listFragment.adapter.updateData(properties)
+        lastProperty = properties.get(0);
         button.setVisibility(GONE)
     }
 
