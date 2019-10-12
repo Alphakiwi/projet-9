@@ -42,17 +42,17 @@ import java.util.ArrayList
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 
-    private var mMap: GoogleMap? = null
+    var mMap: GoogleMap? = null
 
-    private var mGoogleApiClient: GoogleApiClient? = null
+    var mGoogleApiClient: GoogleApiClient? = null
 
-    private var mContext: Context? = null
+    var mContext: Context? = null
 
-    private var mView: View? = null
+    var mView: View? = null
 
-    private var lng: Double? = null
-    private var lat: Double? = null
-    private var properties: ArrayList<Property>? = null
+    var lng: Double? = null
+    var lat: Double? = null
+    var properties: ArrayList<Property>? = null
     var videos : ArrayList<Video_property>? = null
     var images : ArrayList<Image_property>? = null
 

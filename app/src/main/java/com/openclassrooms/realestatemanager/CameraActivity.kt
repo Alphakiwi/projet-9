@@ -30,13 +30,13 @@ import java.util.Date
 @Suppress("UNUSED_PARAMETER")
 class CameraActivity : AppCompatActivity() {
 
-    private var takePictureButton: Button? = null
-    private var chooseButton: Button? = null
-    private var imageView: ImageView? = null
-    private var file: Uri? = null
-    internal lateinit var photoList: ArrayList<Image_property>
-    internal lateinit var descrPhoto: TextView
-    internal var id_property: Int = 0
+    var takePictureButton: Button? = null
+    var chooseButton: Button? = null
+    var imageView: ImageView? = null
+    var file: Uri? = null
+    lateinit var photoList: ArrayList<Image_property>
+    lateinit var descrPhoto: TextView
+    var id_property: Int = 0
 
 
     private val outputMediaFile: File?

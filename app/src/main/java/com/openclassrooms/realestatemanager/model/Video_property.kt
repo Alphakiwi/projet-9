@@ -14,11 +14,16 @@ import androidx.room.Index
 
 
 @SuppressLint("ParcelCreator")
+
+
 @Entity(indices = [Index("id_property")],
         foreignKeys = arrayOf(ForeignKey(entity = Property::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("id_property"))))
-class Video_property (@PrimaryKey(autoGenerate = true) var id : Int, var id_property: Int, var video : String) : Parcelable {
+class Video_property (@PrimaryKey(autoGenerate = true) var id : Int,
+                      var id_property: Int, var video : String) : Parcelable {
+
+
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readInt(),

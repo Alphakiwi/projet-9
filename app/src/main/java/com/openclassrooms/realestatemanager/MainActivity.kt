@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.*
@@ -12,11 +11,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-
-
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import android.os.Parcel
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.app.ActivityCompat
@@ -35,9 +31,6 @@ import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel
 import com.openclassrooms.realestatemanager.event.*
 import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Video_property
-import android.net.Uri
-import com.openclassrooms.realestatemanager.utils.toNewDateFormat
-
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity() : AppCompatActivity(), LocationListener{
@@ -54,19 +47,19 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         longitude = p0.getLongitude()
     }
 
-    internal var listFragment = ListFragment()
-    private lateinit var lastProperty : Property
+    var listFragment = ListFragment()
+    lateinit var lastProperty : Property
     var fragmentManager = supportFragmentManager
-    private val PERMISSION_REQUEST_LOCATION = 0
-    private var mLayout: View? = null
+    val PERMISSION_REQUEST_LOCATION = 0
+    var mLayout: View? = null
     var latitude = 0.0
     var longitude = 0.0
     lateinit var locationManager: LocationManager
     lateinit var criteria: Criteria
     lateinit var bestProvider: String
     var tabletSize = false
-    private val firstFragment = MapFragment()
-    private var propertyViewModel: PropertyViewModel? = null
+    val firstFragment = MapFragment()
+    var propertyViewModel: PropertyViewModel? = null
     var properties = ArrayList<Property>()
     var videos = ArrayList<Video_property>()
     var images = ArrayList<Image_property>()
@@ -123,10 +116,11 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
         configureViewModel()
         getProperties()
-        getVideos()
         getImages()
 
-
+        if (Utils.haveInternetConnection(this)) {
+            getVideos()
+        }
 
 
 

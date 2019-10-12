@@ -18,7 +18,7 @@ import com.openclassrooms.realestatemanager.utils.toNewDateFormat
 
 class MyResearchFragment : DialogFragment() {
 
-    private var mContext: Context? = null
+    var mContext: Context? = null
 
 
     override fun onAttach(context: Context) {

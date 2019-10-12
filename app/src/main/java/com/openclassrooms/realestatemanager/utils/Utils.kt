@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.openclassrooms.realestatemanager.utils
 
 import android.content.Context
@@ -59,17 +61,13 @@ object Utils {
 
     @JvmStatic
     fun haveInternetConnection(context: Context): Boolean {
-        // Fonction haveInternetConnection : return true si connecté, return false dans le cas contraire
+        // Fonction haveInternetConnection : return true if connected, return false if not
         val network = (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
 
-        return if (network == null || !network.isConnected) {
-            // Le périphérique n'est pas connecté à Internet
-            false
-        } else true
+        return !(network == null || !network.isConnected)
 
     }
 
-        // Le périphérique est connecté à Internet
 
     fun isInteger(s: String): Boolean {
         if (s.isEmpty()) return false

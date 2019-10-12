@@ -10,7 +10,12 @@ import androidx.room.*
         foreignKeys = arrayOf(ForeignKey(entity = Property::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("id_property"))))
-class Image_property (@PrimaryKey(autoGenerate = true) var id : Int, var id_property: Int , var image : String, var description : String) : Parcelable {
+
+class Image_property (@PrimaryKey(autoGenerate = true) var id : Int, var id_property: Int
+                      , var image : String, var description : String) : Parcelable {
+
+
+
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readInt(),

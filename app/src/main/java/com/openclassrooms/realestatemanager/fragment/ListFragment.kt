@@ -21,9 +21,9 @@ import java.util.ArrayList
 
 class ListFragment : Fragment() {
 
-    internal lateinit var myView: View
-    internal lateinit var adapter: MyAdapter
-    private var mContext: Context? = null
+    lateinit var myView: View
+    lateinit var adapter: MyAdapter
+    var mContext: Context? = null
 
 
     override fun onAttach(context: Context) {

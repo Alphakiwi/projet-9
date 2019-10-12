@@ -11,9 +11,15 @@ import androidx.room.PrimaryKey
 
 
 @Entity
-data class Property (@PrimaryKey(autoGenerate = true) var id : Int, var type : String, var price : Int, var nb_bedroom : Int, var nb_bathroom : Int,
-                     var surface : Int, var nb_piece : Int, var description : String, var ville : String, var address : String, var proximity : String,
-                     var status : String, var start_date: String, var selling_date : String?, var estate_agent : String, var priceIsDollar : String, var nb_photo : Int, var nb_video : Int) : Parcelable {
+data class Property (@PrimaryKey(autoGenerate = true) var id : Int, var type : String, var price : Int,
+                     var nb_bedroom : Int, var nb_bathroom : Int, var surface : Int, var nb_piece : Int,
+                     var description : String, var ville : String, var address : String, var proximity : String,
+                     var status : String, var start_date: String, var selling_date : String?,
+                     var estate_agent : String, var priceIsDollar : String, var nb_photo : Int,
+                     var nb_video : Int) : Parcelable {
+
+
+
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readString()!!,
