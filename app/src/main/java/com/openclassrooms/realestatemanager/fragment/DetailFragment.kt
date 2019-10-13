@@ -31,6 +31,7 @@ import java.io.IOException
 
 import java.util.ArrayList
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.toFrenchDateFormat
 import com.openclassrooms.realestatemanager.utils.toNewDateFormat
 
@@ -189,21 +190,25 @@ class DetailFragment : Fragment() {
                     .into(imageView)
         }
 
-        var listVideos = ArrayList<String>()
+        if (Utils.haveInternetConnection(mContext!!)) {
 
-        if (videos != null) {
-            for (video in videos) {
-                if (property.id ==  video.id_property ) {
-                    listVideos.add(video.video)
+            var listVideos = ArrayList<String>()
+
+            if (videos != null) {
+                for (video in videos) {
+                    if (property.id == video.id_property) {
+                        listVideos.add(video.video)
+                    }
                 }
             }
-        }
 
-        recyclerView = myView.findViewById<View>(R.id.recyclerView) as RecyclerView
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(mContext)
-        val videoAdapter = VideoAdapter(listVideos)
-        recyclerView.adapter = videoAdapter
+            recyclerView = myView.findViewById<View>(R.id.recyclerView) as RecyclerView
+            recyclerView.setHasFixedSize(true)
+            recyclerView.layoutManager = LinearLayoutManager(mContext)
+            val videoAdapter = VideoAdapter(listVideos)
+            recyclerView.adapter = videoAdapter
+
+        }
 
 
 

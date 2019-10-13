@@ -117,10 +117,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         configureViewModel()
         getProperties()
         getImages()
+        getVideos()
 
-        if (Utils.haveInternetConnection(this)) {
-            getVideos()
-        }
 
         val args = Bundle()
         args.putSerializable(PROPERTIES, properties)
