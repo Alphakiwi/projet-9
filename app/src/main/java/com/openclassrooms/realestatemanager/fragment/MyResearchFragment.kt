@@ -33,7 +33,6 @@ class MyResearchFragment : DialogFragment() {
         val rootView = inflater.inflate(R.layout.fragment_research_dialog, container, false)
         dialog!!.setTitle(getString(R.string.research))
 
-        getString(R.string.pourcentage)
 
         var _type = getString(R.string.pourcentage)
         var _priceMin = getString(R.string.minimum)
@@ -155,31 +154,21 @@ class MyResearchFragment : DialogFragment() {
 
             var canSearch = true
 
+                if (switchStatut.isChecked()) { _statu = spinnerStatut.getSelectedItem() as String }
 
-                if (switchStatut.isChecked()) {
+                if (switchType.isChecked()) { _type = spinnerType.getSelectedItem() as String }
 
-                    _statu = spinnerStatut.getSelectedItem() as String
-
-                }
-
-                if (switchType.isChecked()) {
-
-                    _type = spinnerType.getSelectedItem() as String
-                }
-
-                if (switchMoney.isChecked()) {
-
-                    _isDollar = spinnerMoney.getSelectedItem() as String
-                }
-
+                if (switchMoney.isChecked()) { _isDollar = spinnerMoney.getSelectedItem() as String }
 
                 if (switchPrice.isChecked()) {
 
                     _priceMin = prixMin.text.toString()
                     _priceMax = prixMax.text.toString()
 
-                    if (prixMin.text.toString().length<1) run { prixMin.setError(getString(R.string.complete)); canSearch = false}
-                    if (prixMax.text.toString().length<1) run { prixMax.setError(getString(R.string.complete)); canSearch = false}
+                    if (prixMin.text.toString().length<1) run { prixMin
+                            .setError(getString(R.string.complete)); canSearch = false}
+                    if (prixMax.text.toString().length<1) run { prixMax
+                            .setError(getString(R.string.complete)); canSearch = false}
 
                 }
 
@@ -286,7 +275,11 @@ class MyResearchFragment : DialogFragment() {
 
 
                 if(canSearch == true) {
-                    EventBus.getDefault().post(SearchEvent(_type,  _priceMin.toInt(),  _surfaceMin.toInt(),  _pieceMin.toInt(),  _priceMax.toInt() ,  _surfaceMax.toInt(),  _pieceMax.toInt(),  _descript,  _ville,  _address,  _proximity,  _statu,  _startDate.toNewDateFormat(),  _sellingDate.toNewDateFormat(),  _agent,  _isDollar, _photoMin.toInt(), _photoMax.toInt(), _videoMin.toInt(), _videoMax.toInt()))
+                    EventBus.getDefault().post(SearchEvent(_type,  _priceMin.toInt(),  _surfaceMin.toInt(),
+                            _pieceMin.toInt(),  _priceMax.toInt() ,  _surfaceMax.toInt(),  _pieceMax.toInt(),
+                            _descript,  _ville,  _address,  _proximity,  _statu,  _startDate.toNewDateFormat(),
+                            _sellingDate.toNewDateFormat(),  _agent,  _isDollar, _photoMin.toInt(),
+                            _photoMax.toInt(), _videoMin.toInt(), _videoMax.toInt()))
                     dismiss()
                 }
 

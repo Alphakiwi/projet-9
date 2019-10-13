@@ -102,7 +102,8 @@ class MyAddFragment : DialogFragment() {
             description.text = modify!!.description
 
 
-           if  (modify!!.selling_date!!.compareTo(getString(R.string.date_default2).toNewDateFormat()) != 0) {
+           if  (modify!!.selling_date!!.compareTo(getString(R.string.date_default2)
+                           .toNewDateFormat()) != 0) {
                date.text = modify!!.selling_date!!.toFrenchDateFormat()
            }
 
@@ -136,11 +137,8 @@ class MyAddFragment : DialogFragment() {
                     }
                 }
                 nb_photo.text = photoList.size.toString()
-
             }
-
             photo.setText(getString(R.string.delete_image))
-
 
             var youtubeString = ""
 
@@ -150,13 +148,9 @@ class MyAddFragment : DialogFragment() {
                     nb_video += 1
                 }
             }
-
             if(youtubeString.length>2) {
             youtube.text = youtubeString.substring(0, youtubeString.length - 1)
             }
-
-
-
 
             nb_alea = modify!!.id
 
@@ -193,15 +187,11 @@ class MyAddFragment : DialogFragment() {
 
         add.setOnClickListener {
 
-
-
             val dollarEuro = dialogSpinnerMoney.getSelectedItem() as String
             val statut = dialogSpinnerStatu.getSelectedItem() as String
             val type = dialogSpinnerType.getSelectedItem() as String
 
             val comparison = statut.compareTo(getString(R.string.sold))
-
-
 
            if (prix.text.toString().trim({ it <= ' ' }).isEmpty()) run { prix.setError(getString(R.string.complete))}
             else if (photoList.size<1) run { photo.setError(getString(R.string.error_photo))}
@@ -228,7 +218,6 @@ class MyAddFragment : DialogFragment() {
                     for (i in strings.indices) {
                        youtubeVideos.add((strings[i]))
                     }
-
                 }
 
                var proximityString = proximity.text.toString()
@@ -274,17 +263,12 @@ class MyAddFragment : DialogFragment() {
                        EventBus.getDefault().post(AddImageEvent(photog))
                    }
                }
-
-
                 dismiss()
 
             }
         }
 
-
         photo.setOnClickListener {
-
-
             if(photo.text.toString().compareTo(getString(R.string.delete_image))==0){
                 photo.text = getString(R.string.add_photo)
 
@@ -292,7 +276,6 @@ class MyAddFragment : DialogFragment() {
                 nb_photo.text = getString(R.string.nb_photo) + photoList.size.toString();
 
             }else {
-
                 val intent = Intent(mContext, CameraActivity::class.java)
                 intent.putExtra(ID, nb_alea )
                 startActivityForResult(intent,0)

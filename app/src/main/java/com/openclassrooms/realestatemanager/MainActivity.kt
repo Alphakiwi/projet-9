@@ -122,23 +122,20 @@ class MainActivity() : AppCompatActivity(), LocationListener{
             getVideos()
         }
 
-
-
         val args = Bundle()
         args.putSerializable(PROPERTIES, properties)
         args.putSerializable(IMAGES, images)
         listFragment.setArguments(args)
 
-        fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
+        fragmentManager.beginTransaction().replace(R.id.content_frame,
+                listFragment).commit()
 
         button = findViewById(R.id.fab) as FloatingActionButton
 
         button.setVisibility(GONE)
 
         button.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View) {
-                getProperties()
-            }
+            override fun onClick(view: View) { getProperties() }
         })
 
 
@@ -171,14 +168,17 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                     firstFragment.setArguments(args)
 
                     if (tabletSize) {
-                        fragmentManager.beginTransaction().replace(R.id.content_frame2, firstFragment).commit()
+                        fragmentManager.beginTransaction().replace(R.id.content_frame2,
+                                firstFragment).commit()
                     } else {
-                        fragmentManager.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
+                        fragmentManager.beginTransaction().replace(R.id.content_frame,
+                                firstFragment).commit()
                         button.setVisibility(VISIBLE)
                     }
 
                 }else{
-                    Toast.makeText(this, getString(R.string.map_internet), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.map_internet),
+                            Toast.LENGTH_SHORT).show()
 
                 }
 
@@ -280,9 +280,28 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     }
 
     @Subscribe
+    fun onModify(event: ModifyEvent) {
+
+        for (  property  in properties ){
+            if (property.id == event.property.id){
+
+                propertyViewModel!!.createProperty(event.property)
+            }
+        }
+        getProperties()
+    }
+
+    @Subscribe
     fun onAddVideo(event: AddVideoEvent) {
 
         propertyViewModel!!.createVideo(event.video)
+        getVideos()
+    }
+
+    @Subscribe
+    fun onDeleteVideo(event: DeleteVideoEvent) {
+
+        propertyViewModel!!.deleteVideo(event.video.id)
         getVideos()
     }
 
@@ -291,13 +310,6 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
         propertyViewModel!!.createImage(event.image)
         getImages()
-    }
-
-    @Subscribe
-    fun onDeleteVideo(event: DeleteVideoEvent) {
-
-        propertyViewModel!!.deleteVideo(event.video.id)
-        getVideos()
     }
 
     @Subscribe
@@ -317,23 +329,6 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
     }
 
-    @Subscribe
-    fun onModify(event: ModifyEvent) {
-
-        for (  property  in properties ){
-            if (property.id == event.property.id){
-
-                propertyViewModel!!.createProperty(event.property)
-            }
-        }
-        getProperties()
-    }
-
-
-    // 3 - Get all tasks
-    private fun getProperties() {
-        propertyViewModel!!.properties.observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList(listProperty)} )
-    }
 
     private fun updatePropertiesList2(listProperty: List<Property>) {
 
@@ -345,6 +340,13 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         listFragment.adapter.updateData(properties)
         button.setVisibility(VISIBLE)
     }
+
+
+    private fun getProperties() {
+        propertyViewModel!!.properties.observe(this, Observer<List<Property>> {
+            listProperty: List<Property> -> updatePropertiesList(listProperty)} )
+    }
+
 
     private fun updatePropertiesList(listProperty: List<Property>) {
 
@@ -385,10 +387,12 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     }
 
     private fun configureViewModel() {
-        val mViewModelFactory = Injection.provideViewModelFactory(this)
-        this.propertyViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PropertyViewModel::class.java)
+        val mViewModelFactory = Injection
+                .provideViewModelFactory(this)
+        this.propertyViewModel = ViewModelProviders
+                .of(this, mViewModelFactory)
+                .get(PropertyViewModel::class.java)
         this.propertyViewModel!!.init()
-
     }
 
     fun possibilityToOpenMap() {

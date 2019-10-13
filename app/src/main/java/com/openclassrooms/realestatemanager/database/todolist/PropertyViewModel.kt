@@ -36,6 +36,18 @@ class PropertyViewModel(// REPOSITORIES
         currentProperties = propertyDataSource.properties
     }
 
+
+    fun findCorrectProperties(type: String, priceMin: Int, surfaceMin: Int, pieceMin: Int, priceMax: Int, surfaceMax: Int, pieceMax: Int, descript: String, ville: String, address: String, proximity: String, statu: String, startDate: String, sellingDate: String, agent: String, isDollar: String, photoMin: Int, photoMax: Int, videoMin: Int, videoMax: Int): LiveData<List<Property>> {
+        return propertyDataSource.findCorrectProperties(type, priceMin, surfaceMin, pieceMin, priceMax, surfaceMax, pieceMax, descript, ville, address, proximity, statu, startDate, sellingDate, agent, isDollar, photoMin, photoMax, videoMin, videoMax)
+    }
+
+
+    fun createProperty(property: Property) {
+        executor.execute { propertyDataSource.createProperty(property) }
+    }
+
+
+
     fun createVideo(video: Video_property) {
         executor.execute { videoDataSource.createVideo(video) }
     }
@@ -50,16 +62,6 @@ class PropertyViewModel(// REPOSITORIES
 
     fun deleteImage(imageId: Int) {
         executor.execute { imageDataSource.deleteImage(imageId) }
-    }
-
-
-    fun findCorrectProperties(type: String, priceMin: Int, surfaceMin: Int, pieceMin: Int, priceMax: Int, surfaceMax: Int, pieceMax: Int, descript: String, ville: String, address: String, proximity: String, statu: String, startDate: String, sellingDate: String, agent: String, isDollar: String, photoMin: Int, photoMax: Int, videoMin: Int, videoMax: Int): LiveData<List<Property>> {
-        return propertyDataSource.findCorrectProperties(type, priceMin, surfaceMin, pieceMin, priceMax, surfaceMax, pieceMax, descript, ville, address, proximity, statu, startDate, sellingDate, agent, isDollar, photoMin, photoMax, videoMin, videoMax)
-    }
-
-
-    fun createProperty(property: Property) {
-        executor.execute { propertyDataSource.createProperty(property) }
     }
 
 

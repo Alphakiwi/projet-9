@@ -75,25 +75,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 }
             }
         }
-
         holder.root.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
 
-
-
                 if (previousSelected!=null){
                     previousSelected.setBackgroundColor(WHITE);
                 }
 
-
-
                 holder.root.setBackgroundColor(R.color.colorAccent);
 
                 previousSelected = holder.root;
-
-
 
                 Glide.with(holder.avatar.getContext())
                         .load(listImages.get(0))

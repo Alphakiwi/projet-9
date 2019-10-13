@@ -38,6 +38,7 @@ class ListFragment : Fragment() {
     }
 
     @Suppress("UNCHECKED_CAST")
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         myView = inflater.inflate(R.layout.user_recycler, container, false)
 

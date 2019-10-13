@@ -44,13 +44,8 @@ class PropertyContentProvider : ContentProvider() {
         throw IllegalArgumentException("Failed to insert row into $uri")
     }
 
-    override fun delete(uri: Uri, s: String?, strings: Array<String>?): Int {
-        return 0
-    }
-
-    override fun update(uri: Uri, contentValues: ContentValues?, s: String?, strings: Array<String>?): Int {
-        return 0
-    }
+    override fun delete(uri: Uri, s: String?, strings: Array<String>?): Int { return 0 }
+    override fun update(uri: Uri, contentValues: ContentValues?, s: String?, strings: Array<String>?): Int { return 0 }
 
     companion object {
 

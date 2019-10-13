@@ -126,7 +126,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
             if (comp != 0) {
 
             val snippet = marker.snippet
-            val separated = snippet.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val separated = snippet
+                    .split(":".toRegex())
+                    .dropLastWhile { it.isEmpty() }.toTypedArray()
 
 
             var propertyThis = properties!![0]
@@ -149,7 +151,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
                 detailFragment.setArguments(args)
 
 
-                fragmentManager!!.beginTransaction().replace(R.id.content_frame, detailFragment).commit()
+                fragmentManager!!.beginTransaction()
+                        .replace(R.id.content_frame, detailFragment)
+                        .commit()
             }
         }
     }
@@ -179,7 +183,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         mMap!!.addMarker(MarkerOptions().position(here).title(getString(R.string.here)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
 
        for ( property in properties!!) {
-
            if (Geocoder.isPresent()) {
                try {
                    val location = property.address
@@ -192,22 +195,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
                            ll.add(LatLng(a.latitude, a.longitude))
                        }
                    }
-
                    if (ll.size>0) {
                        mMap!!.addMarker(MarkerOptions().position(ll.get(0))
                                .title(property.type)
                                .snippet(property.address + "\n :" + property.id)
                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)))
                    }
-
-
-
                } catch (e: IOException) {
                    // handle the exception
                }
-
            }
-
         }
         mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 14f))
 

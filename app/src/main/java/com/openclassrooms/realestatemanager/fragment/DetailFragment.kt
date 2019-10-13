@@ -7,15 +7,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Gallery
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.location.Geocoder
+import android.view.View.GONE
+import android.widget.*
 
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.model.LatLng
@@ -67,13 +64,12 @@ class DetailFragment : Fragment() {
         val images = args.getSerializable(IMAGES) as ArrayList<Image_property>?
 
 
-
-
         if (Geocoder.isPresent()) {
             try {
                 val location = property!!.address
                 val gc = Geocoder(mContext)
-                val addresses = gc.getFromLocationName(location, 5) // get the found Address Objects
+                val addresses = gc.
+                        getFromLocationName(location, 5) // get the found Address Objects
 
                 val ll = ArrayList<LatLng>(addresses.size) // A list to save the coordinates if they are available
                 for (a in addresses) {
@@ -91,7 +87,12 @@ class DetailFragment : Fragment() {
                     args2.putSerializable(VIDEOS, videos)
                     args2.putSerializable(IMAGES, images)
                     firstFragment.setArguments(args2)
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, firstFragment).commit()
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, firstFragment)
+                            .commit()
+                }else{
+                    myView.findViewById<FrameLayout>(R.id.content_frame).visibility = GONE
+
                 }
 
 
@@ -99,6 +100,7 @@ class DetailFragment : Fragment() {
 
             } catch (e: IOException) {
                 // handle the exception
+                myView.findViewById<FrameLayout>(R.id.content_frame).visibility = GONE
             }
 
         }
@@ -196,9 +198,6 @@ class DetailFragment : Fragment() {
                 }
             }
         }
-
-
-
 
         recyclerView = myView.findViewById<View>(R.id.recyclerView) as RecyclerView
         recyclerView.setHasFixedSize(true)
