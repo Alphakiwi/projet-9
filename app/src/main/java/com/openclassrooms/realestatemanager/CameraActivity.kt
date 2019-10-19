@@ -102,7 +102,7 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    fun takePicture() {
+    fun takePicture(view: View) {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         file = Uri.fromFile(outputMediaFile)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, file)

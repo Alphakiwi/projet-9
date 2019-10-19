@@ -125,7 +125,7 @@
     <!-- fragment detail -->
 
     <string name="d_type">\u0020  Type : </string>
-    <string name="d_price">\u0020  Price : </string>
+    <string name="d_price">\u0020  Prix : </string>
     <string name="d_surface">\u0020  Surface : </string>
     <string name="d_room">\u0020  Nombre de pièces : </string>
     <string name="d_bed">\u0020 Nombre de chambres : </string>
