@@ -112,7 +112,7 @@
     <string name="a_bath">nb SDB</string>
     <string name="a_bed">nb chambres</string>
     <string name="a_location">Adresse </string>
-    <string name="a_proximity">A proximité de (séparé par \',\' si plusieurs) </string>
+    <string name="a_proximity">A proximité de \n (séparé par \',\' si plusieurs) </string>
     <string name="a_date">Selection de la date de vente (si \'vendu\')</string>
     <string name="a_agent">Agent immobilier</string>
     <string name="a_photo">Ajouter une photo</string>
