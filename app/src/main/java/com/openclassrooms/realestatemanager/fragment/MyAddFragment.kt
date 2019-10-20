@@ -300,9 +300,6 @@ class MyAddFragment : DialogFragment() {
 
                 nb_photo.text = getString(R.string.nb_photo) + photoList.size.toString();
 
-                if (photoList.size > 0) {
-                    add.text = getString(R.string.add_property)
-                }
             }
         }
 
