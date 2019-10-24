@@ -16,6 +16,7 @@ import android.widget.*
 
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.openclassrooms.realestatemanager.MainActivity.Companion.IMAGES
 import com.openclassrooms.realestatemanager.MainActivity.Companion.LAT
 import com.openclassrooms.realestatemanager.MainActivity.Companion.LONG
@@ -31,9 +32,13 @@ import java.io.IOException
 
 import java.util.ArrayList
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.event.AddEvent
+import com.openclassrooms.realestatemanager.event.LaunchModifyEvent
+import com.openclassrooms.realestatemanager.event.ModifyEvent
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.toFrenchDateFormat
 import com.openclassrooms.realestatemanager.utils.toNewDateFormat
+import org.greenrobot.eventbus.EventBus
 
 @Suppress("UNCHECKED_CAST")
 class DetailFragment : Fragment() {
@@ -63,6 +68,7 @@ class DetailFragment : Fragment() {
         val properties = args.getSerializable(PROPERTIES) as ArrayList<Property>?
         val videos = args.getSerializable(VIDEOS) as ArrayList<Video_property>?
         val images = args.getSerializable(IMAGES) as ArrayList<Image_property>?
+
 
 
         if (Geocoder.isPresent()) {
@@ -170,6 +176,11 @@ class DetailFragment : Fragment() {
             }
         }
 
+        if (listImages.size < 1){
+            listImages.add("https://thumbs.dreamstime.com/b/house-question-mark-white-background-36739191.jpg")
+            listDescription.add("ERROR")
+        }
+
         @Suppress("DEPRECATION")
         val gallery = myView.findViewById<View>(R.id.gallery1) as Gallery
         gallery.adapter = ImageAdapter(mContext!!, listImages)
@@ -211,7 +222,11 @@ class DetailFragment : Fragment() {
         }
 
 
+        val fab_modify = myView.findViewById<FloatingActionButton>(R.id.fab_modify)
 
+        fab_modify.setOnClickListener {
+            EventBus.getDefault().post(LaunchModifyEvent(property))
+        }
 
 
 

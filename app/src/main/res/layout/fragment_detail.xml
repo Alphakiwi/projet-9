@@ -183,6 +183,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="16dp" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_modify"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_pen" />
+
 
 
 

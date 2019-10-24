@@ -11,6 +11,7 @@ import java.util.*
 import android.app.DatePickerDialog
 import android.content.Context
 import android.widget.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.openclassrooms.realestatemanager.CameraActivity
 import com.openclassrooms.realestatemanager.MainActivity.Companion.CREATEORMODIFY
 import com.openclassrooms.realestatemanager.MainActivity.Companion.ID
@@ -61,6 +62,8 @@ class MyAddFragment : DialogFragment() {
             videoList = getArguments()!!.getSerializable(VIDEOS) as ArrayList<Video_property>?
             imageList  = getArguments()!!.getSerializable(IMAGES) as ArrayList<Image_property>?
         }
+
+
 
         val add = rootView.findViewById<Button>(R.id.add)
         val photo = rootView.findViewById<Button>(R.id.photo)
@@ -282,6 +285,8 @@ class MyAddFragment : DialogFragment() {
             }
 
         }
+
+
 
         return rootView
     }

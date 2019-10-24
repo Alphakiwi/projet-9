@@ -10,11 +10,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
@@ -31,6 +28,13 @@ import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel
 import com.openclassrooms.realestatemanager.event.*
 import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Video_property
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
+
+
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity() : AppCompatActivity(), LocationListener{
@@ -48,7 +52,6 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     }
 
     var listFragment = ListFragment()
-    lateinit var lastProperty : Property
     var fragmentManager = supportFragmentManager
     val PERMISSION_REQUEST_LOCATION = 0
     var mLayout: View? = null
@@ -63,7 +66,6 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     var properties = ArrayList<Property>()
     var videos = ArrayList<Video_property>()
     var images = ArrayList<Image_property>()
-    lateinit var button :FloatingActionButton
 
     companion object {
 
@@ -90,6 +92,10 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
 
         getSupportActionBar()?.setTitle(  getTodayDate);
+
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+
+
 
         possibilityToOpenMap()
 
@@ -125,16 +131,12 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         args.putSerializable(IMAGES, images)
         listFragment.setArguments(args)
 
-        fragmentManager.beginTransaction().replace(R.id.content_frame,
-                listFragment).commit()
 
-        button = findViewById(R.id.fab) as FloatingActionButton
 
-        button.setVisibility(GONE)
+        fragmentManager.beginTransaction().replace(R.id.content_frame, listFragment).commit()
 
-        button.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View) { getProperties() }
-        })
+
+
 
 
     }
@@ -166,12 +168,11 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                     firstFragment.setArguments(args)
 
                     if (tabletSize) {
-                        fragmentManager.beginTransaction().replace(R.id.content_frame2,
+                        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.content_frame2,
                                 firstFragment).commit()
                     } else {
-                        fragmentManager.beginTransaction().replace(R.id.content_frame,
+                        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.content_frame,
                                 firstFragment).commit()
-                        button.setVisibility(VISIBLE)
                     }
 
                 }else{
@@ -206,26 +207,11 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
                 Toast.makeText(this, getString(R.string.convert_money), Toast.LENGTH_SHORT).show()
 
-                button.setVisibility(GONE)
 
                 return true
 
             }
-            R.id.modifyItem -> {
 
-                val dialogFragment = MyAddFragment()
-                dialogFragment.show(fragmentManager, "Sample Fragment")
-
-                val args = Bundle()
-                args.putParcelable(CREATEORMODIFY, lastProperty )
-                args.putSerializable(VIDEOS, videos)
-                args.putSerializable(IMAGES, images)
-
-                dialogFragment.arguments = args
-
-                return true
-
-            }
             R.id.addItem -> {
 
                 val dialogFragment = MyAddFragment()
@@ -242,6 +228,8 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
                 return true
             }
+
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -258,14 +246,11 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         args.putSerializable(IMAGES, images)
         detailFragment.setArguments(args)
 
-        lastProperty = event.property
-
 
         if (tabletSize) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame2, detailFragment).commit()
+            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.content_frame2, detailFragment).commit()
         } else {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, detailFragment).commit()
-            button.setVisibility(VISIBLE)
+            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.content_frame, detailFragment).commit()
         }
 
     }
@@ -278,6 +263,22 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     }
 
     @Subscribe
+    fun onLaunchModify(event: LaunchModifyEvent) {
+
+        val dialogFragment = MyAddFragment()
+        dialogFragment.show(fragmentManager, "Sample Fragment")
+
+        val args = Bundle()
+        args.putParcelable(CREATEORMODIFY, event.property)
+        args.putSerializable(VIDEOS, videos)
+        args.putSerializable(IMAGES, images)
+
+        dialogFragment.arguments = args
+
+    }
+
+
+    @Subscribe
     fun onModify(event: ModifyEvent) {
 
         for (  property  in properties ){
@@ -286,7 +287,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                 propertyViewModel!!.createProperty(event.property)
             }
         }
-        getProperties()
+
     }
 
     @Subscribe
@@ -319,11 +320,11 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
     @Subscribe
     fun onSearch(event: SearchEvent) {
-        propertyViewModel!!.findCorrectProperties(event.type,event.priceMin, event.surfaceMin, event.pieceMin,
+       /* propertyViewModel!!.findCorrectProperties(event.type,event.priceMin, event.surfaceMin, event.pieceMin,
                 event.priceMax,  event.surfaceMax,  event.pieceMax, event.descript,  event.ville,
                 event.address,  event.proximity, event.statu,  event.startDate, event.sellingDate, event.agent, event.isDollar,
                 event.photoMin, event.photoMax, event.videoMin, event.videoMax)
-                .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList2(listProperty)} )
+                .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList2(listProperty)} )*/
 
     }
 
@@ -336,7 +337,6 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         }
         fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment).commit()
         listFragment.adapter.updateData(properties)
-        button.setVisibility(VISIBLE)
     }
 
 
@@ -354,8 +354,6 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         }
         fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment).commit()
         listFragment.adapter.updateData(properties)
-        lastProperty = properties.get(0);
-        button.setVisibility(GONE)
     }
 
     private fun getVideos() {
@@ -445,6 +443,11 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     public override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
 }

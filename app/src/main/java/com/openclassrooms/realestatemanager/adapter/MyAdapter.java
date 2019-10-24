@@ -88,10 +88,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                 previousSelected = holder.root;
 
-                Glide.with(holder.avatar.getContext())
-                        .load(listImages.get(0))
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(holder.avatar);
+                if (listImages.size()>0) {
+                    Glide.with(holder.avatar.getContext())
+                            .load(listImages.get(0))
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.avatar);
+                }else{
+                    Glide.with(holder.avatar.getContext())
+                            .load("https://thumbs.dreamstime.com/b/house-question-mark-white-background-36739191.jpg")
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.avatar);
+                }
 
 
                 EventBus.getDefault().post(new DetailEvent(properties.get(position)));

@@ -43,9 +43,11 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView = new ImageView(context);
 
 
-        Glide.with(context)
-                .load(imageIDs.get(position))
-                .into(imageView);
+        if (imageIDs.size()>0) {
+            Glide.with(context)
+                    .load(imageIDs.get(position))
+                    .into(imageView);
+        }
 
 
         imageView.setLayoutParams(new Gallery.LayoutParams(250, 250));
