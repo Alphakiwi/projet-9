@@ -130,7 +130,7 @@
     <string name="d_surface">\u0020  Surface : </string>
     <string name="d_room">\u0020  Number of rooms : </string>
     <string name="d_bed">\u0020 Number of bedrooms : </string>
-    <string name="d_bath">\u0020  Number of bathrooms: </string>
+    <string name="d_bath">\u0020  Number of bathrooms : </string>
     <string name="d_location">\u0020  Location : </string>
     <string name="d_proximity">\u0020  points of interest : </string>
     <string name="d_date">\u0020 Starting date :</string>
@@ -155,7 +155,7 @@
     <string name="r_video_min">nb video min</string>
     <string name="r_video_max">nb video max</string>
     <string name="r_description">Search a word in the description</string>
-    <string name="r_search">Resaerch the coresponding properties</string>
+    <string name="r_search">Reserch the coresponding properties</string>
 
 
 

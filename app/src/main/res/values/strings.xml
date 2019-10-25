@@ -129,7 +129,7 @@
     <string name="d_surface">\u0020  Surface : </string>
     <string name="d_room">\u0020  Nombre de pièces : </string>
     <string name="d_bed">\u0020 Nombre de chambres : </string>
-    <string name="d_bath">\u0020  Nombre de salles de bain: </string>
+    <string name="d_bath">\u0020  Nombre de salles de bain : </string>
     <string name="d_location">\u0020  Adresse : </string>
     <string name="d_proximity">\u0020  Proche de : </string>
     <string name="d_date">\u0020 Date de mise en ligne :</string>

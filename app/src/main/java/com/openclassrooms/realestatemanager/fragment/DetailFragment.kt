@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.location.Geocoder
+import android.text.Html
 import android.view.View.GONE
 import android.widget.*
 
@@ -121,28 +122,28 @@ class DetailFragment : Fragment() {
         }
 
         val description = myView.findViewById<TextView>(R.id.description)
-        description.text = " " + property.description + "\n"
+        description.text = Html.fromHtml("<u><b> Description </b></u> : "  + property.description )
         val type = myView.findViewById<TextView>(R.id.type)
-        type.text = type.text.toString() + property.type
+        type.text = Html.fromHtml("<u><b>" + type.text.toString() + "</b></u>" + " " + property.type )
         val money = myView.findViewById<TextView>(R.id.money)
         val surface = myView.findViewById<TextView>(R.id.surface)
-        surface.text = surface.text.toString() + " " + property.surface
+        surface.text = Html.fromHtml("<u><b>" + surface.text.toString() + "</b></u>"+ " " + property.surface )
         val home = myView.findViewById<TextView>(R.id.home)
-        home.text = home.text.toString() + " " + property.nb_piece
+        home.text = Html.fromHtml("<u><b>" +  home.text.toString()+ "</b></u>" + " " + property.nb_piece)
         val bed = myView.findViewById<TextView>(R.id.bed)
-        bed.text = bed.text.toString() + " " + property.nb_bedroom
+        bed.text = Html.fromHtml("<u><b>" +  bed.text.toString() + "</b></u>"+ " " + property.nb_bedroom)
         val bath = myView.findViewById<TextView>(R.id.bath)
-        bath.text = bath.text.toString() + " " + property.nb_bathroom
+        bath.text = Html.fromHtml("<u><b>" +  bath.text.toString() + "</b></u>"+ " " + property.nb_bathroom)
         val location = myView.findViewById<TextView>(R.id.location)
-        location.text = location.text.toString() + property.address
+        location.text = Html.fromHtml("<u><b>" +  location.text.toString()+ "</b></u>" + " " + property.address)
         val interest = myView.findViewById<TextView>(R.id.interest)
-        interest.text = interest.text.toString() + property.proximity
+        interest.text = Html.fromHtml("<u><b>" +  interest.text.toString()+ "</b></u>" + " " + property.proximity)
         val start_date = myView.findViewById<TextView>(R.id.start_date)
-        start_date.text = start_date.text.toString() + " " + property.start_date.toFrenchDateFormat()
+        start_date.text = Html.fromHtml("<u><b>" + start_date.text.toString()+ "</b></u>" + " " + property.start_date.toFrenchDateFormat())
         val status = myView.findViewById<TextView>(R.id.status)
-        status.text = status.text.toString() + " " + property.status + soldate
+        status.text =  Html.fromHtml("<u><b>" + status.text.toString()+ "</b></u>" + " " + property.status + soldate)
         val agent = myView.findViewById<TextView>(R.id.agent)
-        agent.text = agent.text.toString() + property.estate_agent
+        agent.text = Html.fromHtml("<u><b>" + agent.text.toString()+ "</b></u>" + " " + property.estate_agent)
 
         val sold = myView.findViewById<ImageView>(R.id.sold)
 
@@ -153,12 +154,12 @@ class DetailFragment : Fragment() {
         }
 
         if (property.priceIsDollar === getString(R.string.dollar)) {
-            money.text = money.text.toString() + "$ " + property.price.toString()
+            money.text = Html.fromHtml("<u><b>" +  money.text.toString() + "</b></u>" + " "  + "$ " + property.price.toString())
             money.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dollar, 0, 0, 0)
 
 
         } else {
-            money.text = money.text.toString() + property.price.toString() + " €"
+            money.text = Html.fromHtml("<u><b>" +  money.text.toString() + "</b></u>" + " "  + property.price.toString() + " €")
             money.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_euro, 0, 0, 0)
         }
 

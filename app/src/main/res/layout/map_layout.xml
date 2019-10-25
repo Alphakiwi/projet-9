@@ -16,16 +16,12 @@
         android:id="@+id/recentrer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:tint="#FFF"
-
-
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="350dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_baseline_my_location_24px" />
+        android:src="@drawable/ic_map" />
 
 
 

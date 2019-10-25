@@ -41,8 +41,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_pen"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:gravity="center"
                 android:textSize="20dp" />
 
 
@@ -51,8 +54,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_batiment"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
                 android:fontFamily="monospace"
-                android:gravity="left"
                 android:text="@string/d_type"
                 android:textSize="20dp" />
 
@@ -62,7 +68,10 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_euro"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
                 android:text="@string/d_price"
                 android:textSize="20dp" />
 
@@ -71,8 +80,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_surface"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:gravity="center"
                 android:text="@string/d_surface"
                 android:textSize="20dp" />
 
@@ -81,8 +93,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_home"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:gravity="center"
                 android:text="@string/d_room"
                 android:textSize="20dp" />
 
@@ -91,8 +106,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_bed"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:gravity="center"
                 android:text="@string/d_bed"
                 android:textSize="20dp" />
 
@@ -101,8 +119,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_bath"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:gravity="center"
                 android:text="@string/d_bath"
                 android:textSize="20dp" />
 
@@ -112,8 +133,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_map"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:gravity="center"
                 android:text="@string/d_location"
                 android:textSize="20dp" />
 
@@ -122,8 +146,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_interest"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:gravity="center"
                 android:text="@string/d_proximity"
                 android:textSize="20dp" />
 
@@ -133,7 +160,10 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_date"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
                 android:text="@string/d_date"
                 android:textSize="20dp" />
 
@@ -142,8 +172,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_sold"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:gravity="center"
                 android:text="@string/d_statu"
                 android:textSize="20dp" />
 
@@ -153,7 +186,10 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_face"
                 android:fontFamily="monospace"
-                android:gravity="left"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
                 android:text="@string/d_agent"
                 android:textSize="20dp" />
 
@@ -175,13 +211,13 @@
 
     <ImageView
         android:id="@+id/sold"
-        android:layout_width="76dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:layout_marginEnd="8dp"
+        android:layout_width="54dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="10dp"
         android:src="@drawable/ic_sold_red"
+        android:background="@drawable/border"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="16dp" />
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_modify"
