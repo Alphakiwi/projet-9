@@ -320,23 +320,12 @@ class MainActivity() : AppCompatActivity(), LocationListener{
 
     @Subscribe
     fun onSearch(event: SearchEvent) {
-       /* propertyViewModel!!.findCorrectProperties(event.type,event.priceMin, event.surfaceMin, event.pieceMin,
+        propertyViewModel!!.findCorrectProperties(event.type,event.priceMin, event.surfaceMin, event.pieceMin,
                 event.priceMax,  event.surfaceMax,  event.pieceMax, event.descript,  event.ville,
                 event.address,  event.proximity, event.statu,  event.startDate, event.sellingDate, event.agent, event.isDollar,
                 event.photoMin, event.photoMax, event.videoMin, event.videoMax)
-                .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList2(listProperty)} )*/
+                .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList(listProperty)} )
 
-    }
-
-
-    private fun updatePropertiesList2(listProperty: List<Property>) {
-
-        properties.clear()
-        for (property in listProperty as ArrayList<Property>){
-            properties.add(property)
-        }
-        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment).commit()
-        listFragment.adapter.updateData(properties)
     }
 
 
