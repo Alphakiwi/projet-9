@@ -28,9 +28,6 @@ import com.openclassrooms.realestatemanager.database.todolist.PropertyViewModel
 import com.openclassrooms.realestatemanager.event.*
 import com.openclassrooms.realestatemanager.model.Image_property
 import com.openclassrooms.realestatemanager.model.Video_property
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 
 
@@ -66,6 +63,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     var properties = ArrayList<Property>()
     var videos = ArrayList<Video_property>()
     var images = ArrayList<Image_property>()
+    var backToList = false
 
     companion object {
 
@@ -324,7 +322,7 @@ class MainActivity() : AppCompatActivity(), LocationListener{
                 event.priceMax,  event.surfaceMax,  event.pieceMax, event.descript,  event.ville,
                 event.address,  event.proximity, event.statu,  event.startDate, event.sellingDate, event.agent, event.isDollar,
                 event.photoMin, event.photoMax, event.videoMin, event.videoMax)
-                .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList(listProperty)} )
+                .observe(this, Observer<List<Property>> {  listProperty: List<Property> -> updatePropertiesList2(listProperty)} )
 
     }
 
@@ -333,6 +331,20 @@ class MainActivity() : AppCompatActivity(), LocationListener{
         propertyViewModel!!.properties.observe(this, Observer<List<Property>> {
             listProperty: List<Property> -> updatePropertiesList(listProperty)} )
     }
+
+
+    private fun updatePropertiesList2(listProperty: List<Property>) {
+
+
+        properties.clear()
+        for (property in listProperty as ArrayList<Property>){
+            properties.add(property)
+        }
+        fragmentManager.beginTransaction().replace(R.id.content_frame,  listFragment).commit()
+        listFragment.adapter.updateData(properties)
+        backToList = true
+    }
+
 
 
     private fun updatePropertiesList(listProperty: List<Property>) {
@@ -435,7 +447,13 @@ class MainActivity() : AppCompatActivity(), LocationListener{
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        if (backToList == false){
         onBackPressed()
+        }else{
+            getProperties()
+            backToList = false
+        }
+
         return true
     }
 
