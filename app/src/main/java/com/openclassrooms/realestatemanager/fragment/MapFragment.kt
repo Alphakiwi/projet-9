@@ -152,6 +152,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
 
 
                 fragmentManager!!.beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.content_frame, detailFragment)
                         .commit()
             }
